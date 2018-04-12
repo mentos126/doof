@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">doof</string>
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">CONNEXION</string>
+    <string name="action_sign_in_short">CONNEXION</string>
+    <string name="error_invalid_email">E-mail incorect</string>
+    <string name="error_invalid_password">Mot de passe trop court</string>
+    <string name="error_incorrect_password">Mot de passe incorect</string>
+    <string name="error_field_required">Ce champs est requis</string>
+    <string name="login_button">CONNEXION</string>
+    <string name="lost_password">MOT DE PASSE OUBLIÉ ?</string>
+    <string name="or">ou</string>
+    <string name="register">CRÉER UN NOUVEAU COMPTE DOOF</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions.""</string>
+    <string name="ignore">ignoré</string>
+
+    <!-- REGISTER ACTIVITY -->
+    <string name="have_acount">Déjà un compte ?</string>
+    <string name="create_acount">Créer un compte</string>
+    <string name="prompt_family_name">Nom</string>
+    <string name="prompt_name">Prénom</string>
+    <string name="prompt_e_mail">Adresse email</string>
+    <string name="prompt_password_2">Mot de passe (confirmer)</string>
+    <string name="prompt_adress">Adresse</string>
+    <string name="prompt_phone">Téléphone</string>
+    <string name="prompt_validate">Confirmer</string>
+
+
+    <!-- BOTTOM ACTIVITY -->
+    <string name="title_activity_bottom">DOOF</string>
+    <string name="title_agenda">Agenda</string>
+    <string name="title_rechercher">Rechercher</string>
+    <string name="title_publier">Publier</string>
+    <string name="title_profil">Profil</string>
+
+
+    <string name="title_activity_reset_password">DOOF</string>
+
+    <!-- PROFILE FRAGMENT -->
+    <string name="opinions">avis</string>
+    <string name="home">Accueil </string>
+    <string name="cooked">Cuisine </string>
+    <string name="cleanliness">Propreté </string>
+    <string name="title_activity_internet_required">InternetRequired</string>
+    <string name="profile_meals">Menus</string>
+    <string name="profile_coms">Commentaires</string>
+
+
+    <string name="nb_coms_profile">X commentaires</string>
+
+    <!--  IS CONNECTED ACTIVITY  -->
+    <string name="oups">OUPS !!!</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
