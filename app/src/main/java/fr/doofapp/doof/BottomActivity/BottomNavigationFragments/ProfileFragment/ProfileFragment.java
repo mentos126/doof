@@ -33,8 +33,8 @@ import java.util.List;
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
-import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealsListFragment;
 import fr.doofapp.doof.App.DownLoadImageTask;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.R;
@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("LoginActivity", response.toString());
+                        Log.e("LoginActivity", response.toString());
                         try {
 
                            mProfile = new Profile(
@@ -211,7 +211,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new ProfileMealsListFragment(), getResources().getString(R.string.profile_meals));
+        adapter.addFragment(new ProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
         adapter.addFragment(new ProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
         viewPager.setAdapter(adapter);
     }

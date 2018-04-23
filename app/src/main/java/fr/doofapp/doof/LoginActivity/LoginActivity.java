@@ -85,6 +85,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        db = new UserDAO(this);
+        db.open();
+        User u = null;
+        u = db.getUserConnected();
+        db.close();
+        if(u != null && u.getConnected() == 1){
+            Intent myIntent = new Intent(LoginActivity.this, BottomActivity.class);
+            startActivity(myIntent);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -140,16 +151,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(myIntent);
             }
         });
-
-        db = new UserDAO(this);
-        db.open();
-        User u = null;
-        u = db.getUserConnected();
-        db.close();
-        if(u != null && u.getConnected() == 1){
-            Intent myIntent = new Intent(LoginActivity.this, BottomActivity.class);
-            startActivity(myIntent);
-        }
 
     }
 

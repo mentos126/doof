@@ -36,7 +36,7 @@
     <string name="title_publier">Publier</string>
     <string name="title_profil">Profil</string>
 
-
+    <!-- RESET PASSWORD ACTIVITY -->
     <string name="title_activity_reset_password">DOOF</string>
 
     <!-- PROFILE FRAGMENT -->
@@ -44,18 +44,19 @@
     <string name="home">Accueil </string>
     <string name="cooked">Cuisine </string>
     <string name="cleanliness">Propreté </string>
-    <string name="title_activity_internet_required">InternetRequired</string>
     <string name="profile_meals">Menus</string>
     <string name="profile_coms">Commentaires</string>
-
+    <string name="nb_online_meals_profle">X menus en lignes</string>
+    <string name="nb_last_meals_profle">Précédent menus</string>
 
     <string name="nb_coms_profile">X commentaires</string>
 
     <!--  IS CONNECTED ACTIVITY  -->
     <string name="oups">OUPS !!!</string>
-
+    <string name="title_activity_internet_required">DOOF</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

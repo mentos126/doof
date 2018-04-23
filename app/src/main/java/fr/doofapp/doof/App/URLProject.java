@@ -5,13 +5,14 @@ public class URLProject  {
 
     private static URLProject uniqueInstance;
 
-    protected String DNS = "http://mon-site-en-ligne.fr";
-    protected String SERVICE_DIR = DNS + "/doofprod";
+    private String DNS = "http://mon-site-en-ligne.fr";
+    private String SERVICE_DIR = DNS + "/doofprod";
 
     private String LOGIN =  SERVICE_DIR + "/user.json";
     private String PROFILE = SERVICE_DIR + "/profile.json";
+    private String UPDATE_PROFILE = SERVICE_DIR + "/update_profile.json";
     private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
-    private String PROFILE_MEALS = SERVICE_DIR + "";
+    private String PROFILE_MEALS = SERVICE_DIR + "/comments.json";
 
     public static synchronized URLProject getInstance()
     {
@@ -24,8 +25,9 @@ public class URLProject  {
 
     public String getLOGIN() {return LOGIN;}
     public String getPROFILE() {return PROFILE;}
+    public String updatePROFILE() {return UPDATE_PROFILE;}
     public String getPROFILE_COMMENTS() {return PROFILE_COMMENTS;}
-    public String getPROFILE_MEALs() {return PROFILE_MEALS;}
+    public String getPROFILE_MEALS() {return PROFILE_MEALS;}
 
 
 }
