@@ -28,18 +28,17 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
-import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
-import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 import fr.doofapp.doof.UpdateProfileActivity.UpdateProfileActivity;
 import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
@@ -102,20 +101,22 @@ public class ProfileFragment extends Fragment {
                                    parseDouble(response.get("note").toString()),
                                    parseDouble(response.get("noteaccueil").toString()),
                                    parseDouble(response.get("noteproprete").toString()),
-                                   parseDouble(response.get("notecuisine").toString())
+                                   parseDouble(response.get("notecuisine").toString()),
+                                   "adress",
+                                   "phone"
                             );
 
                             new DownLoadImageTask(iv).execute(mProfile.getPhoto());
 
-                            String s = mProfile.getNom()+" "+mProfile.getPrenom();
+                            String s = mProfile.getFamilyName()+" "+mProfile.getName();
                             name.setText(s);
-                            s = mProfile.getNoteTotale()+"/5  "+"X"+ getResources().getString(R.string.opinions);
+                            s = mProfile.getNoteTotal()+"/5  "+"X"+ getResources().getString(R.string.opinions);
                             note_totale.setText(s);
-                            s = getResources().getString(R.string.home) + " " + mProfile.getNotaAccueil() + "/5";
+                            s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
                             note_accueil.setText(s);
-                            s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCuisine() + "/5";
+                            s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCooked() + "/5";
                             note_cuisine.setText(s);
-                            s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteProprete() + "/5";
+                            s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
                             note_proprete.setText(s);
 
                             double noteTotale = parseDouble(response.get("note").toString());
@@ -168,6 +169,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(getActivity(), UpdateProfilePhotoActivity.class);
+                myIntent.putExtra("Profile", (Serializable) mProfile);
                 startActivity(myIntent);
             }
         });
@@ -176,13 +178,16 @@ public class ProfileFragment extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(getActivity(), UpdateProfileActivity.class);
-                startActivity(myIntent);
+                if(mProfile.getName() != null){
+                    Intent myIntent = new Intent(getActivity(), UpdateProfileActivity.class);
+                    myIntent.putExtra("Profile", (Serializable) mProfile);
+                    startActivity(myIntent);
+                }
             }
         });
 
         mProfile = new Profile("ERREUR","ERREUR","ERREUR",-1, "ERREUR",
-                -1,-1,-1,-1);
+                -1,-1,-1,-1, "ERREUR", "ERREUR");
 
         iv = (ImageView) getView().findViewById(R.id.photo);
         name = (TextView) getView().findViewById(R.id.name);
@@ -204,16 +209,16 @@ public class ProfileFragment extends Fragment {
 
         getProfileWeb();
 
-        String s = mProfile.getNom() + " " + mProfile.getPrenom();
+        String s = mProfile.getFamilyName() + " " + mProfile.getName();
         name.setText(s);
         // TODO changer "X" par le nombre d'avis
-        s = mProfile.getNoteTotale() + "/5  " + "X" + " " + getResources().getString(R.string.opinions);
+        s = mProfile.getNoteTotal() + "/5  " + "X" + " " + getResources().getString(R.string.opinions);
         note_totale.setText(s);
-        s = getResources().getString(R.string.home) + " " + mProfile.getNotaAccueil() + "/5";
+        s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
         note_accueil.setText(s);
-        s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCuisine() + "/5";
+        s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCooked() + "/5";
         note_cuisine.setText(s);
-        s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteProprete() + "/5";
+        s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
         note_proprete.setText(s);
 
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);

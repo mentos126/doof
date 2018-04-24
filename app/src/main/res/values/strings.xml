@@ -63,5 +63,14 @@
     <string name="oups">OUPS !!!</string>
     <string name="title_activity_internet_required">DOOF</string>
 
+    <!-- UPDATE PROFILE ACTIVITY -->
+    <string name="validate_button">Valider</string>
+    <string name="edit_profilie">Modifier votre profil</string>
+
+    <!-- UPDATE PHOTO PROFILE ACTIVITY -->
+    <string name="update_profile_photo">Modifier votre photo de profil</string>
+    <string name="prompt_search_file_photo">parcourir</string>
+    <string name="prompt_take_photo">prendre photo</string>
+
 
 </resources>

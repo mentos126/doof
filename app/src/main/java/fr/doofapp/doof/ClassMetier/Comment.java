@@ -7,10 +7,10 @@ public class Comment {
     private String linkUser;
     private String nameUser;
     private String photoUser;
-    private double noteTotale;
-    private double noteAccueil;
-    private double noteProprete;
-    private double noteCuisine;
+    private double noteTotal;
+    private double noteHome;
+    private double noteCleanless;
+    private double noteCooked;
 
     public Comment(String descriptif, String photo, String link, String nameUser, String photoUser, double noteAccueil, double noteProprete, double noteCuisine, double noteTotale) {
         this.descriptif = descriptif;
@@ -18,10 +18,10 @@ public class Comment {
         this.linkUser = link;
         this.nameUser = nameUser;
         this.photoUser = photoUser;
-        this.noteAccueil = noteAccueil;
-        this.noteProprete = noteProprete;
-        this.noteCuisine = noteCuisine;
-        this.noteTotale = noteTotale;
+        this.noteHome = noteAccueil;
+        this.noteCleanless = noteProprete;
+        this.noteCooked = noteCuisine;
+        this.noteTotal = noteTotale;
     }
 
     public String getDescriptif() {return descriptif;}
@@ -39,15 +39,15 @@ public class Comment {
     public String getPhotoUser() {return photoUser;}
     public void setPhotoUser(String photoUserSend) {this.photoUser = photoUserSend;}
 
-    public double getNoteAccueil() {return noteAccueil;}
-    public void setNoteAccueil(double noteAccueil) {this.noteAccueil = noteAccueil;}
+    public double getNoteHome() {return noteHome;}
+    public void setNoteHome(double noteHome) {this.noteHome = noteHome;}
 
-    public double getNoteProprete() {return noteProprete;}
-    public void setNoteProprete(double noteProprete) {this.noteProprete = noteProprete;}
+    public double getNoteCleanless() {return noteCleanless;}
+    public void setNoteCleanless(double noteCleanless) {this.noteCleanless = noteCleanless;}
 
-    public double getNoteCuisine() {return noteCuisine;}
-    public void setNoteCuisine(double noteCuisine) {this.noteCuisine = noteCuisine;}
+    public double getNoteCooked() {return noteCooked;}
+    public void setNoteCooked(double noteCooked) {this.noteCooked = noteCooked;}
 
-    public double getNoteTotale() {return noteTotale;}
-    public void setNoteTotale(double noteTotale) {this.noteTotale = noteTotale;}
+    public double getNoteTotal() {return noteTotal;}
+    public void setNoteTotal(double noteTotal) {this.noteTotal = noteTotal;}
 }
