@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,12 +33,16 @@ import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
+import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
+import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
+import fr.doofapp.doof.UpdateProfileActivity.UpdateProfileActivity;
+import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -60,6 +65,9 @@ public class ProfileFragment extends Fragment {
     private ImageView star3;
     private ImageView star4;
     private ImageView star5;
+
+    private Button editPhoto;
+    private Button editProfile;
 
     private int[] tabIcons = {
             R.drawable.ic_dashboard_black_24dp,
@@ -154,6 +162,24 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        editPhoto = (Button) getView().findViewById(R.id.EditPhotoButton);
+        editPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), UpdateProfilePhotoActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        editProfile = (Button) getView().findViewById(R.id.EditProfileButton);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), UpdateProfileActivity.class);
+                startActivity(myIntent);
+            }
+        });
 
         mProfile = new Profile("ERREUR","ERREUR","ERREUR",-1, "ERREUR",
                 -1,-1,-1,-1);

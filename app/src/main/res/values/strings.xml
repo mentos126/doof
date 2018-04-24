@@ -48,15 +48,6 @@
     <string name="profile_coms">Commentaires</string>
     <string name="nb_online_meals_profle">X menus en lignes</string>
     <string name="nb_last_meals_profle">Précédent menus</string>
-
-    <string name="nb_coms_profile">X commentaires</string>
-
-    <!--  IS CONNECTED ACTIVITY  -->
-    <string name="oups">OUPS !!!</string>
-    <string name="title_activity_internet_required">DOOF</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description_profile_photo">profile photo</string>
     <string name="description_star_1">star 1</string>
     <string name="description_star_2">star 2</string>
@@ -64,6 +55,13 @@
     <string name="description_star_4">star 4</string>
     <string name="description_star_5">star 5</string>
     <string name="description_textview">TextView</string>
+    <string name="profile_edit_photo">Modifier photo</string>
+    <string name="profile_edit_profile">Modifier profil</string>
+    <string name="nb_coms_profile">X commentaires</string>
+
+    <!--  IS CONNECTED ACTIVITY  -->
+    <string name="oups">OUPS !!!</string>
+    <string name="title_activity_internet_required">DOOF</string>
 
 
 </resources>

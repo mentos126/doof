@@ -41,7 +41,9 @@
             android:name=".LoginActivity.IsConnectedActivity"
             android:label="@string/title_activity_internet_required"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UpdateProfileActivity.UpdateProfilePhotoActivity" />
+        <activity android:name=".UpdateProfileActivity.UpdateProfileActivity"></activity>
     </application>
 
 </manifest>
