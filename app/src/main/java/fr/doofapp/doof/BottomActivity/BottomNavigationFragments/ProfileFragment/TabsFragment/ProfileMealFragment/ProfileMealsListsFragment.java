@@ -43,7 +43,8 @@ public class ProfileMealsListsFragment extends Fragment {
     private List<Meal> lastMealList = new ArrayList<>();
     private RecyclerView OnlineMeals;
     private RecyclerView LastMeals;
-    private MealAdapterFragment mAdapter;
+    private MealAdapterFragment mOnlineAdapter;
+    private MealAdapterFragment mLastAdapter;
     private int nbOnlineMeals;
     private int nbLastMeals;
 
@@ -59,16 +60,26 @@ public class ProfileMealsListsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_profile_meals_lists, container, false);
+
         OnlineMeals = rootView.findViewById(R.id.online_meals);
         OnlineMeals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        mAdapter = new MealAdapterFragment(getContext(), onlineMealList);
-        OnlineMeals.setAdapter(mAdapter);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        OnlineMeals.setLayoutManager(mLayoutManager);
+        mOnlineAdapter = new MealAdapterFragment(getContext(), onlineMealList);
+        OnlineMeals.setAdapter(mOnlineAdapter);
+        RecyclerView.LayoutManager mOnlineLayoutManager = new LinearLayoutManager(getContext());
+        OnlineMeals.setLayoutManager(mOnlineLayoutManager);
         OnlineMeals.setItemAnimator(new DefaultItemAnimator());
-        OnlineMeals.setAdapter(mAdapter);
+        OnlineMeals.setAdapter(mOnlineAdapter);
+
+        LastMeals = rootView.findViewById(R.id.last_meals);
+        LastMeals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mLastAdapter = new MealAdapterFragment(getContext(), lastMealList);
+        LastMeals.setAdapter(mLastAdapter);
+        RecyclerView.LayoutManager mLastLayoutManager = new LinearLayoutManager(getContext());
+        LastMeals.setLayoutManager(mLastLayoutManager);
+        LastMeals.setItemAnimator(new DefaultItemAnimator());
+        LastMeals.setAdapter(mLastAdapter);
 
         nbOnlineMeals = -1;
         nbLastMeals   = -1;
@@ -91,6 +102,7 @@ public class ProfileMealsListsFragment extends Fragment {
                             nbOnlineMeals = parseInt(response.get("nb_online_meals").toString());
                             nbLastMeals = parseInt(response.get("nb_lastmeals").toString());
                             Meal meal;
+
                             //online meals
                             JSONArray jsonOnlineMeals = (JSONArray) response.get("online_meals");
                             int countObject = jsonOnlineMeals.length();
@@ -104,6 +116,8 @@ public class ProfileMealsListsFragment extends Fragment {
                                 );
                                 onlineMealList.add(meal);
                             }
+                            mOnlineAdapter.notifyDataSetChanged();
+
                             //last meals
                             JSONArray jsonLeastMeals = (JSONArray) response.get("last_meals");
                             countObject = jsonLeastMeals.length();
@@ -118,7 +132,7 @@ public class ProfileMealsListsFragment extends Fragment {
                                 lastMealList.add(meal);
                             }
 
-                            mAdapter.notifyDataSetChanged();
+                            mLastAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

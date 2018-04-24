@@ -57,6 +57,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description_profile_photo">profile photo</string>
+    <string name="description_star_1">star 1</string>
+    <string name="description_star_2">star 2</string>
+    <string name="descriiption_star_3">star 3</string>
+    <string name="description_star_4">star 4</string>
+    <string name="description_star_5">star 5</string>
+    <string name="description_textview">TextView</string>
 
 
 </resources>

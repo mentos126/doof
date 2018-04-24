@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="profile photo"
+        android:contentDescription="@string/description_profile_photo"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:contentDescription="star 1"
+        android:contentDescription="@string/description_star_1"
         android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -58,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:contentDescription="star 2"
+        android:contentDescription="@string/description_star_2"
         android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toEndOf="@+id/star1"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -68,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:contentDescription="star 3"
+        android:contentDescription="@string/descriiption_star_3"
         android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toEndOf="@+id/star2"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -78,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:contentDescription="star 4"
+        android:contentDescription="@string/description_star_4"
         android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toEndOf="@+id/star3"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -88,7 +89,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:contentDescription="star 5"
+        android:contentDescription="@string/description_star_5"
         android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toEndOf="@+id/star4"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -110,21 +111,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/description_textview" />
 
         <TextView
             android:id="@+id/note_cuisine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/description_textview" />
 
         <TextView
             android:id="@+id/note_proprete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/description_textview" />
     </LinearLayout>
 
     <android.support.design.widget.TabLayout
@@ -152,6 +153,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabs" />
-
 
 </android.support.constraint.ConstraintLayout>
