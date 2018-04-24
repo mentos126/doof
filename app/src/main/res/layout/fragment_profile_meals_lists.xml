@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
@@ -21,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-       <!-- <TextView
+       <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,9 +25,6 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/last_meals"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" /> -->
-
-    </LinearLayout>
-
+            android:layout_height="match_parent" />
 
 </FrameLayout>

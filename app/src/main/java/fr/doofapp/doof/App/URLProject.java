@@ -12,7 +12,7 @@ public class URLProject  {
     private String PROFILE = SERVICE_DIR + "/profile.json";
     private String UPDATE_PROFILE = SERVICE_DIR + "/update_profile.json";
     private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
-    private String PROFILE_MEALS = SERVICE_DIR + "/comments.json";
+    private String PROFILE_MEALS = SERVICE_DIR + "/profile_meals.json";
 
     public static synchronized URLProject getInstance()
     {
