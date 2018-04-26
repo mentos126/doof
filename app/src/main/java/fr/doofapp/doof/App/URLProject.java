@@ -8,7 +8,10 @@ public class URLProject  {
     private String DNS = "http://mon-site-en-ligne.fr";
     private String SERVICE_DIR = DNS + "/doofprod";
 
-    private String LOGIN =  SERVICE_DIR + "/user.json";
+    private String DNSPORT = DNS + ":4007";
+    private String APP_DIR = DNSPORT + "/doof";
+
+    private String LOGIN = APP_DIR + "/login/jc/papillon"; //SERVICE_DIR + "/user.json";
     private String PROFILE = SERVICE_DIR + "/profile.json";
     private String UPDATE_PROFILE = SERVICE_DIR + "/update_profile.json";
     private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
