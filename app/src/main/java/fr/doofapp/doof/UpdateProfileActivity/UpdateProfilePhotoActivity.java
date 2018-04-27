@@ -1,5 +1,8 @@
 package fr.doofapp.doof.UpdateProfileActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +60,16 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
 
     protected void actionButtonValidate(){}
     protected void actionButtonSearchFile(){}
-    protected void actionButtonTakePhoto(){}
 
+    protected void actionButtonTakePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,0);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        iv.setImageBitmap(bitmap);
+    }
 }

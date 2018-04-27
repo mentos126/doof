@@ -22,7 +22,6 @@ import fr.doofapp.doof.R;
 
 public class BottomActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
     private UserDAO db;
     private User u;
 
@@ -74,7 +73,7 @@ public class BottomActivity extends AppCompatActivity {
         u = null;
         u = db.getUserConnected();
         db.close();
-        Log.e("azer1ty",u.getUserId().toString());
+        Log.e("azer1ty",u.getUserId());
         if (u != null && u.getConnected() == 1){
             Log.e("azerty","YES");
             return true;
@@ -88,7 +87,6 @@ public class BottomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -97,9 +95,9 @@ public class BottomActivity extends AppCompatActivity {
         Log.e("123456789","78878878787878787878787878787878787878");
 
         if (! userIsConnected()) {
-            Log.e("123456789","NO");
+            /*Log.e("123456789","NO");
             Intent myIntent = new Intent(BottomActivity.this, LoginActivity.class);
-            startActivity(myIntent);
+            startActivity(myIntent);*/
         }
 
     }

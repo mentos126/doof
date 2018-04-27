@@ -72,9 +72,6 @@ import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.Request.Method;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.StringRequest;
@@ -400,9 +397,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mPassword;
 
         ///////////////////////////////////
-        private StringRequest createRequest() {
+        private StringRequest createRequest(String URL) {
             StringRequest myReq = new StringRequest(Method.GET,
-                    "http://mon-site-en-ligne.fr:4007/doof/login/jc/papillon",
+                    URL,
                     createMyReqSuccessListener(),
                     createMyReqErrorListener());
             return myReq;
@@ -428,10 +425,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             };
         }
-        private void setTvCookieText(String str) {
-            Log.d("???????? setTV","lledkflklfef");
+        private void setTvCookieText(String str) {}
 
-        }
         public Cookie getCookie(CookieStore cs, String cookieName) {
             Cookie ret = null;
             List<Cookie> l = cs.getCookies();
@@ -470,17 +465,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         public void volleyJsonArrayRequest() {
 
-            mQueue.add(createRequest());
-
-
+            //mQueue.add(createRequest());
+            String URL = URLProject.getInstance().getLOGIN();
             CookieStore cs = mHttpClient.getCookieStore();
             BasicClientCookie c = (BasicClientCookie) getCookie(cs, "my_cookie");
-           // c.setValue("41");
             cs.addCookie(c);
-            mQueue.add(createRequest());
-
-            //String URL = "http://mon-site-en-ligne.fr/doofprod/user.json";
-            String URL = URLProject.getInstance().getLOGIN();
+            mQueue.add(createRequest(URL));
 
             /*JsonArrayRequest jsonArrayReq = new JsonArrayRequest(REQUEST_TAG,
                     new Response.Listener<JSONArray>() {
@@ -621,7 +611,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
             if(!isConnected()){
                 return false;
             }
@@ -632,13 +621,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             db.open();
             User u = null;
             u = db.getUserConnected();
             db.close();
             System.out.println(mEmail);
             return (u != null && u.getConnected() ==1);
-
         }
 
         @Override

@@ -9,16 +9,16 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.Map;
 
-public class MyApp extends Application {
+public class SessionApp extends Application {
     private static final String SET_COOKIE_KEY = "Set-Cookie";
     private static final String COOKIE_KEY = "Cookie";
     private static final String SESSION_COOKIE = "sessionid";
 
-    private static MyApp _instance;
+    private static SessionApp _instance;
     private RequestQueue _requestQueue;
     private SharedPreferences _preferences;
 
-    public static MyApp get() {
+    public static SessionApp get() {
         return _instance;
     }
 

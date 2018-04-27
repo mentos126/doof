@@ -6,12 +6,14 @@ public class URLProject  {
     private static URLProject uniqueInstance;
 
     private String DNS = "http://mon-site-en-ligne.fr";
-    private String SERVICE_DIR = DNS + "/doofprod";
 
     private String DNSPORT = DNS + ":4007";
+    private String SERVICE_DIR = DNS + "/doofprod";
+
     private String APP_DIR = DNSPORT + "/doof";
 
-    private String LOGIN = APP_DIR + "/login/jc/papillon"; //SERVICE_DIR + "/user.json";
+    private String LOGIN = "http://mon-site-en-ligne.fr:4007/doof/login/jc/papillon"; /*APP_DIR + "/login/jc/papillon";*/ //SERVICE_DIR + "/user.json";
+
     private String PROFILE = SERVICE_DIR + "/profile.json";
     private String UPDATE_PROFILE = SERVICE_DIR + "/update_profile.json";
     private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
