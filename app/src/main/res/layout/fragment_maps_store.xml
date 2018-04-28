@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <fragment
+            android:id="@+id/fragment"
+            android:name="fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
+    <fragment
+        android:layout_below="@+id/topPanel"
+        android:id="@+id/map"
+        android:name="fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment"
+        />
+
+
+</RelativeLayout>
