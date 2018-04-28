@@ -19,6 +19,8 @@ public class URLProject  {
     private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
     private String PROFILE_MEALS = SERVICE_DIR + "/profile_meals.json";
 
+    private String PROFILE_UPDATE_ROFILE = "";
+
     public static synchronized URLProject getInstance()
     {
         if(uniqueInstance==null)
