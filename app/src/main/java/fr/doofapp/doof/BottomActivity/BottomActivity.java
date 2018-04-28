@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.ProfileFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.SearchFragment;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
@@ -37,8 +38,8 @@ public class BottomActivity extends AppCompatActivity {
                     //loadFragment(fragment);
                     return true;
                 case R.id.navigation_rechercher:
-                    //fragment = new ProfileFragment();
-                    //loadFragment(fragment);
+                    fragment = new SearchFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_publier:
                     //fragment = new ProfileFragment();
@@ -87,13 +88,11 @@ public class BottomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Log.e("123456789","YES");
         db = new UserDAO(this);
-        Log.e("123456789","78878878787878787878787878787878787878");
-
         if (! userIsConnected()) {
             /*Log.e("123456789","NO");
             Intent myIntent = new Intent(BottomActivity.this, LoginActivity.class);
