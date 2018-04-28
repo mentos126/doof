@@ -224,6 +224,8 @@ public class ProfileFragment extends Fragment {
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        //viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+
         tabLayout = (TabLayout) getView().findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();

@@ -54,6 +54,7 @@ public class ProfileCommentsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_comments_list, container, false);
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mAdapter = new CommentAdapterFragment(getContext(), comList);

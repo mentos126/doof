@@ -63,6 +63,7 @@ public class BottomActivity extends AppCompatActivity {
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(fragment.toString());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

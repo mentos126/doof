@@ -1,0 +1,26 @@
+<resources>
+    <!--
+    Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=E7:D0:1C:91:30:CB:4B:C7:C6:D1:93:88:6C:B4:FA:FC:E2:6E:73:ED%3Bfr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    E7:D0:1C:91:30:CB:4B:C7:C6:D1:93:88:6C:B4:FA:FC:E2:6E:73:ED
+
+    SHA-1 certificate fingerprint:
+    E7:D0:1C:91:30:CB:4B:C7:C6:D1:93:88:6C:B4:FA:FC:E2:6E:73:ED
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+AIzaSyDx5egDxbCntvtczXd0bYM-tICe1TyoPO8
+</string>
+</resources>

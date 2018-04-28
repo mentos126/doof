@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
-import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment;
 import fr.doofapp.doof.R;
 
 
@@ -28,8 +28,8 @@ public class SearchFragment extends Fragment {
     private ViewPager viewPager;
 
     private int[] tabIcons = {
-            R.drawable.ic_dashboard_black_24dp,
-            R.drawable.ic_home_black_24dp
+            R.drawable.ic_music_box,
+            R.drawable.ic_excel_box
     };
 
     private boolean isConnected() {
@@ -69,8 +69,8 @@ public class SearchFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new ProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
-        adapter.addFragment(new ProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
+        adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_map));
+        adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_list));
         viewPager.setAdapter(adapter);
     }
 
