@@ -81,9 +81,8 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
     protected void actionButtonValidate(){
 
         // TODO send bitmap to server to update profile "newImg"
-
         Intent myIntent = new Intent(UpdateProfilePhotoActivity.this, BottomActivity.class);
-
+        myIntent.putExtra("Tab", R.id.navigation_profil);
         startActivity(myIntent);
 
 

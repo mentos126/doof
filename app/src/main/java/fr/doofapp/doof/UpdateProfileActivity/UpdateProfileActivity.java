@@ -12,7 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.Serializable;
+import java.time.Instant;
+
 import fr.doofapp.doof.App.DownLoadImageTask;
+import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
@@ -32,6 +36,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private ImageView iv;
     private Button button;
+    private Button photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 actionButton();
             }
         });
+
+        photo = (Button) findViewById(R.id.changePhoto);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(UpdateProfileActivity.this, UpdateProfilePhotoActivity.class);
+                myIntent.putExtra("Profile", (Serializable) mProfile);
+                startActivity(myIntent);
+            }
+        });
+
     }
 
     private boolean isConnected() {
@@ -90,6 +106,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
         Log.e("====VALIDER===","VALIDER");
         if (!isConnected()){
             Intent myIntent = new Intent(UpdateProfileActivity.this, IsConnectedActivity.class);
+            startActivity(myIntent);
+        }else{
+            //TODO SEND REQUEST FOR UPDATE PROFILE
+            Intent myIntent = new Intent(UpdateProfileActivity.this, BottomActivity.class);
+            myIntent.putExtra("Tab", R.id.navigation_profil);
             startActivity(myIntent);
         }
     }

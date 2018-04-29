@@ -1,9 +1,9 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import fr.doofapp.doof.R;
 
-public class MapsStoreFragment extends Fragment /*implements GoogleMap.OnMapLongClickListener*/
+public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
 {
 
     GoogleMap mGoogleMap;
@@ -53,7 +53,7 @@ public class MapsStoreFragment extends Fragment /*implements GoogleMap.OnMapLong
         }
     }
 
-    //@Override
+    @Override
     public void onMapReady(GoogleMap googleMap){
         MapsInitializer.initialize(getActivity().getApplicationContext());
         mGoogleMap = googleMap;
@@ -64,9 +64,6 @@ public class MapsStoreFragment extends Fragment /*implements GoogleMap.OnMapLong
 
     }
 
-    /*@Override
-    public void onMapLongClick(LatLng latLng) {
 
-    }*/
 }
 

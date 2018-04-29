@@ -112,7 +112,9 @@ public class ProfileMealsListsFragment extends Fragment {
                                 meal = new Meal(
                                         jsonObject.get("photo_meal").toString(),
                                         parseInt(jsonObject.get("note_totale").toString()),
-                                        jsonObject.get("name_user").toString()
+                                        jsonObject.get("name_user").toString(),
+                                        "link",
+                                        "date"
                                 );
                                 onlineMealList.add(meal);
                             }
@@ -127,7 +129,9 @@ public class ProfileMealsListsFragment extends Fragment {
                                 meal = new Meal(
                                         jsonObject.get("photo_meal").toString(),
                                         parseInt(jsonObject.get("note_totale").toString()),
-                                        jsonObject.get("name_user").toString()
+                                        jsonObject.get("name_user").toString(),
+                                        "link",
+                                        "date"
                                 );
                                 lastMealList.add(meal);
                             }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.ProfileFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.SearchFragment;
 import fr.doofapp.doof.ClassMetier.User;
@@ -89,10 +90,36 @@ public class BottomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
+        Fragment fragment;
+        try {
+            int tab = (int) getIntent().getSerializableExtra("Tab");
+            switch (tab) {
+                case R.id.navigation_agenda:
+                    fragment = new CalendarFragment();
+                    loadFragment(fragment);
+                    break;
+                case R.id.navigation_rechercher:
+                    fragment = new SearchFragment();
+                    loadFragment(fragment);
+                    break;
+                case R.id.navigation_publier:
+                    //fragment = new ProfileFragment();
+                    //loadFragment(fragment);
+                    break;
+                case R.id.navigation_profil:
+                    fragment = new ProfileFragment();
+                    loadFragment(fragment);
+                    break;
+            }
+        }catch (Exception e){
+            fragment = new CalendarFragment();
+            loadFragment(fragment);
+        }
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //TODO USER CONNECTED
         db = new UserDAO(this);
         if (! userIsConnected()) {
             /*Log.e("123456789","NO");

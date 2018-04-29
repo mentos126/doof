@@ -5,11 +5,15 @@ public class Meal {
     private String photo;
     private int price;
     private String name;
+    private String linkMeal;
+    private String date;
 
-    public Meal(String photo, int price, String name){
+    public Meal(String photo, int price, String name, String linkMeal, String date){
         this.photo = photo;
         this.price = price;
         this.name = name;
+        this.date = date;
+        this.linkMeal = linkMeal;
     }
 
     public String getPhoto() {return photo;}
@@ -20,4 +24,10 @@ public class Meal {
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
+
+    public String getLinkMeal() {return linkMeal;}
+    public void setLinkMeal(String linkMeal) {this.linkMeal = linkMeal;}
+
+    public String getDate() {return date;}
+    public void setDate(String date) {this.date = date;}
 }

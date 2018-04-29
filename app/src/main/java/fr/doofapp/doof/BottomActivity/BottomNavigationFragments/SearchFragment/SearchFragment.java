@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_map));
+        adapter.addFragment(new MapsStoreFragment(), getResources().getString(R.string.prompt_tab_map));
         adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_list));
         viewPager.setAdapter(adapter);
     }

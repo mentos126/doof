@@ -80,10 +80,10 @@ public class ProfileCommentsListFragment extends Fragment {
                     public void onResponse(JSONArray response) {
                         Log.d("LoginActivity", response.toString());
                         int countObject = response.length();
-                        Comment com = null;
+                        Comment com;
                         for(int i=0 ; i<countObject; i++){
                             try {
-                                JSONObject jsonObject = null;
+                                JSONObject jsonObject;
                                 jsonObject = response.getJSONObject(i);
                                 com = new Comment(
                                         jsonObject.get("descriptif").toString(),
