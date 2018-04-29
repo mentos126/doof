@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.CookFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.ProfileFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.SearchFragment;
 import fr.doofapp.doof.ClassMetier.User;
@@ -22,6 +23,7 @@ import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
+//TODO PB sur les tabview lors de changement de fragment !!!
 public class BottomActivity extends AppCompatActivity {
 
     private UserDAO db;
@@ -35,16 +37,16 @@ public class BottomActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_agenda:
-                    //fragment = new ProfileFragment();
-                    //loadFragment(fragment);
+                    fragment = new CalendarFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_rechercher:
                     fragment = new SearchFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_publier:
-                    //fragment = new ProfileFragment();
-                    //loadFragment(fragment);
+                    fragment = new CookFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_profil:
                     fragment = new ProfileFragment();
@@ -55,20 +57,19 @@ public class BottomActivity extends AppCompatActivity {
         }
     };
 
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.addToBackStack(fragment.toString());
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
+    }
+
     public boolean isConnected() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(fragment.toString());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.commit();
     }
 
     protected Boolean userIsConnected() {
@@ -90,9 +91,14 @@ public class BottomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         Fragment fragment;
+        int tab;
         try {
-            int tab = (int) getIntent().getSerializableExtra("Tab");
+            tab = (int) getIntent().getSerializableExtra("Tab");
             switch (tab) {
                 case R.id.navigation_agenda:
                     fragment = new CalendarFragment();
@@ -103,8 +109,8 @@ public class BottomActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     break;
                 case R.id.navigation_publier:
-                    //fragment = new ProfileFragment();
-                    //loadFragment(fragment);
+                    fragment = new CookFragment();
+                    loadFragment(fragment);
                     break;
                 case R.id.navigation_profil:
                     fragment = new ProfileFragment();
@@ -112,21 +118,11 @@ public class BottomActivity extends AppCompatActivity {
                     break;
             }
         }catch (Exception e){
+            tab = R.id.navigation_agenda;
             fragment = new CalendarFragment();
             loadFragment(fragment);
         }
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        //TODO USER CONNECTED
-        db = new UserDAO(this);
-        if (! userIsConnected()) {
-            /*Log.e("123456789","NO");
-            Intent myIntent = new Intent(BottomActivity.this, LoginActivity.class);
-            startActivity(myIntent);*/
-        }
+        navigation.setSelectedItemId(tab);
 
     }
-
 }
