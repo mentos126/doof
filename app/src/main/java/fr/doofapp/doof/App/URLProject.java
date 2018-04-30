@@ -9,11 +9,12 @@ public class URLProject  {
     private String DNS = "http://163.172.142.75";
 
     private String DNSPORT = DNS + ":4007";
-    private String SERVICE_DIR = DNS + "/doofprod";
-
     private String APP_DIR = DNSPORT + "/doof";
 
-    private String LOGIN = "http://mon-site-en-ligne.fr:4007/doof/login/jc/papillon";
+    private String SERVICE_DIR = DNS + "/doofprod";
+
+    private String LOGIN = SERVICE_DIR + "/user.json";
+            //"http://mon-site-en-ligne.fr:4007/doof/login/jc/papillon";
     /*APP_DIR + "/login/jc/papillon";*/ //SERVICE_DIR + "/user.json";
 
 

@@ -9,6 +9,7 @@
         android:id="@+id/bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:gravity="center_horizontal"
+        android:text="test voir profil utilisateur anonyme" />
 
 </FrameLayout>

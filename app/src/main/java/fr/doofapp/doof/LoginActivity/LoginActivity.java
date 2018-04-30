@@ -467,145 +467,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             //mQueue.add(createRequest());
             String URL = URLProject.getInstance().getLOGIN();
-            CookieStore cs = mHttpClient.getCookieStore();
+            /*okieStore cs = mHttpClient.getCookieStore();
             BasicClientCookie c = (BasicClientCookie) getCookie(cs, "my_cookie");
             cs.addCookie(c);
-            mQueue.add(createRequest(URL));
+            mQueue.add(createRequest(URL));*/
 
-            /*JsonArrayRequest jsonArrayReq = new JsonArrayRequest(REQUEST_TAG,
-                    new Response.Listener<JSONArray>() {
+            final JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONArray response) {
-                            Log.d("LoginActivity", response.toString());
-                            int countObject = response.length();
-                            System.out.println("444444444444444"+countObject);
-                            for(int i=0 ; i<countObject; i++){
-                                try {
-                                    JSONObject jsonObject = null;
-                                    jsonObject = response.getJSONObject(i);
-                                    System.out.println("jsonObject " + i + ": " + jsonObject.get("email"));
+                        public void onResponse(JSONObject response) {
+
+                            Log.e("====LoginActivity===", response.toString());
+                            try {
+                                //(response.isNull("error"))
+                                //
+                                //sponse = (JSONObject) response.get("result");
+                                User u = null;
+                                u = new User(response.get("email").toString(),
+                                        response.get("password").toString(),
+                                        parseInt(response.get("role").toString()),
+                                        1);
+                                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                                byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
+                                String resPass = convertByteArrayToHexString(hash);
+                                Log.d("LoginActivity", resPass);
+                                if (u != null && u.getPassword().equals(resPass) && u.getUserId().equals(mEmail)) {
                                     db.open();
-                                    User u = new User(jsonObject.get("email").toString(),
-                                            jsonObject.get("password").toString(),
-                                            parseInt(jsonObject.get("role").toString()),
-                                            1);
                                     db.addUser(u);
                                     db.close();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
+                                //ast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
+                                //else {
+                                //  Toast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
+                                //
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
                             }
                         }
-                    }, new Response.ErrorListener() {
+                    },
+                    new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            VolleyLog.d("LoginActivity", "Error: " + error.getMessage());
+                            VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
                         }
                     });
-            // Adding JsonObject request to request queue
-            AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);*/
 
-//            try {
-//                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//                byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-//                String resPassword = convertByteArrayToHexString(hash);
-//                JSONObject jsonBody = new JSONObject();
-//                jsonBody.put("email", mEmail);
-//                jsonBody.put("password", resPassword);
-//                final String requestBody = jsonBody.toString();
-
-
-               /* final JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                                Log.e("====LoginActivity===", response.toString());
-
-                                try {
-                                    Log.e("====LoginActivity===", response.getJSONObject("headers").toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                //try {
-                                    if(response.isNull("error"))
-                                    {
-                                        /*response = (JSONObject) response.get("result");
-                                        User u = null;
-                                        u = new User(response.get("email").toString(),
-                                                response.get("password").toString(),
-                                                parseInt(response.get("role").toString()),
-                                                1);
-                                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                                        byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-                                        String resPass = convertByteArrayToHexString(hash);
-                                        Log.d("LoginActivity", resPass);
-                                        if (u != null && u.getPassword().equals(resPass) && u.getUserId().equals(mEmail)) {
-                                            db.open();
-                                            db.addUser(u);
-                                            db.close();
-                                        }*/
-                                       /* Toast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
-                                    }*/
-                                /*} catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (NoSuchAlgorithmException e) {
-                                    e.printStackTrace();
-                                } catch (UnsupportedEncodingException e) {
-                                    e.printStackTrace();
-                                }*/
-                            /*}
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
-                            }
-                        })
-                {
-
-
-                }*/
-                //{
-                    /*@Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8";
-                    }
-
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return requestBody == null ? null : requestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException uee) {
-                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        String responseString = "";
-                        if (response != null) {
-                            responseString = String.valueOf(response.statusCode);
-                            // can get more details such as response.headers
-                        }
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                    }*/
-
-                //}
-                ;
-
-                //AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
-
-//            }catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            }catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
 
         }
 
@@ -652,3 +563,80 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 }
 
+/*JsonArrayRequest jsonArrayReq = new JsonArrayRequest(REQUEST_TAG,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.d("LoginActivity", response.toString());
+                            int countObject = response.length();
+                            System.out.println("444444444444444"+countObject);
+                            for(int i=0 ; i<countObject; i++){
+                                try {
+                                    JSONObject jsonObject = null;
+                                    jsonObject = response.getJSONObject(i);
+                                    System.out.println("jsonObject " + i + ": " + jsonObject.get("email"));
+                                    db.open();
+                                    User u = new User(jsonObject.get("email").toString(),
+                                            jsonObject.get("password").toString(),
+                                            parseInt(jsonObject.get("role").toString()),
+                                            1);
+                                    db.addUser(u);
+                                    db.close();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d("LoginActivity", "Error: " + error.getMessage());
+                        }
+                    });
+            // Adding JsonObject request to request queue
+            AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);*/
+
+//            try {
+//                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//                byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
+//                String resPassword = convertByteArrayToHexString(hash);
+//                JSONObject jsonBody = new JSONObject();
+//                jsonBody.put("email", mEmail);
+//                jsonBody.put("password", resPassword);
+//                final String requestBody = jsonBody.toString();
+
+//{
+                    /*@Override
+                    public String getBodyContentType() {
+                        return "application/json; charset=utf-8";
+                    }
+
+                    @Override
+                    public byte[] getBody() throws AuthFailureError {
+                        try {
+                            return requestBody == null ? null : requestBody.getBytes("utf-8");
+                        } catch (UnsupportedEncodingException uee) {
+                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        String responseString = "";
+                        if (response != null) {
+                            responseString = String.valueOf(response.statusCode);
+                            // can get more details such as response.headers
+                        }
+                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                    }*/
+
+//}
+
+//            }catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            }catch (JSONException e) {
+//                e.printStackTrace();
+//            }

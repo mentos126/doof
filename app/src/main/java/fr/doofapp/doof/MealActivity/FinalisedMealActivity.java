@@ -1,7 +1,7 @@
 package fr.doofapp.doof.MealActivity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.R;
 
-public class FinalisedMealActivity extends AppCompatActivity {
+public class FinalisedMealActivity extends Activity {
 
     private Button bt;
 
@@ -28,4 +28,11 @@ public class FinalisedMealActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+
 }

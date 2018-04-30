@@ -1,15 +1,13 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment;
 
-
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,13 +17,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,19 +32,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
-import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.MealActivity.MealActivity;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
-public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
+public class MapsStoreFragment extends Fragment implements OnMapReadyCallback ,
+        GoogleMap.OnInfoWindowClickListener
 {
 
     GoogleMap mGoogleMap;
@@ -87,6 +85,14 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
     }
 
     @Override
+    public void onInfoWindowClick(Marker marker) {
+       final Intent myIntent = new Intent(getView().getContext(), MealActivity.class);
+       Meal mTemp = (Meal) marker.getTag();
+        myIntent.putExtra("Meal", (Serializable) mTemp);
+        getActivity().getApplicationContext().startActivity(myIntent);
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap){
         MapsInitializer.initialize(getActivity().getApplicationContext());
         mGoogleMap = googleMap;
@@ -95,6 +101,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
         //TODO get POSITION
         CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247,-74.44502)).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+
+        mGoogleMap.setOnInfoWindowClickListener(this);
 
         prepareMealData();
 
@@ -139,9 +147,7 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
                                     public void onResponse(Bitmap bitmap) {
                                         b = bitmap;
 
-
-
-                                        mGoogleMap.addMarker(
+                                        Marker marker = mGoogleMap.addMarker(
                                                 new MarkerOptions()
                                                         .position(new LatLng(lat,lng))
                                                         .title(finalMeal.getName())
@@ -151,17 +157,17 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback
 
                                         );
 
-                                        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        marker.setTag(finalMeal);
+
+                                        /*mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                             @Override
                                             public boolean onMarkerClick(Marker marker) {
-                                                //int position = (int)(marker.getTag());
-
                                                 Toast.makeText(getActivity().getApplicationContext(),
                                                         marker.getTitle(),
                                                         Toast.LENGTH_LONG).show();
                                                 return false;
                                             }
-                                        });
+                                        });*/
 
 
                                     }
