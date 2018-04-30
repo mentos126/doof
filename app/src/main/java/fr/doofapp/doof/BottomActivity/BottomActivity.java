@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.CookFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.NotAuthorizedFragment.NotConnectedFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.ProfileFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.SearchFragment;
 import fr.doofapp.doof.ClassMetier.User;
@@ -37,7 +38,11 @@ public class BottomActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_agenda:
-                    fragment = new CalendarFragment();
+                    if(userIsConnected()){
+                        fragment = new CalendarFragment();
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_rechercher:
@@ -45,11 +50,23 @@ public class BottomActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_publier:
-                    fragment = new CookFragment();
+                    if(userIsConnected()){
+                        if(u.getRole() == 2){
+                            fragment = new CookFragment();
+                        }else{
+                            fragment = new CookFragment();
+                        }
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_profil:
-                    fragment = new ProfileFragment();
+                    if(userIsConnected()){
+                        fragment = new ProfileFragment();
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     return true;
             }
@@ -101,7 +118,11 @@ public class BottomActivity extends AppCompatActivity {
             tab = (int) getIntent().getSerializableExtra("Tab");
             switch (tab) {
                 case R.id.navigation_agenda:
-                    fragment = new CalendarFragment();
+                    if(userIsConnected()){
+                        fragment = new CalendarFragment();
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     break;
                 case R.id.navigation_rechercher:
@@ -113,7 +134,11 @@ public class BottomActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     break;
                 case R.id.navigation_profil:
-                    fragment = new ProfileFragment();
+                    if(userIsConnected()){
+                        fragment = new ProfileFragment();
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     break;
             }

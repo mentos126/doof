@@ -82,8 +82,7 @@ public class ProfileFragment extends Fragment {
 
     public void getProfileWeb() {
 
-        //String URL = "http://mon-site-en-ligne.fr/doofprod/profile.json";
-        String URL = URLProject.getInstance().getPROFILE();
+        String URL = URLProject.getInstance().getMYPROFILE();
 
           JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {

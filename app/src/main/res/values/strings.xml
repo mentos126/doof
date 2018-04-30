@@ -76,9 +76,25 @@
     <string name="prompt_tab_map">Map</string>
     <string name="prompt_tab_list">List</string>
 
+    <!-- MEAL ACTIVITY -->
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
+    <string name="title_activity_meal">MealActivity</string>
+    <string name="is_true_contenant">Contenant fourni</string>
+    <string name="is_false_contenant">Contenant NON fourni</string>
+
+    <!-- NOT CONNECTED USER -->
+    <string name="not_connected_user">Vous n\'etes pas connecté veuillez vous connecté</string>
+
+    <!-- NOT CONNECTED COOKER -->
+    <string name="not_connected_cooker">Vous n\'etes pas encore DOOFER COOKER veuillez vous enregistré</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_meal">MealActivity</string>
+    <string name="thansk">MERCI !</string>
+    <string name="receive_coord">Vous receverez les coordonnées lorsque le chef validera votre commande</string>
+    <string name="back_home">Retour à l\'accueil</string>
+
 
 </resources>

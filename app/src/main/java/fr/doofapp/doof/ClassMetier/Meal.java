@@ -1,6 +1,8 @@
 package fr.doofapp.doof.ClassMetier;
 
-public class Meal {
+import java.io.Serializable;
+
+public class Meal implements Serializable {
 
     private String photo;
     private int price;

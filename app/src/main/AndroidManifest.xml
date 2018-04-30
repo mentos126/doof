@@ -64,7 +64,8 @@
         <activity
             android:name=".MealActivity.MealActivity"
             android:label="@string/title_activity_meal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MealActivity.FinalisedMealActivity"></activity>
     </application>
 
 </manifest>

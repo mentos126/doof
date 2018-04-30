@@ -4,19 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.MealActivity.MealActivity;
+import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
+import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
 
 public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStoreMealAdapterFragment.MyViewHolder> {
     private Context context;
@@ -25,7 +33,8 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, price, date;
         public ImageView photo;
-
+        public CardView cardView;
+        public RelativeLayout rel;
 
         public MyViewHolder(View view) {
             super(view);
@@ -33,6 +42,8 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
             price = (TextView) view.findViewById(R.id.price);
             photo = (ImageView) view.findViewById(R.id.photo);
             date = (TextView) view.findViewById(R.id.date);
+            cardView  = (CardView) view.findViewById(R.id.card_view);
+            rel  = (RelativeLayout) view.findViewById(R.id.rel);
         }
     }
 
@@ -52,14 +63,24 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
 
     @Override
     public void onBindViewHolder(ListStoreMealAdapterFragment.MyViewHolder holder, int position) {
-        final Meal p = mealList.get(position);
+        final Meal mTemp = mealList.get(position);
         Meal m = mealList.get(position);
         holder.name.setText(m.getName());
-        holder.price.setText(m.getPrice()+" ticket");
+        String s = m.getPrice()+" ticket";
+        holder.price.setText(s);
         holder.date.setText(m.getDate());
         Glide.with(context)
                 .load(m.getPhoto())
                 .into(holder.photo);
+        holder.rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("==========CLICK========","CLICK");
+                final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
+                myIntent.putExtra("Meal", (Serializable) mTemp);
+                context.startActivity(myIntent);
+            }
+        });
 
     }
 

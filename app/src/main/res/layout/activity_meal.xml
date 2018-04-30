@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                         android:id="@+id/prompt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=""
                         tools:layout_editor_absoluteX="128dp"
                         tools:layout_editor_absoluteY="416dp" />
 
@@ -140,51 +141,112 @@
                     android:id="@+id/minus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:text="@string/button_minus" />
 
                 <TextView
                     android:id="@+id/prompt_how_many"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="" />
 
                 <Button
                     android:id="@+id/plus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:text="@string/button_plus" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/prompt_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
 
-            <TextView
-                android:id="@+id/prompt_heure"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/prompt_adress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/checkbox_on_background"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="398dp" />
 
-            <TextView
-                android:id="@+id/prompt_if_contenant"
+                <TextView
+                    android:id="@+id/prompt_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/checkbox_on_background"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="398dp" />
+
+                <TextView
+                    android:id="@+id/prompt_heure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/checkbox_on_background"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="398dp" />
+
+                <TextView
+                    android:id="@+id/prompt_adress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/checkbox_on_background"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="398dp" />
+
+                <TextView
+                    android:id="@+id/prompt_if_contenant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/validate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button"/>
+                android:text="@string/validate_button"/>
 
         </LinearLayout>
 
