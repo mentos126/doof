@@ -10,22 +10,40 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.doofapp.doof.App.AppSingleton;
+import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment;
+import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
+
+import static java.lang.Integer.parseInt;
 
 
 public class SearchFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private List<Meal> mealList = new ArrayList<>();
+    //private SendListMeal SM;
 
     private int[] tabIcons = {
             R.drawable.ic_music_box,
@@ -48,14 +66,30 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
+        viewPager = (ViewPager) getView().findViewById(R.id.viewPagerSearch);
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) getView().findViewById(R.id.tabs);
+        tabLayout = (TabLayout) getView().findViewById(R.id.tabsSearch);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();
+        // prepareMealData();
+
     }
+
+    /*public interface SendListMeal{
+        void sendListMEal(List<Meal> mealList);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            SM = (SendListMeal) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Error in retrieving data. Please try again");
+        }
+    }*/
+
 
     @Override
     public void onDestroy() {
@@ -73,6 +107,45 @@ public class SearchFragment extends Fragment {
         adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_list));
         viewPager.setAdapter(adapter);
     }
+
+   /* protected void prepareMealData(){
+        String URL = URLProject.getInstance().getMEALS();
+
+        JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("=========MEALS========", response.toString());
+                        try {
+                            Meal meal;
+                            int countObject = response.length();
+                            for(int i=0 ; i<countObject; i++){
+                                JSONObject jsonObject;
+                                jsonObject = response.getJSONObject(i);
+                                meal = new Meal(
+                                        jsonObject.get("photo_meal").toString(),
+                                        parseInt(jsonObject.get("price").toString()),
+                                        jsonObject.get("title").toString(),
+                                        jsonObject.get("link_meal").toString(),
+                                        jsonObject.get("date_heure").toString()
+                                );
+                                mealList.add(meal);
+                            }
+                            //SM.sendListMEal(mealList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
+                    }
+                });
+
+        AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
+    }*/
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -101,6 +174,7 @@ public class SearchFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 
 }

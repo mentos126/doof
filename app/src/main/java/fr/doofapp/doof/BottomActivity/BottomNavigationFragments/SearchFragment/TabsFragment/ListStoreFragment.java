@@ -3,6 +3,7 @@ package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -40,21 +41,21 @@ public class ListStoreFragment extends Fragment {
     private List<Meal> mealList = new ArrayList<>();
     private RecyclerView meals;
     private ListStoreMealAdapterFragment mAdapter;
+    View rootView;
+
 
     public ListStoreFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_list_store, container, false);
+        return rootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_list_store, container, false);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         meals = rootView.findViewById(R.id.online_meals);
         meals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -67,11 +68,19 @@ public class ListStoreFragment extends Fragment {
 
         prepareMealData();
 
-        return rootView;
-
     }
 
+    /*public void receiveData(List<Meal> lm){
+        mealList = lm;
+        Log.e("========!!!!!!========",mealList.toString());
+        mAdapter.notifyDataSetChanged();
+
+    }*/
+
     protected void prepareMealData(){
+
+        //Log.e("========mLIST=======",mealList.toString());
+
         String URL = URLProject.getInstance().getMEALS();
 
         JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,

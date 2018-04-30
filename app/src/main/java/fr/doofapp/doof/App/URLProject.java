@@ -5,7 +5,8 @@ public class URLProject  {
 
     private static URLProject uniqueInstance;
 
-    private String DNS = "http://mon-site-en-ligne.fr";
+    //private String DNS = "http://mon-site-en-ligne.fr";
+    private String DNS = "http://163.172.142.75";
 
     private String DNSPORT = DNS + ":4007";
     private String SERVICE_DIR = DNS + "/doofprod";

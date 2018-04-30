@@ -14,18 +14,23 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.List;
+
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.CookFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.NotAuthorizedFragment.NotConnectedFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.NotAuthorizedFragment.NotCookerConnectedFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.ProfileFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.SearchFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreFragment;
+import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
 //TODO PB sur les tabview lors de changement de fragment !!!
-public class BottomActivity extends AppCompatActivity {
+public class BottomActivity extends AppCompatActivity /*implements SearchFragment.SendListMeal*/ {
 
     private UserDAO db;
     private User u;
@@ -51,10 +56,10 @@ public class BottomActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_publier:
                     if(userIsConnected()){
-                        if(u.getRole() == 2){
+                        if(u != null && u.getRole() == 2){
                             fragment = new CookFragment();
                         }else{
-                            fragment = new CookFragment();
+                            fragment = new NotCookerConnectedFragment();
                         }
                     }else{
                         fragment = new NotConnectedFragment();
@@ -76,7 +81,7 @@ public class BottomActivity extends AppCompatActivity {
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.frame_container, fragment, "BOTTOM_FRAGMENT");
         transaction.addToBackStack(fragment.toString());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.commit();
@@ -94,12 +99,16 @@ public class BottomActivity extends AppCompatActivity {
         u = null;
         u = db.getUserConnected();
         db.close();
-        Log.e("azer1ty",u.getUserId());
+        if(u == null){
+            Log.e("=======USER=ID=========","NULL");
+        }else{
+            Log.e("=======USER=ID=========",u.getUserId());
+        }
         if (u != null && u.getConnected() == 1){
-            Log.e("azerty","YES");
+            Log.e("=======USER=CO=========","YES");
             return true;
         }else{
-            Log.e("azerty","NO");
+            Log.e("=======USER=CO=========","NO");
             return false;
         }
     }
@@ -108,6 +117,8 @@ public class BottomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
+
+        db = new UserDAO(getApplicationContext());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -130,7 +141,15 @@ public class BottomActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     break;
                 case R.id.navigation_publier:
-                    fragment = new CookFragment();
+                    if(userIsConnected()){
+                        if(u != null && u.getRole() == 2){
+                            fragment = new CookFragment();
+                        }else{
+                            fragment = new NotCookerConnectedFragment();
+                        }
+                    }else{
+                        fragment = new NotConnectedFragment();
+                    }
                     loadFragment(fragment);
                     break;
                 case R.id.navigation_profil:
@@ -150,4 +169,15 @@ public class BottomActivity extends AppCompatActivity {
         navigation.setSelectedItemId(tab);
 
     }
+
+    /*@Override
+    public void sendListMEal(List<Meal> mealList) {
+        String tag = "BOTTOM_FRAGMENT";
+        String tag2 = "" + R.id.viewpager;
+        ListStoreFragment fl = (ListStoreFragment) getSupportFragmentManager()
+                .findFragmentByTag(tag)
+                .getFragmentManager()
+                .findFragmentById(R.id.viewPagerSearch);
+        fl.receiveData(mealList);
+    }*/
 }
