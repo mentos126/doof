@@ -53,7 +53,7 @@ public class RequestAPI extends com.android.volley.toolbox.StringRequest {
 
         if (headers == null
                 || headers.equals(Collections.emptyMap())) {
-            headers = new HashMap<String, String>();
+            headers = new HashMap</*String, String*/>();
         }
 
         SessionApp.get().addSessionCookie(headers);
