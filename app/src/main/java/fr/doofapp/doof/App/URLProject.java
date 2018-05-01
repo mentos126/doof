@@ -25,6 +25,7 @@ public class URLProject  {
     private String PROFILE_MEALS = SERVICE_DIR + "/profile_meals.json";
     private String MEALS = SERVICE_DIR + "/meals.json";
     private String ONEMEAL = SERVICE_DIR + "/meal.json";
+    private String CALENDARMEALS = SERVICE_DIR + "/calendar.json";
 
     private String PROFILE_UPDATE_ROFILE = "";
 
@@ -45,4 +46,5 @@ public class URLProject  {
     public String getMYPROFILE() {return MYPROFILE;}
     public String getONEMEAL() {return ONEMEAL;}
     public String updatePROFILE() {return UPDATE_PROFILE;}
+    public String getCALENDARMEALS() {return CALENDARMEALS;}
 }

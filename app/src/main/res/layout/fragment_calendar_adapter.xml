@@ -56,6 +56,13 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="11dp" />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_below="@id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_comment"
+                />
 
         </RelativeLayout>
 

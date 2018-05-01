@@ -86,10 +86,10 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback ,
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-       final Intent myIntent = new Intent(getView().getContext(), MealActivity.class);
-       Meal mTemp = (Meal) marker.getTag();
+        final Intent myIntent = new Intent(getView().getContext(), MealActivity.class);
+        Meal mTemp = (Meal) marker.getTag();
         myIntent.putExtra("Meal", (Serializable) mTemp);
-        getActivity().getApplicationContext().startActivity(myIntent);
+        startActivity(myIntent);
     }
 
     @Override
@@ -132,7 +132,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback ,
                                         parseInt(jsonObject.get("price").toString()),
                                         jsonObject.get("title").toString(),
                                         jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString()
+                                        jsonObject.get("date_heure").toString(),
+                                        "description"
                                 );
 
                                 JSONObject LatLng;
@@ -143,36 +144,25 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback ,
                                 final Meal finalMeal = meal;
                                 Volley.newRequestQueue(getActivity().getApplicationContext())
                                         .add(new ImageRequest(meal.getPhoto(), new Response.Listener<Bitmap>() {
-                                    @Override
-                                    public void onResponse(Bitmap bitmap) {
-                                        b = bitmap;
-
-                                        Marker marker = mGoogleMap.addMarker(
-                                                new MarkerOptions()
-                                                        .position(new LatLng(lat,lng))
-                                                        .title(finalMeal.getName())
-                                                        .snippet(finalMeal.getPhoto())
-                                                        .icon(BitmapDescriptorFactory.fromBitmap(b))
-                                                        .anchor(0.5f, 1)
-
-                                        );
-
-                                        marker.setTag(finalMeal);
-
-                                        /*mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                             @Override
-                                            public boolean onMarkerClick(Marker marker) {
-                                                Toast.makeText(getActivity().getApplicationContext(),
-                                                        marker.getTitle(),
-                                                        Toast.LENGTH_LONG).show();
-                                                return false;
+                                            public void onResponse(Bitmap bitmap) {
+                                                b = bitmap;
+
+                                                Marker marker = mGoogleMap.addMarker(
+                                                        new MarkerOptions()
+                                                                .position(new LatLng(lat,lng))
+                                                                .title(finalMeal.getName())
+                                                                .snippet(finalMeal.getDescription()+" "+finalMeal.getDate())
+                                                                .icon(BitmapDescriptorFactory.fromBitmap(b))
+                                                                .anchor(0.5f, 1)
+
+                                                );
+
+                                                marker.setTag(finalMeal);
+
                                             }
-                                        });*/
-
-
-                                    }
-                                    //TODO change size of bitmap
-                                }, 100, 100, null, null));
+                                            //TODO change size of bitmap
+                                        }, 100, 100, null, null));
                                 mealList.add(meal);
                             }
                             //mAdapter.notifyDataSetChanged();

@@ -95,6 +95,8 @@
     <string name="thansk">MERCI !</string>
     <string name="receive_coord">Vous receverez les coordonnées lorsque le chef validera votre commande</string>
     <string name="back_home">Retour à l\'accueil</string>
+    <string name="prompt_comment">Commenter</string>
+    <string name="leave_comment">Laisser un ommentaire</string>
 
 
 </resources>

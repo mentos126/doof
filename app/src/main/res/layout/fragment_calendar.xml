@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment">
 
-    <Button
-        android:id="@+id/bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="test voir profil utilisateur anonyme" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/calendarMeals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="40dp"/>
 
 </FrameLayout>

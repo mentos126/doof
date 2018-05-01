@@ -206,6 +206,7 @@ public class MealActivity extends AppCompatActivity {
     public void doValidateAction(){
         if(nbMeals > 0){
             //TODO send request to save the command and do recapitulatif
+            //TODO sinon allez récapituatif activity et envoyer la liste de plats
             Intent myIntent = new Intent(MealActivity.this, FinalisedMealActivity.class);
             startActivity(myIntent);
         }

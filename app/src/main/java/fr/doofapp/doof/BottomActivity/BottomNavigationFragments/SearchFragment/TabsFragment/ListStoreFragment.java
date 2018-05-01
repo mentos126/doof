@@ -99,7 +99,8 @@ public class ListStoreFragment extends Fragment {
                                         parseInt(jsonObject.get("price").toString()),
                                         jsonObject.get("title").toString(),
                                         jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString()
+                                        jsonObject.get("date_heure").toString(),
+                                        "description"
                                 );
                                 mealList.add(meal);
                             }

@@ -9,13 +9,15 @@ public class Meal implements Serializable {
     private String name;
     private String linkMeal;
     private String date;
+    private String description;
 
-    public Meal(String photo, int price, String name, String linkMeal, String date){
+    public Meal(String photo, int price, String name, String linkMeal, String date, String description){
         this.photo = photo;
         this.price = price;
         this.name = name;
         this.date = date;
         this.linkMeal = linkMeal;
+        this.description = description;
     }
 
     public String getPhoto() {return photo;}
@@ -32,4 +34,7 @@ public class Meal implements Serializable {
 
     public String getDate() {return date;}
     public void setDate(String date) {this.date = date;}
+
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
 }

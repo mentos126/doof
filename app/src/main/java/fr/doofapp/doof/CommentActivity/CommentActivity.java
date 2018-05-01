@@ -1,4 +1,4 @@
-package fr.doofapp.doof.UpdateProfileActivity;
+package fr.doofapp.doof.CommentActivity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -6,59 +6,62 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
-import java.io.File;
-import java.util.regex.Pattern;
-
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
-import fr.doofapp.doof.ClassMetier.Profile;
+import fr.doofapp.doof.ClassMetier.Comment;
+import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
 
-public class UpdateProfilePhotoActivity extends AppCompatActivity {
+public class CommentActivity extends AppCompatActivity {
 
-    private ImageView iv;
+    private ImageView photo_meal;
+    private ImageView photo_comment;
+
+    private TextView prompt_meal_title;
+    private EditText leave_description;
+
     private Button validate;
     private Button searchPhoto;
     private Button takePhoto;
-    private Profile mProfile;
+
+    private Meal mMeal;
     private Bitmap newImg;
+    private Comment newComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_profile_photo);
-        newImg = null;
-        mProfile = (Profile) getIntent().getSerializableExtra("Profile");
+        setContentView(R.layout.activity_comment);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
         }
 
-        iv = (ImageView) findViewById(R.id.prompt_photo);
-        Log.e("=====PHOTO=====",mProfile.getPhoto());
-        new DownLoadImageTask(iv).execute(mProfile.getPhoto());
+        newImg = null;
+        mMeal = (Meal) getIntent().getSerializableExtra("Meal");
 
-        validate = (Button) findViewById(R.id.validate);
-        validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                actionButtonValidate();
-            }
-        });
+        photo_meal = (ImageView) findViewById(R.id.photo_meal);
+        new DownLoadImageTask(photo_meal).execute(mMeal.getPhoto());
+
+        prompt_meal_title = (TextView) findViewById(R.id.prompt_meal_title);
+        prompt_meal_title.setText(mMeal.getName());
+
+        photo_comment = (ImageView) findViewById(R.id.photo_comment);
+
 
         searchPhoto = (Button) findViewById(R.id.search_file);
         searchPhoto.setOnClickListener(new View.OnClickListener() {
@@ -76,13 +79,35 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
             }
         });
 
+        leave_description = (EditText) findViewById(R.id.leave_description);
+        validate = (Button) findViewById(R.id.validate);
+        validate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionButtonValidate();
+            }
+        });
+
     }
+
 
     protected void actionButtonValidate(){
 
         // TODO send bitmap to server to update profile "newImg"
-        Intent myIntent = new Intent(UpdateProfilePhotoActivity.this, BottomActivity.class);
-        myIntent.putExtra("Tab", R.id.navigation_profil);
+        //TODO send request new comment
+
+        newComment = new Comment(
+                /*String descriptif*/ leave_description.getText().toString(),
+                /*String photo*/"send in other request",
+                /*String link*/"",
+                /*String nameUser*/"",
+                /*String photoUser*/"",
+                /*double noteAccueil*/0,
+                /*double noteProprete*/0,
+                /*double noteCuisine*/0,
+                /*double noteTotale*/0);
+
+        Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
         startActivity(myIntent);
 
     }
@@ -109,7 +134,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
         // take photo
         if (requestCode == 0 && resultCode == RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            iv.setImageBitmap(bitmap);
+            photo_comment.setImageBitmap(bitmap);
         }
         //search file
         if (requestCode == 1 && resultCode == RESULT_OK) {
@@ -117,7 +142,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap b = BitmapFactory.decodeFile(filePath ,bmOptions);
             newImg = b;
-            iv.setImageBitmap(b);
+            photo_comment.setImageBitmap(b);
         }
     }
 
@@ -133,4 +158,5 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
             }
         }
     }
+
 }

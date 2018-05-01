@@ -115,7 +115,8 @@ public class ProfileMealsListsFragment extends Fragment {
                                         parseInt(jsonObject.get("note_totale").toString()),
                                         jsonObject.get("name_user").toString(),
                                         "link",
-                                        "date"
+                                        "date",
+                                        "description"
                                 );
                                 onlineMealList.add(meal);
                             }
@@ -132,7 +133,8 @@ public class ProfileMealsListsFragment extends Fragment {
                                         parseInt(jsonObject.get("note_totale").toString()),
                                         jsonObject.get("name_user").toString(),
                                         "link",
-                                        "date"
+                                        "date",
+                                        "description"
                                 );
                                 lastMealList.add(meal);
                             }
