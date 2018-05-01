@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,8 +99,10 @@ public class RecapitulativeActivity extends AppCompatActivity {
         //TODO send request for update data
         //TODO update gere les ticket !!!
 
-
         Intent myIntent = new Intent(RecapitulativeActivity.this, FinaliseActivity.class);
+        myIntent.putStringArrayListExtra("Allergens", (ArrayList<String>) allergens);
+        myIntent.putExtra("Prices", (Serializable) prices);
+        myIntent.putExtra("Meals", (Serializable) meals);
         startActivity(myIntent);
     }
 

@@ -68,7 +68,12 @@
         <activity android:name=".CommandActivity.FinalisedActivity" />
         <activity android:name=".CommandActivity.RecapitulativeActivity" />
         <activity android:name=".CommentActivity.CommentActivity" />
-        <activity android:name=".CommandActivity.FinaliseActivity"></activity>
+        <activity android:name=".CommandActivity.FinaliseActivity" />
+        <activity android:name=".TutorialActivity.Step1TutorialActivity" />
+        <activity android:name=".TutorialActivity.Step2TutorialActivity" />
+        <activity android:name=".TutorialActivity.Step3TutorialActivity" />
+        <activity android:name=".TutorialActivity.Step4TutorialActivity" />
+        <activity android:name=".TutorialActivity.Step5TutorialActivity"></activity>
     </application>
 
 </manifest>

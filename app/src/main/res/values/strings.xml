@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">doof</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- LOGIN ACTIVITY -->
     <string name="prompt_email">E-mail</string>
     <string name="prompt_password">Mot de passe</string>
@@ -89,22 +92,29 @@
     <!-- NOT CONNECTED COOKER -->
     <string name="not_connected_cooker">Vous n\'etes pas encore DOOFER COOKER veuillez vous enregistré</string>
 
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- FINALISED ACTIVITY -->
     <string name="thansk">MERCI !</string>
     <string name="receive_coord">Vous receverez les coordonnées lorsque le chef validera votre commande</string>
     <string name="back_home">Retour à l\'accueil</string>
+
+    <!-- COMMENT ATIVITY -->
     <string name="prompt_comment">Commenter</string>
     <string name="leave_comment">Laisser un ommentaire</string>
     <string name="note_cleanless">Note de propreté</string>
     <string name="prompt_note_cook">Note de cuisine</string>
     <string name="prompt_note_home">Note d\'accueil</string>
+
+    <!-- RECAPITULTIVE ACTIVITY  -->
     <string name="prompt_command_hour">Commander pour:</string>
     <string name="prompt_title_allergen">Information allergies</string>
     <string name="prompt_button_map">Afficher sur la carte</string>
     <string name="prompt_finalise_command">Finaliser la commande</string>
+
+    <!-- FINALISE ACTIVITY -->
     <string name="prompt_modify">modifier</string>
+    <string name="one_choice">Un seul choix</string>
+    <string name="no_choice">Faites un choix</string>
+    <string name="no_enouth_tiket">Pas assez de tiket veuillez payer par CB ou PayPal</string>
     <string name="prompt_button_payment_info">Ajouter les informations de paiement</string>
     <string name="prompt_or">OU</string>
     <string name="prompt_system_payment">Système d\'échange</string>
@@ -117,6 +127,16 @@
     <string name="prompt_button_validate_command">Passer la commande</string>
     <string name="prompt_title_payment">paiement</string>
     <string name="prompt_add_payment">Ajouter un moyen de paiement</string>
+    <string name="step1_title">1- Quand souhaitez-vous proposer votre plat?</string>
+    <string name="recurence">Récurence 1 fois</string>
+    <string name="button_forward"><![CDATA[<]]></string>
+    <string name="button_next"><![CDATA[>]]></string>
+    <string name="step_1_5">1/5</string>
+    <string name="add_new_adress">Ajouter une nouvelle adresse</string>
+    <string name="step2_title">2- A quelle adresse je cuisien?</string>
+    <string name="step2_adress">1 rue aristide Olivier 34000 Montpellier</string>
+    <string name="step_2_5">2/5</string>
+    <string name="step3_title">3- Mon plat</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package fr.doofapp.doof.CommandActivity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +9,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.R;
+import fr.doofapp.doof.TutorialActivity.Step1TutorialActivity;
 
 public class FinaliseActivity extends AppCompatActivity {
 
@@ -40,11 +48,23 @@ public class FinaliseActivity extends AppCompatActivity {
     private LinearLayout rel_use_tickets;
     private LinearLayout rel_add_system_payment;
 
+    int nbTikets =0;
+    int price = -1;
+    String moyenPaiement="";
+    Boolean isMoyenPayment = false;
+    Boolean isSystemChange = false;
+    List<Meal> meals = new ArrayList<>();
+    List<Integer> prices = new ArrayList<>();
+    List<String> allergens = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finalise);
+
+        meals = (List<Meal>) getIntent().getSerializableExtra("Meals");
+        prices = (List<Integer>) getIntent().getSerializableExtra("Prices");
+        allergens = (List<String>) getIntent().getSerializableExtra("Allergens");
 
         /***************************************/
 
@@ -104,6 +124,12 @@ public class FinaliseActivity extends AppCompatActivity {
         /*****************************************/
 
         prompt_nbtikets = (TextView) findViewById(R.id.prompt_nbtikets);
+        price = 0;
+        for (int i : prices){
+            price += i;
+        }
+        String s = price+" tickets";
+        prompt_nbtikets.setText(s);
 
         validate = (Button) findViewById(R.id.validate);
         validate.setOnClickListener(new View.OnClickListener() {
@@ -129,11 +155,72 @@ public class FinaliseActivity extends AppCompatActivity {
 
     }
 
-    protected void getUserData(){}
-    protected void onActionModifyPayment(){}
-    protected void onActionRegisterCaution(){}
-    protected void onActionTutorial(){}
-    protected void onActionValidate(){}
-    protected void onActionPayment(){}
+    protected void getUserData(){
+        //TODO request: getNbTikets, getMoyenPaiement,
+        nbTikets = 48;
+        moyenPaiement = "CB";
+        isMoyenPayment = false;
+        isSystemChange = true;
+
+        String s;
+        if(isMoyenPayment){
+            rel_use_payment.setVisibility(View.VISIBLE);
+            s = moyenPaiement + "1 ticket = 1 €";
+            prompt_payment.setText(s);
+        }else{
+            rel_add_payment.setVisibility(View.VISIBLE);
+        }
+
+        if(isSystemChange){
+            rel_use_tickets.setVisibility(View.VISIBLE);
+            s = getResources().getString(R.string.prompt_sold) +nbTikets;
+            prompt_sold.setText(s);
+        }else{
+            rel_add_system_payment.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    protected void onActionValidate(){
+        if(checkBox_not_tickets.isChecked() && checkBox_tickets.isChecked()){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.one_choice),Toast.LENGTH_LONG).show();
+        }else if(!checkBox_not_tickets.isChecked() && !checkBox_tickets.isChecked()){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_choice),Toast.LENGTH_LONG).show();
+        }else if(checkBox_tickets.isChecked()){
+            if(nbTikets >= price){
+                //TODO request Tiket
+                Intent myIntent = new Intent(FinaliseActivity.this, FinalisedActivity.class);
+                startActivity(myIntent);
+            }else{
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_enouth_tiket),Toast.LENGTH_LONG).show();
+            }
+        }else{
+            //TODO request CB
+            Intent myIntent = new Intent(FinaliseActivity.this, FinalisedActivity.class);
+            startActivity(myIntent);
+        }
+
+    }
+
+    protected void onActionModifyPayment(){
+        //TODO
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+    }
+
+    protected void onActionRegisterCaution(){
+        //TODO
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+    }
+
+    protected void onActionTutorial(){
+        //TODO
+        Intent myIntent = new Intent(FinaliseActivity.this, Step1TutorialActivity.class);
+        startActivity(myIntent);
+    }
+
+    protected void onActionPayment(){
+        //TODO
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+    }
 
 }
