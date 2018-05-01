@@ -1,11 +1,8 @@
-package fr.doofapp.doof.MealActivity;
+package fr.doofapp.doof.CommandActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,30 +19,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
-import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
 
-public class MealActivity extends AppCompatActivity {
+public class CommandMealActivity extends AppCompatActivity {
 
     ImageView photo, star1, star2, star3, star4, star5, meal_photo;
     TextView name, note_totale, price, meal_title, meal_description,
             how_many, date, heure, adress, if_contenant;
     Button minus, plus, validate;
 
-    private int nbMeals;
+    //TODO change par list<pair<meal,integer>>
+    // passer une liste de plat
     private Meal meal;
+    private int nbMeals;
+
+    private List<String> allergens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
+
+        allergens = new ArrayList<>();
 
         meal = (Meal) getIntent().getSerializableExtra("Meal");
         Log.e("=============",meal.getLinkMeal());
@@ -205,9 +209,24 @@ public class MealActivity extends AppCompatActivity {
 
     public void doValidateAction(){
         if(nbMeals > 0){
-            //TODO send request to save the command and do recapitulatif
-            //TODO sinon allez récapituatif activity et envoyer la liste de plats
-            Intent myIntent = new Intent(MealActivity.this, FinalisedMealActivity.class);
+            //TODO Comment géré les allergenes ??
+            Intent myIntent = new Intent(CommandMealActivity.this, RecapitulativeActivity.class);
+
+            List<Meal> meals = new ArrayList<>();
+            meals.add(meal);
+            myIntent.putExtra("Meals", (Serializable) meals);
+
+            List<Integer> prices = new ArrayList<>();
+            prices.add(nbMeals);
+            myIntent.putExtra("Prices", (Serializable) prices);
+
+            //TODO add allergenes dans Meal
+            for (Meal i : meals) {
+                if (!allergens.contains(i.getDescription())){
+                    allergens.add(i.getDescription());
+                }
+            }
+            myIntent.putStringArrayListExtra("Allergens", (ArrayList<String>) allergens);
             startActivity(myIntent);
         }
     }

@@ -62,12 +62,13 @@
 
         <activity android:name=".ProfileActivity.ProfileActivity" />
         <activity
-            android:name=".MealActivity.MealActivity"
+            android:name=".CommandActivity.CommandMealActivity"
             android:label="@string/title_activity_meal"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MealActivity.FinalisedMealActivity" />
-        <activity android:name=".MealActivity.RecapitulativeActivity" />
-        <activity android:name=".CommentActivity.CommentActivity"></activity>
+        <activity android:name=".CommandActivity.FinalisedActivity" />
+        <activity android:name=".CommandActivity.RecapitulativeActivity" />
+        <activity android:name=".CommentActivity.CommentActivity" />
+        <activity android:name=".CommandActivity.FinaliseActivity"></activity>
     </application>
 
 </manifest>

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,7 +38,7 @@ import java.util.List;
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.ClassMetier.Meal;
-import fr.doofapp.doof.MealActivity.MealActivity;
+import fr.doofapp.doof.CommandActivity.CommandMealActivity;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
@@ -86,7 +85,7 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback ,
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        final Intent myIntent = new Intent(getView().getContext(), MealActivity.class);
+        final Intent myIntent = new Intent(getView().getContext(), CommandMealActivity.class);
         Meal mTemp = (Meal) marker.getTag();
         myIntent.putExtra("Meal", (Serializable) mTemp);
         startActivity(myIntent);

@@ -100,6 +100,23 @@
     <string name="note_cleanless">Note de propreté</string>
     <string name="prompt_note_cook">Note de cuisine</string>
     <string name="prompt_note_home">Note d\'accueil</string>
+    <string name="prompt_command_hour">Commander pour:</string>
+    <string name="prompt_title_allergen">Information allergies</string>
+    <string name="prompt_button_map">Afficher sur la carte</string>
+    <string name="prompt_finalise_command">Finaliser la commande</string>
+    <string name="prompt_modify">modifier</string>
+    <string name="prompt_button_payment_info">Ajouter les informations de paiement</string>
+    <string name="prompt_or">OU</string>
+    <string name="prompt_system_payment">Système d\'échange</string>
+    <string name="prompt_limit_payment">Limite : - 50 tickets</string>
+    <string name="prompt_sold">Mon solde:</string>
+    <string name="prompt_integrate_system">Intégrer le système d\'échange</string>
+    <string name="prompt_button_register_caution">Enregistrer ma caution (non encaissé)</string>
+    <string name="prompt_button_tutorial">Comment marche le système d\'échange ?</string>
+    <string name="prompt_total">Total</string>
+    <string name="prompt_button_validate_command">Passer la commande</string>
+    <string name="prompt_title_payment">paiement</string>
+    <string name="prompt_add_payment">Ajouter un moyen de paiement</string>
 
 
 </resources>

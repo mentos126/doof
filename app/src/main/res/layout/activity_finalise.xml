@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommandActivity.FinaliseActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/rel_use_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/prompt_title_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/prompt_title_payment" />
+
+                    <Button
+                        android:id="@+id/payment_modify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/prompt_modify" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkBox_not_tickets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/img_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/dialog_holo_light_frame"/>
+
+                    <TextView
+                        android:id="@+id/prompt_payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rel_add_payment"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/prompt_title_not_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/prompt_add_payment" />
+
+                <Button
+                    android:id="@+id/button_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="@string/prompt_button_payment_info"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="@string/prompt_or" />
+
+            <LinearLayout
+                android:id="@+id/rel_use_tickets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/prompt_system_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/prompt_system_payment" />
+
+                    <TextView
+                        android:id="@+id/prompt_limit_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/prompt_limit_payment" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkBox_tickets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/prompt_sold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/prompt_sold" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rel_add_system_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/prompt_integrate_system"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/prompt_integrate_system" />
+
+                <Button
+                    android:id="@+id/button_register_caution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="@string/prompt_button_register_caution"/>
+
+                <Button
+                    android:id="@+id/button_tutorial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="@string/prompt_button_tutorial"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:text="@string/prompt_total" />
+
+                    <TextView
+                        android:id="@+id/prompt_nbtikets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/validate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="@string/prompt_button_validate_command"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

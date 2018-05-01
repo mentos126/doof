@@ -2,8 +2,6 @@ package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -21,10 +18,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import fr.doofapp.doof.ClassMetier.Meal;
-import fr.doofapp.doof.MealActivity.MealActivity;
-import fr.doofapp.doof.ProfileActivity.ProfileActivity;
+import fr.doofapp.doof.CommandActivity.CommandMealActivity;
 import fr.doofapp.doof.R;
-import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
 
 public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStoreMealAdapterFragment.MyViewHolder> {
     private Context context;
@@ -76,7 +71,7 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
             @Override
             public void onClick(View view) {
                 Log.e("==========CLICK========","CLICK");
-                final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
+                final Intent myIntent = new Intent(view.getContext(), CommandMealActivity.class);
                 myIntent.putExtra("Meal", (Serializable) mTemp);
                 context.startActivity(myIntent);
             }

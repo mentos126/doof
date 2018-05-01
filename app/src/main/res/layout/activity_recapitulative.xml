@@ -4,6 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MealActivity.RecapitulativeActivity">
+    tools:context=".CommandActivity.RecapitulativeActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_command_hour"/>
+
+                <TextView
+                    android:id="@+id/date_hoour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_title_allergen"/>
+
+            <TextView
+                android:id="@+id/prompt_allergen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/prompt_adress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/go_to_maps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_button_map"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/prompt_all_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/prompt_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/validate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_finalise_command"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

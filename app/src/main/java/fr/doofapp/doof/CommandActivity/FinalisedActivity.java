@@ -1,4 +1,4 @@
-package fr.doofapp.doof.MealActivity;
+package fr.doofapp.doof.CommandActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.R;
 
-public class FinalisedMealActivity extends Activity {
+public class FinalisedActivity extends Activity {
 
     private Button bt;
 
@@ -22,7 +22,7 @@ public class FinalisedMealActivity extends Activity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(FinalisedMealActivity.this, BottomActivity.class);
+                Intent myIntent = new Intent(FinalisedActivity.this, BottomActivity.class);
                 startActivity(myIntent);
             }
         });
