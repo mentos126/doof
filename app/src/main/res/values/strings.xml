@@ -97,6 +97,9 @@
     <string name="back_home">Retour à l\'accueil</string>
     <string name="prompt_comment">Commenter</string>
     <string name="leave_comment">Laisser un ommentaire</string>
+    <string name="note_cleanless">Note de propreté</string>
+    <string name="prompt_note_cook">Note de cuisine</string>
+    <string name="prompt_note_home">Note d\'accueil</string>
 
 
 </resources>

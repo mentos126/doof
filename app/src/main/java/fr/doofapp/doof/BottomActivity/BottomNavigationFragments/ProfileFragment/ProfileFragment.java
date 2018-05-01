@@ -220,9 +220,15 @@ public class ProfileFragment extends Fragment {
         s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
         note_proprete.setText(s);
 
+        Log.e("=======ViewAdap=====","=======SetupViewAdap=====");
+
+
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        viewPager.setVisibility(View.VISIBLE);
+
+        //viewPager.notifySubtreeAccessibilityStateChanged();
         //viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
 
         tabLayout = (TabLayout) getView().findViewById(R.id.tabs);
@@ -264,6 +270,7 @@ public class ProfileFragment extends Fragment {
         @Override
         public int getCount() {
             return mFragmentList.size();
+
         }
 
         public void addFragment(Fragment fragment, String title) {

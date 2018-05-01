@@ -42,6 +42,22 @@ public class CommentActivity extends AppCompatActivity {
     private Bitmap newImg;
     private Comment newComment;
 
+
+    /*********/
+
+    ImageView home_star1, home_star2, home_star3, home_star4, home_star5;
+    ImageView cook_star1, cook_star2, cook_star3, cook_star4, cook_star5;
+    ImageView cleanless_star1, cleanless_star2, cleanless_star3, cleanless_star4, cleanless_star5;
+
+    TextView tNoteHome, tNoteCook, tNoteCleanless;
+
+    /*********/
+
+
+    private int note_home = 5;
+    private int note_cook = 5;
+    private int note_cleanless = 5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +66,157 @@ public class CommentActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
         }
+
+        home_star1 = (ImageView) findViewById(R.id.home_star1);
+        home_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_home = 1;
+                actionOnHomeStars(note_home);
+            }
+        });
+
+        home_star2 = (ImageView) findViewById(R.id.home_star2);
+        home_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_home = 2;
+                actionOnHomeStars(note_home);
+
+            }
+        });
+
+        home_star3 = (ImageView) findViewById(R.id.home_star3);
+        home_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_home = 3;
+                actionOnHomeStars(note_home);
+
+            }
+        });
+
+        home_star4 = (ImageView) findViewById(R.id.home_star4);
+        home_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_home = 4;
+                actionOnHomeStars(note_home);
+
+            }
+        });
+
+        home_star5 = (ImageView) findViewById(R.id.home_star5);
+        home_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_home = 5;
+                actionOnHomeStars(note_home);
+
+            }
+        });
+
+        cook_star1 = (ImageView) findViewById(R.id.cook_star1);
+        cook_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cook = 1;
+                actionOnCookStars(note_cook);
+            }
+        });
+
+        cook_star2 = (ImageView) findViewById(R.id.cook_star2);
+        cook_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cook = 2;
+                actionOnCookStars(note_cook);
+            }
+        });
+
+        cook_star3 = (ImageView) findViewById(R.id.cook_star3);
+        cook_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cook = 3;
+                actionOnCookStars(note_cook);
+            }
+        });
+
+        cook_star4 = (ImageView) findViewById(R.id.cook_star4);
+        cook_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cook = 4;
+                actionOnCookStars(note_cook);
+            }
+        });
+
+        cook_star5 = (ImageView) findViewById(R.id.cook_star5);
+        cook_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cook = 5;
+                actionOnCookStars(note_cook);
+            }
+        });
+
+        cleanless_star1 = (ImageView) findViewById(R.id.cleanless_star1);
+        cleanless_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cleanless = 1;
+                actionOnCleanlessStars(note_cleanless);
+            }
+        });
+
+        cleanless_star2 = (ImageView) findViewById(R.id.cleanless_star2);
+        cleanless_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cleanless = 2;
+                actionOnCleanlessStars(note_cleanless);
+            }
+        });
+
+        cleanless_star3 = (ImageView) findViewById(R.id.cleanless_star3);
+        cleanless_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cleanless = 3;
+                actionOnCleanlessStars(note_cleanless);
+            }
+        });
+
+        cleanless_star4 = (ImageView) findViewById(R.id.cleanless_star4);
+        cleanless_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cleanless = 4;
+                actionOnCleanlessStars(note_cleanless);
+            }
+        });
+
+        cleanless_star5 = (ImageView) findViewById(R.id.cleanless_star5);
+        cleanless_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                note_cleanless = 5;
+                actionOnCleanlessStars(note_cleanless);
+
+            }
+        });
+
+        String s;
+        tNoteHome = (TextView) findViewById(R.id.note_home);
+        s = note_home + "/5 ";
+        tNoteHome.setText(s);
+        tNoteCook = (TextView) findViewById(R.id.note_cook);
+        s = note_cook + "/5 ";
+        tNoteCook.setText(s);
+        tNoteCleanless = (TextView) findViewById(R.id.note_cleanless);
+        s = note_cleanless + "/5 ";
+        tNoteCleanless.setText(s);
 
         newImg = null;
         mMeal = (Meal) getIntent().getSerializableExtra("Meal");
@@ -91,6 +258,81 @@ public class CommentActivity extends AppCompatActivity {
     }
 
 
+    protected void actionOnHomeStars(int res){
+        home_star5.setImageResource(R.drawable.ic_excel_box);
+        home_star4.setImageResource(R.drawable.ic_excel_box);
+        home_star3.setImageResource(R.drawable.ic_excel_box);
+        home_star2.setImageResource(R.drawable.ic_excel_box);
+        home_star1.setImageResource(R.drawable.ic_excel_box);
+        if(res < 5) {
+            home_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            if(res < 4) {
+                home_star4.setImageResource(R.drawable.ic_home_black_24dp);
+                if(res < 3) {
+                    home_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                    if(res < 2) {
+                        home_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        if(res < 1) {
+                            home_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                        }
+                    }
+                }
+            }
+        }
+        String s = res + "/5 ";
+        tNoteHome.setText(s);
+    }
+
+    protected void actionOnCookStars(int res){
+        cook_star5.setImageResource(R.drawable.ic_excel_box);
+        cook_star4.setImageResource(R.drawable.ic_excel_box);
+        cook_star3.setImageResource(R.drawable.ic_excel_box);
+        cook_star2.setImageResource(R.drawable.ic_excel_box);
+        cook_star1.setImageResource(R.drawable.ic_excel_box);
+        if(res < 5) {
+            cook_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            if(res < 4) {
+                cook_star4.setImageResource(R.drawable.ic_home_black_24dp);
+                if(res < 3) {
+                    cook_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                    if(res < 2) {
+                        cook_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        if(res < 1) {
+                            cook_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                        }
+                    }
+                }
+            }
+        }
+        String s = res + "/5 ";
+        tNoteCook.setText(s);
+    }
+
+    protected void actionOnCleanlessStars(int res){
+        cleanless_star5.setImageResource(R.drawable.ic_excel_box);
+        cleanless_star4.setImageResource(R.drawable.ic_excel_box);
+        cleanless_star3.setImageResource(R.drawable.ic_excel_box);
+        cleanless_star2.setImageResource(R.drawable.ic_excel_box);
+        cleanless_star1.setImageResource(R.drawable.ic_excel_box);
+        if(res < 5) {
+            cleanless_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            if(res < 4) {
+                cleanless_star4.setImageResource(R.drawable.ic_home_black_24dp);
+                if(res < 3) {
+                    cleanless_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                    if(res < 2) {
+                        cleanless_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        if(res < 1) {
+                            cleanless_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                        }
+                    }
+                }
+            }
+        }
+        String s = res + "/5 ";
+        tNoteCleanless.setText(s);
+    }
+
     protected void actionButtonValidate(){
 
         // TODO send bitmap to server to update profile "newImg"
@@ -102,9 +344,9 @@ public class CommentActivity extends AppCompatActivity {
                 /*String link*/"",
                 /*String nameUser*/"",
                 /*String photoUser*/"",
-                /*double noteAccueil*/0,
-                /*double noteProprete*/0,
-                /*double noteCuisine*/0,
+                /*double noteAccueil*/note_home,
+                /*double noteProprete*/note_cleanless,
+                /*double noteCuisine*/note_cook,
                 /*double noteTotale*/0);
 
         Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
