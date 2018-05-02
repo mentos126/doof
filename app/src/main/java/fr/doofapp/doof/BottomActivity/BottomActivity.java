@@ -56,11 +56,12 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     return true;
                 case R.id.navigation_publier:
                     if(userIsConnected()){
-                        if(u != null && u.getRole() == 2){
+                        fragment = new CookFragment();
+                        /*if(u != null && u.getRole() == 2){
                             fragment = new CookFragment();
                         }else{
                             fragment = new NotCookerConnectedFragment();
-                        }
+                        }*/
                     }else{
                         fragment = new NotConnectedFragment();
                     }
@@ -142,11 +143,12 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     break;
                 case R.id.navigation_publier:
                     if(userIsConnected()){
-                        if(u != null && u.getRole() == 2){
+                        fragment = new CookFragment();
+                        /*if(u != null && u.getRole() == 2){
                             fragment = new CookFragment();
                         }else{
                             fragment = new NotCookerConnectedFragment();
-                        }
+                        }*/
                     }else{
                         fragment = new NotConnectedFragment();
                     }

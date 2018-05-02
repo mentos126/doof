@@ -23,6 +23,7 @@ import java.util.List;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommentActivity.CommentActivity;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
+import fr.doofapp.doof.MealActivity.MealActivity;
 import fr.doofapp.doof.R;
 
 public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapterFragment.MyViewHolder> {
@@ -95,7 +96,7 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
             @Override
             public void onClick(View view) {
                 Log.e("==========CLICK========","CLICK");
-                final Intent myIntent = new Intent(view.getContext(), CommandMealActivity.class);
+                final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
                 myIntent.putExtra("Meal", (Serializable) mTemp);
                 context.startActivity(myIntent);
             }

@@ -1,11 +1,8 @@
-package fr.doofapp.doof.CommandActivity;
+package fr.doofapp.doof.MealActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +15,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,30 +26,24 @@ import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
 
-public class CommandMealActivity extends AppCompatActivity {
+public class MealActivity extends AppCompatActivity {
 
     ImageView photo, star1, star2, star3, star4, star5, meal_photo;
     TextView name, note_totale, price, meal_title, meal_description,
-            how_many, date, heure, adress, if_contenant;
-    Button minus, plus, validate;
+             date, heure, adress, if_contenant;
 
-    //TODO change par list<pair<meal,integer>>
-    // passer une liste de plat
     private Meal meal;
-    private int nbMeals;
-
     private List<String> allergens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_command_meal);
+        setContentView(R.layout.activity_meal);
 
         allergens = new ArrayList<>();
 
         meal = (Meal) getIntent().getSerializableExtra("Meal");
         Log.e("=============",meal.getLinkMeal());
-        nbMeals = 0;
 
         photo = (ImageView) findViewById(R.id.prompt_photo);
         star1 = (ImageView) findViewById(R.id.star1);
@@ -68,39 +58,13 @@ public class CommandMealActivity extends AppCompatActivity {
         price = (TextView) findViewById(R.id.prompt_price);
         meal_title = (TextView) findViewById(R.id.prompt_meal_title );
         meal_description = (TextView) findViewById(R.id.prompt_meal_description);
-        how_many = (TextView) findViewById(R.id.prompt_how_many);
         date = (TextView) findViewById(R.id.prompt_date);
         heure = (TextView) findViewById(R.id.prompt_heure);
         adress = (TextView) findViewById(R.id.prompt_adress);
         if_contenant = (TextView) findViewById(R.id.prompt_if_contenant);
 
-        minus = (Button) findViewById(R.id.minus);
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doMinusAction();
-            }
-        });
-
-        plus = (Button) findViewById(R.id.plus);
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doPlusAction();
-            }
-        });
-
-        validate = (Button) findViewById(R.id.validate);
-        validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doValidateAction();
-            }
-        });
-
-        String s = nbMeals+"";
-        how_many.setText(s);
         getMealWeb();
+
     }
 
     public void getMealWeb(){
@@ -183,52 +147,6 @@ public class CommandMealActivity extends AppCompatActivity {
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
 
-
-
-    }
-
-    public void doMinusAction(){
-        if (nbMeals <= 0){
-            nbMeals = 0;
-        }else{
-            nbMeals--;
-        }
-        String s = nbMeals+"";
-        how_many.setText(s);
-    }
-
-    public void doPlusAction(){
-        if (nbMeals <= 0){
-            nbMeals = 1;
-        }else{
-            nbMeals++;
-        }
-        String s = nbMeals+"";
-        how_many.setText(s);
-    }
-
-    public void doValidateAction(){
-        if(nbMeals > 0){
-            //TODO Comment géré les allergenes ??
-            Intent myIntent = new Intent(CommandMealActivity.this, RecapitulativeActivity.class);
-
-            List<Meal> meals = new ArrayList<>();
-            meals.add(meal);
-            myIntent.putExtra("Meals", (Serializable) meals);
-
-            List<Integer> prices = new ArrayList<>();
-            prices.add(nbMeals);
-            myIntent.putExtra("Prices", (Serializable) prices);
-
-            //TODO add allergenes dans Meal
-            for (Meal i : meals) {
-                if (!allergens.contains(i.getDescription())){
-                    allergens.add(i.getDescription());
-                }
-            }
-            myIntent.putStringArrayListExtra("Allergens", (ArrayList<String>) allergens);
-            startActivity(myIntent);
-        }
     }
 
 }

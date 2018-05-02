@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.doofapp.doof.ClassMetier.Meal;
-import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.R;
-import fr.doofapp.doof.TutorialActivity.Step1TutorialActivity;
+import fr.doofapp.doof.TutorialChangeActivity.TutorialChangeActivity;
 
 public class FinaliseActivity extends AppCompatActivity {
 
@@ -51,11 +50,20 @@ public class FinaliseActivity extends AppCompatActivity {
     int nbTikets =0;
     int price = -1;
     String moyenPaiement="";
-    Boolean isMoyenPayment = false;
-    Boolean isSystemChange = false;
+    Boolean isMoyenPayment;
+    Boolean isSystemChange;
     List<Meal> meals = new ArrayList<>();
     List<Integer> prices = new ArrayList<>();
     List<String> allergens = new ArrayList<>();
+
+    /*@Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putBoolean("Ms", true);
+        savedInstanceState.putSerializable("Meals",meals);
+        savedInstanceState.putIntArray("Prices", prices);
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +168,7 @@ public class FinaliseActivity extends AppCompatActivity {
         nbTikets = 48;
         moyenPaiement = "CB";
         isMoyenPayment = false;
-        isSystemChange = true;
+        isSystemChange = false;
 
         String s;
         if(isMoyenPayment){
@@ -214,7 +222,7 @@ public class FinaliseActivity extends AppCompatActivity {
 
     protected void onActionTutorial(){
         //TODO
-        Intent myIntent = new Intent(FinaliseActivity.this, Step1TutorialActivity.class);
+        Intent myIntent = new Intent(FinaliseActivity.this, TutorialChangeActivity.class);
         startActivity(myIntent);
     }
 

@@ -127,16 +127,39 @@
     <string name="prompt_button_validate_command">Passer la commande</string>
     <string name="prompt_title_payment">paiement</string>
     <string name="prompt_add_payment">Ajouter un moyen de paiement</string>
+
     <string name="step1_title">1- Quand souhaitez-vous proposer votre plat?</string>
     <string name="recurence">Récurence 1 fois</string>
-    <string name="button_forward"><![CDATA[<]]></string>
-    <string name="button_next"><![CDATA[>]]></string>
+    <string name="button_forward"><![CDATA[<]]> Retour</string>
+    <string name="button_next">Suivant <![CDATA[>]]></string>
     <string name="step_1_5">1/5</string>
     <string name="add_new_adress">Ajouter une nouvelle adresse</string>
     <string name="step2_title">2- A quelle adresse je cuisien?</string>
     <string name="step2_adress">1 rue aristide Olivier 34000 Montpellier</string>
     <string name="step_2_5">2/5</string>
     <string name="step3_title">3- Mon plat</string>
+    <string name="step1_tutorial_description">Je suis pour des Doofers en échange de \" Tickets Doof \"</string>
+    <string name="step1_tutorial_example">Exemple:</string>
+    <string name="step1_tutorial_example1"><![CDATA[-> Je propose la part à 10 tickets]]></string>
+    <string name="step1_tutorial_example2"><![CDATA[-> On me commande 7 parts]]></string>
+    <string name="step1_tutorial_example3"><![CDATA[-> Je reçois 70 tickets]]></string>
+    <string name="close">X</string>
+    <string name="step2_tutorial_description">Jepeux commander des plats grâce à mes \"Tickets Doof\"</string>
+    <string name="step2_tutorial_example1">Quand je n\'ai pas le temps ou l\'envie de cuisiner, il me suffit de commander !</string>
+    <string name="step3_title_tutorial_description">Si je n\'ai pas de Ticket, je peux quand même commander !</string>
+    <string name="step3_tutorial_example0">Mon solde: 0 ticket</string>
+    <string name="step3_tutorial_example1"><![CDATA[-> Je commande un plat à 8 tickets]]></string>
+    <string name="step3_tutorial_example2"><![CDATA[-> Mon solde -8 tickets]]></string>
+    <string name="step3_tutorial_example3"><![CDATA[-> Il me suffira de proposer un plat prochainement !]]></string>
+    <string name="step4_tutorial_title">Ce que je gagne:</string>
+    <string name="step4_tutorial_example0">Je gagne du temps, en cuisinan une fois je peux commander de nombreux plats !</string>
+    <string name="step4_tutorial_example1">Je symphatise avec mes voisins</string>
+    <string name="step4_tutorial_example2">Je ne gaspille plus d\'argent à manger dehors ou en livraison</string>
+    <string name="step4_tutorial_example3">Je mange de bon plats fraichement cuisinés tous les jours</string>
+    <string name="step5_tutorial_description">C\'est gratuit</string>
+    <string name="step5_tutorial_example">Il suffit juste d\'enregistrer une caution (non encaissée) pour éviter que des petits malins commandent des plats sans jamais cuisiner en retour :)</string>
+    <string name="prompt_understand">J\'ai compris !</string>
+    <string name="skip">passer</string>
 
 
 </resources>
