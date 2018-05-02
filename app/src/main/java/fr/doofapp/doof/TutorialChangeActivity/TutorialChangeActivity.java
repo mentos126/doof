@@ -45,11 +45,11 @@ public class TutorialChangeActivity extends AppCompatActivity {
 
 
         layouts = new int[]{
-                R.layout.fragment_step1_tutorial_change,
-                R.layout.fragment_step2_tutorial_change,
-                R.layout.fragment_step3_tutorial_change,
-                R.layout.fragment_step4_tutorial_change,
-                R.layout.fragment_step5_tutorial_change};
+                R.layout.fragment_tutorial_change_step1,
+                R.layout.fragment_tutorial_change_step2,
+                R.layout.fragment_tutorial_change_step3,
+                R.layout.fragment_tutorial_change_step4,
+                R.layout.fragment_tutorial_change_step5};
 
         addBottomDots(0);
         changeStatusBarColor();

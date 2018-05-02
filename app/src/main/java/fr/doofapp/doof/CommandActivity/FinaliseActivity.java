@@ -167,7 +167,7 @@ public class FinaliseActivity extends AppCompatActivity {
         //TODO request: getNbTikets, getMoyenPaiement,
         nbTikets = 48;
         moyenPaiement = "CB";
-        isMoyenPayment = false;
+        isMoyenPayment = true;
         isSystemChange = false;
 
         String s;

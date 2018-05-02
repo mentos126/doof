@@ -160,6 +160,22 @@
     <string name="step5_tutorial_example">Il suffit juste d\'enregistrer une caution (non encaissée) pour éviter que des petits malins commandent des plats sans jamais cuisiner en retour :)</string>
     <string name="prompt_understand">J\'ai compris !</string>
     <string name="skip">passer</string>
+    <string name="prompt_date">DD/MM</string>
+    <string name="prompt_hour">Créneau horaire</string>
+    <string name="prompt_step1_title">1- Quand souhaitez vous proposer votre plat ?</string>
+    <string name="prompt_step2_title">2- A quelle adresse je cuisine ?</string>
+    <string name="prompt_add_new_adress">Ajouter une nouvelle adresse</string>
+    <string name="prompt_step3_title">3- Mon plat</string>
+    <string name="prompt_name_meal">Nom du plat</string>
+    <string name="prompt_description_meal">Description de mon plat</string>
+    <string name="prompt_add_photo">Ajouter une photo</string>
+    <string name="prompt_nb_portion">Quantité de part maximum</string>
+    <string name="prompt_price">Montant</string>
+    <string name="step_3_5">3/5</string>
+    <string name="prompt_step5_title">5- Récapitulatif</string>
+    <string name="step_5_5">5/5</string>
+    <string name="prompt_conteneur">Conteneur</string>
+    <string name="prompt_error_fild">Veuillez inscrire tous les champs</string>
 
 
 </resources>
