@@ -168,7 +168,6 @@
     <string name="prompt_step3_title">3- Mon plat</string>
     <string name="prompt_name_meal">Nom du plat</string>
     <string name="prompt_description_meal">Description de mon plat</string>
-    <string name="prompt_add_photo">Ajouter une photo</string>
     <string name="prompt_nb_portion">Quantité de part maximum</string>
     <string name="prompt_price">Montant</string>
     <string name="step_3_5">3/5</string>
@@ -176,6 +175,11 @@
     <string name="step_5_5">5/5</string>
     <string name="prompt_conteneur">Conteneur</string>
     <string name="prompt_error_fild">Veuillez inscrire tous les champs</string>
+    <string name="prompt_select_adress">Veuillez selecteionné une adresse</string>
+    <string name="prompt_select_prompt_only_one">Veuillez selectionné une seule adresse</string>
+    <string name="prompt_edit_all">Veuillez renseigné tous les champs</string>
+    <string name="prompt_portion">Indiquer le nombre de portion</string>
+    <string name="prompt_add_photo">Ajouter une photo</string>
 
 
 </resources>
