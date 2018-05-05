@@ -106,17 +106,18 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         }
 
         text = (TextView) mView.findViewById(R.id.text);
+        text.setText("40.689247, -74.44502");
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if(isFirstTime){
+                //if(isFirstTime){
                     CameraPosition cam = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(15).build();
                     mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
-                    text.setText("\n "+location.getLatitude() + " "+location.getLongitude());
-                    isFirstTime = false;
-                }
+                    text.append("\n "+location.getLatitude() + ", "+location.getLongitude());
+                    //isFirstTime = false;
+                //}
             }
 
             @Override
@@ -144,6 +145,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
                         Manifest.permission.INTERNET
                 },10);
                 return;
+            }else{
+                configureSettingsLocation();
             }
         }else{
             configureSettingsLocation();
@@ -154,15 +157,13 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")
     private void configureSettingsLocation() {
-        Log.e("======CONf=======","=========CONF====");
-        locationManager.requestLocationUpdates("gps", 2000, 0, locationListener);
+        locationManager.requestLocationUpdates("gps", 2000, 2, locationListener);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
         switch (requestCode){
             case 10:
-                Log.e("=======CONFIGURE=====","=======MSG====");
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     configureSettingsLocation();
                 }

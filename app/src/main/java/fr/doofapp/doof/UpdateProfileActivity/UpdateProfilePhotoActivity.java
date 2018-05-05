@@ -51,11 +51,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
                     ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                     ) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1001);
-            }else{
-               Toast.makeText(this,"check",Toast.LENGTH_LONG).show();
             }
-        }else{
-            Toast.makeText(this,"SDK",Toast.LENGTH_LONG).show();
         }
 
         iv = (ImageView) findViewById(R.id.prompt_photo);

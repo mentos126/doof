@@ -1,14 +1,20 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.StepsCookFragment;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,13 +68,17 @@ public class Step3CookFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1001);
+            }
+        }
+
         date = bundle.get("Date").toString();
         time = bundle.get("Time").toString();
         adress = bundle.get("Adress").toString();
-
-        Log.e("======DATE=====",date);
-        Log.e("======TIME=====",time);
-        Log.e("======Adress=====",adress);
 
         name = (EditText) rootView.findViewById(R.id.name);
         description = (EditText) rootView.findViewById(R.id.description);
@@ -177,6 +187,7 @@ public class Step3CookFragment extends Fragment {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+                        //TODO change step 4
                         Step5CookFragment step5CookFragment = new Step5CookFragment();
                         step5CookFragment.setArguments(bundle);
                         Log.e("====COMMIT====","=======COMIT====");
@@ -227,7 +238,6 @@ public class Step3CookFragment extends Fragment {
         }
         //search file
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            Log.e("=====SEARCH=====","======SEACHR===");
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap b = BitmapFactory.decodeFile(filePath ,bmOptions);
@@ -236,5 +246,18 @@ public class Step3CookFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1001:{
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //Toast.makeText(getActivity(), "Permission granted!", Toast.LENGTH_SHORT).show();
+                }else{
+                    //Toast.makeText(getActivity(), "Permission not granted!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
 }

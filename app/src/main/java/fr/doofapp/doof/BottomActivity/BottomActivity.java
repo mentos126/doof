@@ -26,6 +26,7 @@ import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.T
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
+import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
@@ -123,6 +124,11 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        if(isConnected()){
+            Intent intent = new Intent(BottomActivity.this, IsConnectedActivity.class);
+            startActivity(intent);
+        }
 
         Fragment fragment;
         int tab;
