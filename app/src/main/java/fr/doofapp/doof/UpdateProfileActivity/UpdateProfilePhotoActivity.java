@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,12 +46,19 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
         newImg = null;
         mProfile = (Profile) getIntent().getSerializableExtra("Profile");
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1001);
+            }else{
+               Toast.makeText(this,"check",Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(this,"SDK",Toast.LENGTH_LONG).show();
         }
 
         iv = (ImageView) findViewById(R.id.prompt_photo);
-        Log.e("=====PHOTO=====",mProfile.getPhoto());
         new DownLoadImageTask(iv).execute(mProfile.getPhoto());
 
         validate = (Button) findViewById(R.id.validate);
@@ -92,33 +101,36 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withRequestCode(1)
                 //.withFilter(Pattern.compile(".*\\.jpg$")) // Filtering files and directories by file name using regexp
-                .withFilterDirectories(false) // Set directories filterable (false by default)
-                .withHiddenFiles(false) // Show hidden files and folders
+                .withFilterDirectories(false)
+                .withHiddenFiles(false)
                 .start();
     }
 
     protected void actionButtonTakePhoto(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent,0);
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap b = null;
         // take photo
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            iv.setImageBitmap(bitmap);
+            b = (Bitmap) data.getExtras().get("data");
+            iv.setImageBitmap(b);
         }
         //search file
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap b = BitmapFactory.decodeFile(filePath ,bmOptions);
-            newImg = b;
+            b = BitmapFactory.decodeFile(filePath ,bmOptions);
             iv.setImageBitmap(b);
         }
+        newImg = b;
     }
 
     @Override
@@ -130,6 +142,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(this, "Permission not granted!", Toast.LENGTH_SHORT).show();
                 }
+                return;
             }
         }
     }
