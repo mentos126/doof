@@ -40,6 +40,7 @@ import static java.lang.Integer.parseInt;
 
 public class SearchFragment extends Fragment {
 
+    View rootView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private List<Meal> mealList = new ArrayList<>();
@@ -59,37 +60,23 @@ public class SearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        rootView =  inflater.inflate(R.layout.fragment_search, container, false);
 
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewPager = (ViewPager) getView().findViewById(R.id.viewPagerSearch);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewPagerSearch);
         setupViewPager(viewPager);
-        tabLayout = (TabLayout) getView().findViewById(R.id.tabsSearch);
+        tabLayout = (TabLayout) rootView.findViewById(R.id.tabsSearch);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();
-        // prepareMealData();
 
+        return rootView;
     }
 
-    /*public interface SendListMeal{
-        void sendListMEal(List<Meal> mealList);
-    }
+    /*@Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-        try {
-            SM = (SendListMeal) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Error in retrieving data. Please try again");
-        }
     }*/
-
 
     @Override
     public void onDestroy() {
@@ -107,45 +94,6 @@ public class SearchFragment extends Fragment {
         adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_list));
         viewPager.setAdapter(adapter);
     }
-
-   /* protected void prepareMealData(){
-        String URL = URLProject.getInstance().getMEALS();
-
-        JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.e("=========MEALS========", response.toString());
-                        try {
-                            Meal meal;
-                            int countObject = response.length();
-                            for(int i=0 ; i<countObject; i++){
-                                JSONObject jsonObject;
-                                jsonObject = response.getJSONObject(i);
-                                meal = new Meal(
-                                        jsonObject.get("photo_meal").toString(),
-                                        parseInt(jsonObject.get("price").toString()),
-                                        jsonObject.get("title").toString(),
-                                        jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString()
-                                );
-                                mealList.add(meal);
-                            }
-                            //SM.sendListMEal(mealList);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
-                    }
-                });
-
-        AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
-    }*/
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

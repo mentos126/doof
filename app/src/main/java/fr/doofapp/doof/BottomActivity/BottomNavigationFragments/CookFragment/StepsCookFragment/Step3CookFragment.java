@@ -20,14 +20,20 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.ListMealCache;
 import fr.doofapp.doof.R;
 
 import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION_CODES.O;
+
 
 public class Step3CookFragment extends Fragment {
     View rootView;
@@ -40,6 +46,7 @@ public class Step3CookFragment extends Fragment {
     Button takePhoto;
     Button searchPhoto;
     CheckBox contain;
+    Button previous;
 
     int price;
     int nbPortion;
@@ -106,6 +113,26 @@ public class Step3CookFragment extends Fragment {
             }
         });
 
+        previous = (Button) rootView.findViewById(R.id.previous);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("Date", date);
+                bundle.putString("Time", time);
+                bundle.putString("Adress", adress);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                Step2CookFragment step2CookFragment = new Step2CookFragment();
+                step2CookFragment.setArguments(bundle);
+
+                fragmentTransaction.replace(R.id.frame_cook_container, step2CookFragment);
+                fragmentTransaction.commit();
+            }
+        });
+
         next = (Button) rootView.findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,26 +150,39 @@ public class Step3CookFragment extends Fragment {
                         byte[] byteArray = stream.toByteArray();
 
                         Bundle bundle = new Bundle();
+
+                        ListMealCache meals = ListMealCache.getInstance();
+
                         bundle.putString("Date", date);
                         bundle.putString("Time", time);
                         bundle.putString("Adress", adress);
-                        bundle.putString("Title", title);
-                        bundle.putString("Description", desc);
-                        bundle.putByteArray("Photo",byteArray);
-                        bundle.putInt("NbPoriotn", nbPortion);
-                        bundle.putInt("Price", price);
+                        bundle.putString("MainTitle", title);
+                        bundle.putString("MainDescription", desc);
+                        bundle.putInt("MainNbPoriotn", nbPortion);
+                        bundle.putInt("MAinPrice", price);
                         bundle.putBoolean("IsContainer",ct);
+
+                        meals.setMainPhoto(newPhoto);
+                        List<String> titles = new ArrayList<>();
+                        meals.setTitles(titles);
+                        List<String> descriptions = new ArrayList<>();
+                        meals.setDescriptions(descriptions);
+                        List<byte []> photos = new ArrayList<>();
+                        meals.setPhotos(photos);
+                        List<Integer> nbPortions = new ArrayList<>();
+                        meals.setNbPortions(nbPortions);
+                        List<Integer> prices = new ArrayList<>();
+                        meals.setPrices(prices);
 
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         Step5CookFragment step5CookFragment = new Step5CookFragment();
                         step5CookFragment.setArguments(bundle);
-
                         Log.e("====COMMIT====","=======COMIT====");
-
                         fragmentTransaction.replace(R.id.frame_cook_container, step5CookFragment);
                         fragmentTransaction.commit();
+
                     }else{
                         Toast.makeText(getActivity(), R.string.prompt_add_photo,Toast.LENGTH_LONG).show();
                     }

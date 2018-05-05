@@ -23,6 +23,7 @@ public class Step2CookFragment extends Fragment {
 
     View rootView;
     Button next;
+    Button previous;
     String date;
     String time;
     String adress;
@@ -40,9 +41,6 @@ public class Step2CookFragment extends Fragment {
 
         date = bundle.get("Date").toString();
         time = bundle.get("Time").toString();
-
-        Log.e("======DATE======",date);
-        Log.e("======TIME======",time);
 
         checkAdress  = (CheckBox) rootView.findViewById(R.id.check_adress);
         rel = (LinearLayout) rootView.findViewById(R.id.rel);
@@ -79,6 +77,26 @@ public class Step2CookFragment extends Fragment {
                 }
             }
         });
+
+        previous = (Button) rootView.findViewById(R.id.previous);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("Date", date);
+                bundle.putString("Time", time);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                Step1CookFragment step1CookFragment = new Step1CookFragment();
+                step1CookFragment.setArguments(bundle);
+
+                fragmentTransaction.replace(R.id.frame_cook_container, step1CookFragment);
+                fragmentTransaction.commit();
+            }
+        });
+
 
         next = (Button) rootView.findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +144,6 @@ public class Step2CookFragment extends Fragment {
 
             }
         });
-        
 
         return rootView;
     }

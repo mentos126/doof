@@ -24,6 +24,8 @@ public class Step1CookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         rootView =  inflater.inflate(R.layout.fragment_cook_step1, container, false);
 
+        //TODO get information of user "adresses"
+
         time = (EditText) rootView.findViewById(R.id.time);
         date = (EditText) rootView.findViewById(R.id.date);
         next = (Button) rootView.findViewById(R.id.next);

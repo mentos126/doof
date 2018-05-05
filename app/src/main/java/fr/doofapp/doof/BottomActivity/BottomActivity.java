@@ -172,14 +172,4 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
 
     }
 
-    /*@Override
-    public void sendListMEal(List<Meal> mealList) {
-        String tag = "BOTTOM_FRAGMENT";
-        String tag2 = "" + R.id.viewpager;
-        ListStoreFragment fl = (ListStoreFragment) getSupportFragmentManager()
-                .findFragmentByTag(tag)
-                .getFragmentManager()
-                .findFragmentById(R.id.viewPagerSearch);
-        fl.receiveData(mealList);
-    }*/
 }

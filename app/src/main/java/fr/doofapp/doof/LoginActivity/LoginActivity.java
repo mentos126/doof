@@ -63,7 +63,6 @@ import org.json.JSONObject;
 import static android.Manifest.permission.READ_CONTACTS;
 import static java.lang.Integer.parseInt;
 
-//////////////////////////////////////////////////////////
 import java.util.List;
 
 import org.apache.http.client.CookieStore;
