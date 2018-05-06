@@ -9,18 +9,18 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,6 +29,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -39,6 +40,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +64,7 @@ import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
+
 public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener {
 
@@ -65,16 +72,10 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     MapView mMapView;
     View mView;
     List<Meal> mealList = new ArrayList<>();
-    double latitude = 0;
-    double longitude = 0;
     Bitmap b;
 
-    Boolean isFirstTime;
-
-    TextView text;
     LocationManager locationManager;
     LocationListener locationListener;
-
 
     public MapsStoreFragment() {
     }
@@ -96,8 +97,6 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        isFirstTime = true;
-
         mMapView = (MapView) mView.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
@@ -105,19 +104,13 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
             mMapView.getMapAsync((OnMapReadyCallback) this);
         }
 
-        text = (TextView) mView.findViewById(R.id.text);
-        text.setText("40.689247, -74.44502");
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                //if(isFirstTime){
-                    CameraPosition cam = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(15).build();
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
-                    text.append("\n "+location.getLatitude() + ", "+location.getLongitude());
-                    //isFirstTime = false;
-                //}
+                CameraPosition cam = CameraPosition.builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(14).build();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
             }
 
             @Override
@@ -137,20 +130,24 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
             }
         };
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+
+
+
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.INTERNET
-                },10);
+                }, 10);
                 return;
-            }else{
+            } else {
                 configureSettingsLocation();
             }
-        }else{
+        } else {
             configureSettingsLocation();
-        }
+        }*/
 
 
     }
@@ -166,6 +163,15 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
             case 10:
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     configureSettingsLocation();
+                }
+                return;
+            case 15:
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    String locationProvider = LocationManager.NETWORK_PROVIDER;
+                    @SuppressLint("MissingPermission")
+                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+                    CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
                 }
                 return;
         }
@@ -186,10 +192,25 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         //TODO get POSITION
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247,-74.44502)).build();
+        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(43.632344,3.844843)).zoom(14).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
 
         mGoogleMap.setOnInfoWindowClickListener(this);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            }, 15);
+            return;
+        }else{
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
+            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
+        }
 
         prepareMealData();
 
@@ -264,7 +285,6 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
 
         AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
     }
-
 
 }
 

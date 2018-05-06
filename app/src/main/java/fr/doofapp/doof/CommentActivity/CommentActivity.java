@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,10 +65,13 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1001);
+            }
         }
-
         home_star1 = (ImageView) findViewById(R.id.home_star1);
         home_star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,22 +340,29 @@ public class CommentActivity extends AppCompatActivity {
 
     protected void actionButtonValidate(){
 
-        // TODO send bitmap to server to update profile "newImg"
-        //TODO send request new comment
+        if(!leave_description.getText().toString().equals("")){
+            if(photo_comment != null){
+                // TODO send bitmap to server to update profile "newImg"
+                //TODO send request new comment
+                newComment = new Comment(
+                        /*String descriptif*/ leave_description.getText().toString(),
+                        /*String photo*/"send in other request",
+                        /*String link*/"",
+                        /*String nameUser*/"",
+                        /*String photoUser*/"",
+                        /*double noteAccueil*/note_home,
+                        /*double noteProprete*/note_cleanless,
+                        /*double noteCuisine*/note_cook,
+                        /*double noteTotale*/0);
 
-        newComment = new Comment(
-                /*String descriptif*/ leave_description.getText().toString(),
-                /*String photo*/"send in other request",
-                /*String link*/"",
-                /*String nameUser*/"",
-                /*String photoUser*/"",
-                /*double noteAccueil*/note_home,
-                /*double noteProprete*/note_cleanless,
-                /*double noteCuisine*/note_cook,
-                /*double noteTotale*/0);
-
-        Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
-        startActivity(myIntent);
+                Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
+                startActivity(myIntent);
+            }else{
+                Toast.makeText(this, R.string.toast_prompt_take_photo,Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(this, R.string.prompt_write_com,Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -373,26 +385,28 @@ public class CommentActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap b = null;
+
         // take photo
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            photo_comment.setImageBitmap(bitmap);
+            b = (Bitmap) data.getExtras().get("data");
+            photo_comment.setImageBitmap(b);
         }
         //search file
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap b = BitmapFactory.decodeFile(filePath ,bmOptions);
-            newImg = b;
+            b = BitmapFactory.decodeFile(filePath ,bmOptions);
             photo_comment.setImageBitmap(b);
         }
+        newImg = b;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
             case 1001:{
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(this, "Permission not granted!", Toast.LENGTH_SHORT).show();

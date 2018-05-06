@@ -43,5 +43,6 @@ dependencies {
     // FILE PICKER
     implementation 'com.nbsp:library:1.8'
 
+    implementation 'com.google.android.gms:play-services-location:7.+'
 
 }

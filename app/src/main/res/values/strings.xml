@@ -183,6 +183,14 @@
     <string name="prompt_step1_date">Date:</string>
     <string name="prompt_step1_time">Heure:</string>
     <string name="prompt_step1_duration">Pendant:</string>
+    <string name="toast_prompt_take_photo">Prendre une photo</string>
+    <string name="prompt_write_com">Ecriver un commentaire</string>
+    <string name="prompt_resest_password">Réinitialiser mot de passe</string>
+    <string name="prompt_error_email">Adresses non valide</string>
+    <string name="prompt_error_password">Mot de pass non identique ou inférieur à 8 caractère</string>
+    <string name="prompt_error_adress">Renseigner adresse</string>
+    <string name="prompt_error_firstname">Renseigner votre prénom</string>
+    <string name="prompt_error_familyname">Renseigné votre nom</string>
 
 
 </resources>
