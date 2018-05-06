@@ -33,22 +33,22 @@ public class Step5CookFragment extends Fragment {
     String date, time, adress, mainTitle, mainDescription;
     int mainNbPortion, mainPrice;
     Boolean contain;
-    byte[] mainPhoto;
+    Bitmap mainPhoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cook_step5, container, false);
 
-        Bundle bundle = getArguments();
-        date = bundle.get("Date").toString();
-        time = bundle.get("Time").toString();
-        adress = bundle.get("Adress").toString();
-        mainTitle = bundle.get("MainTitle").toString();
-        mainDescription = bundle.get("MainDescription").toString();
-        mainPhoto = bundle.getByteArray("MainPhoto");
-        mainNbPortion =  bundle.getInt("MainNbPoriotn");
-        mainPrice = bundle.getInt("MAinPrice");
-        contain = bundle.getBoolean("IsContainer");
+        date = ListMealCache.getDate();
+        time = ListMealCache.getTime();
+        adress = ListMealCache.getAdress();
+        contain = ListMealCache.getIsContain();
+
+        mainTitle = ListMealCache.getTitles().get(0);
+        mainDescription = ListMealCache.getDescriptions().get(0);
+        mainPhoto = ListMealCache.getPhotos().get(0);
+        mainNbPortion =  ListMealCache.getNbPortions().get(0);
+        mainPrice = ListMealCache.getPrices().get(0);
 
         prompt_adress = (TextView) rootView.findViewById(R.id.prompt_adress);
         prompt_adress.setText(adress);
@@ -70,9 +70,8 @@ public class Step5CookFragment extends Fragment {
         }
         prompt_contenant.setText(s);
 
-        Bitmap b = ListMealCache.getInstance().getMainPhoto();
         prompt_meal_photo =(ImageView) rootView.findViewById(R.id.prompt_meal_photo);
-        prompt_meal_photo.setImageBitmap(b);
+        prompt_meal_photo.setImageBitmap(mainPhoto);
 
         modify = (Button) rootView.findViewById(R.id.modify);
         modify.setOnClickListener(new View.OnClickListener() {

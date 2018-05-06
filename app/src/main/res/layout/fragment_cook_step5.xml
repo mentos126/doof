@@ -10,7 +10,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40dp">
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="45dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -63,7 +65,7 @@
                         android:id="@+id/im1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@android:drawable/dialog_holo_light_frame"/>
+                        android:src="@android:drawable/ic_media_ff"/>
 
                     <TextView
                         android:id="@+id/prompt_date"
@@ -83,7 +85,7 @@
                         android:id="@+id/im2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@android:drawable/dialog_holo_light_frame"/>
+                        android:src="@android:drawable/ic_media_ff"/>
 
                     <TextView
                         android:id="@+id/prompt_time"
@@ -103,7 +105,7 @@
                         android:id="@+id/im3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@android:drawable/dialog_holo_light_frame"/>
+                        android:src="@android:drawable/ic_media_ff"/>
 
                     <TextView
                         android:id="@+id/prompt_adress"
@@ -123,7 +125,7 @@
                         android:id="@+id/im4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@android:drawable/dialog_holo_light_frame"/>
+                        android:src="@android:drawable/ic_media_ff"/>
 
                     <TextView
                         android:id="@+id/prompt_contenant"

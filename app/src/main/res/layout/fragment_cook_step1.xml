@@ -35,7 +35,40 @@
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_step1_title" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_step1_date" />
+
+                <DatePicker
+                    android:id="@+id/date_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_step1_time" />
+
+                <TimePicker
+                    android:id="@+id/time_picker_begin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_step1_duration" />
+
+                <NumberPicker
+                    android:id="@+id/time_picker_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!--<EditText
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/prompt_hour"
-                    android:inputType="time" />
+                    android:inputType="time" />-->
 
             </LinearLayout>
 
@@ -69,12 +102,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/step_1_5" />
-
-            <!-- <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" /> -->
 
             <Button
                 android:id="@+id/next"

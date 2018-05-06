@@ -180,6 +180,9 @@
     <string name="prompt_edit_all">Veuillez renseigné tous les champs</string>
     <string name="prompt_portion">Indiquer le nombre de portion</string>
     <string name="prompt_add_photo">Ajouter une photo</string>
+    <string name="prompt_step1_date">Date:</string>
+    <string name="prompt_step1_time">Heure:</string>
+    <string name="prompt_step1_duration">Pendant:</string>
 
 
 </resources>

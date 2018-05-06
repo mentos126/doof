@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -67,16 +68,8 @@ public class SearchFragment extends Fragment {
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabsSearch);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();
-
         return rootView;
     }
-
-    /*@Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-    }*/
 
     @Override
     public void onDestroy() {
@@ -89,7 +82,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new MapsStoreFragment(), getResources().getString(R.string.prompt_tab_map));
         adapter.addFragment(new ListStoreFragment(), getResources().getString(R.string.prompt_tab_list));
         viewPager.setAdapter(adapter);

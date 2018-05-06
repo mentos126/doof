@@ -1,8 +1,6 @@
 package fr.doofapp.doof.ClassMetier;
 
 import android.graphics.Bitmap;
-
-import java.io.Serializable;
 import java.util.List;
 
 public class ListMealCache /*implements Serializable*/ {
@@ -17,30 +15,60 @@ public class ListMealCache /*implements Serializable*/ {
         return INSTANCE;
     }
 
+    private static String date;
+    private static String time;
+    private static String adress;
+    /*private static String mainDescription;
+    private static String mainTitle;
+    private static Integer mainNbPortion;
+    private static Integer mainPrice;
+    private static Bitmap mainPhoto;*/
+    private static List<Bitmap> photos;
+    private static List<String> descriptions;
+    private static List<String> titles;
+    private static List<Integer> nbPortions;
+    private static List<Integer> prices;
+    private static Boolean isContain;
 
-    static Bitmap mainPhoto;
-    static List<byte[] > photos;
-    static List<String> descriptions;
-    static List<String> titles;
-    static List<Integer> nbPortions;
-    static List<Integer> prices;
+    public static String getDate() {return date;}
+    public static void setDate(String date) {ListMealCache.date = date;}
+
+    public static String getTime() {return time;}
+    public static void setTime(String time) {ListMealCache.time = time;}
+
+    public static String getAdress() {return adress;}
+    public static void setAdress(String adress) {ListMealCache.adress = adress;}
+
+    /*public static String getMainDescription() {return mainDescription;}
+    public static void setMainDescription(String mainDescription) {ListMealCache.mainDescription = mainDescription;}
+
+    public static String getMainTitle() {return mainTitle;}
+    public static void setMainTitle(String mainTitle) {ListMealCache.mainTitle = mainTitle;}
+
+    public static Integer getMainNbPortion() {return mainNbPortion;}
+    public static void setMainNbPortion(Integer mainNbPortion) {ListMealCache.mainNbPortion = mainNbPortion;}
+
+    public static Integer getMainPrice() {return mainPrice;}
+    public static void setMainPrice(Integer mainPrice) {ListMealCache.mainPrice = mainPrice;}
 
     public Bitmap getMainPhoto(){return mainPhoto;}
-    public void setMainPhoto(Bitmap mainPhoto){this.mainPhoto=mainPhoto;}
+    public static void setMainPhoto(Bitmap mainPhoto){ListMealCache.mainPhoto =mainPhoto;}*/
 
-    public List<byte[] > getPhotos(){return photos;}
-    public void setPhotos(List<byte[] > photos){this.photos=photos;}
+    public static List<Bitmap> getPhotos(){return photos;}
+    public static void setPhotos(List<Bitmap> photos){ListMealCache.photos =photos;}
 
-    public List<String> getDescriptions(){return descriptions;}
-    public void setDescriptions(List<String> descriptions){this.descriptions=descriptions;}
+    public static List<String> getDescriptions(){return descriptions;}
+    public static void setDescriptions(List<String> descriptions){ListMealCache.descriptions =descriptions;}
 
-    public List<String> getTitles(){return titles;}
-    public void setTitles(List<String> titles){this.titles=titles;}
+    public static List<String> getTitles(){return titles;}
+    public static void setTitles(List<String> titles){ListMealCache.titles =titles;}
 
-    public List<Integer> getNbPortions(){return nbPortions;}
-    public void setNbPortions(List<Integer> nbPortions){this.nbPortions=nbPortions;}
+    public static List<Integer> getNbPortions(){return nbPortions;}
+    public static void setNbPortions(List<Integer> nbPortions){ListMealCache.nbPortions =nbPortions;}
 
-    public List<Integer> getPrices(){return prices;}
-    public void setPrices(List<Integer> prices){this.prices=prices;}
+    public static List<Integer> getPrices(){return prices;}
+    public static void setPrices(List<Integer> prices){ListMealCache.prices =prices;}
 
+    public static Boolean getIsContain() {return isContain;}
+    public static void setIsContain(Boolean isContain) {ListMealCache.isContain = isContain;}
 }

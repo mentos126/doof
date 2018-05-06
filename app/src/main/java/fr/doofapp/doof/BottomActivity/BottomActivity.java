@@ -89,12 +89,12 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
         transaction.commit();
     }
 
-    public boolean isConnected() {
+    /*public boolean isConnected() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-    }
+    }*/
 
     protected Boolean userIsConnected() {
         db.open();
@@ -125,10 +125,10 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if(isConnected()){
+        /*if(isConnected()){
             Intent intent = new Intent(BottomActivity.this, IsConnectedActivity.class);
             startActivity(intent);
-        }
+        }*/
 
         Fragment fragment;
         int tab;

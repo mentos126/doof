@@ -226,11 +226,6 @@ public class ProfileFragment extends Fragment {
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        viewPager.setVisibility(View.VISIBLE);
-
-        //viewPager.notifySubtreeAccessibilityStateChanged();
-        //viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
-
         tabLayout = (TabLayout) getView().findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();
@@ -248,7 +243,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
         adapter.addFragment(new ProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
         viewPager.setAdapter(adapter);

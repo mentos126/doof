@@ -221,7 +221,6 @@ public class FinaliseActivity extends AppCompatActivity {
     }
 
     protected void onActionTutorial(){
-        //TODO
         Intent myIntent = new Intent(FinaliseActivity.this, TutorialChangeActivity.class);
         startActivity(myIntent);
     }

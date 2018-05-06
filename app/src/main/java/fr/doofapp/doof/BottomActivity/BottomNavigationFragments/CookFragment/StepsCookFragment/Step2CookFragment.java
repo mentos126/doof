@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import fr.doofapp.doof.ClassMetier.ListMealCache;
 import fr.doofapp.doof.R;
 
 
@@ -24,8 +25,6 @@ public class Step2CookFragment extends Fragment {
     View rootView;
     Button next;
     Button previous;
-    String date;
-    String time;
     String adress;
     CheckBox checkAdress;
     CheckBox checkNewAdress;
@@ -37,13 +36,12 @@ public class Step2CookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cook_step2, container, false);
 
-        Bundle bundle = getArguments();
-
-        date = bundle.get("Date").toString();
-        time = bundle.get("Time").toString();
+        adress = ListMealCache.getAdress();
 
         checkAdress  = (CheckBox) rootView.findViewById(R.id.check_adress);
+        checkAdress.setText(adress);
         rel = (LinearLayout) rootView.findViewById(R.id.rel);
+
         checkNewAdress = (CheckBox) rootView.findViewById(R.id.check_new_dress);
 
         new_adress = (EditText) rootView.findViewById(R.id.new_adress);
@@ -82,16 +80,11 @@ public class Step2CookFragment extends Fragment {
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("Date", date);
-                bundle.putString("Time", time);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 Step1CookFragment step1CookFragment = new Step1CookFragment();
-                step1CookFragment.setArguments(bundle);
-
                 fragmentTransaction.replace(R.id.frame_cook_container, step1CookFragment);
                 fragmentTransaction.commit();
             }
@@ -109,34 +102,22 @@ public class Step2CookFragment extends Fragment {
                     Toast.makeText(getActivity(), R.string.prompt_select_prompt_only_one,Toast.LENGTH_LONG).show();
                 }else if(checkAdress.isChecked()){
                     adress = checkAdress.getText().toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Date", date);
-                    bundle.putString("Time", time);
-                    bundle.putString("Adress",adress);
+                    ListMealCache.setAdress(adress);
 
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     Step3CookFragment step3CookFragment = new Step3CookFragment();
-                    step3CookFragment.setArguments(bundle);
-
-                    Log.e("====COMMIT====","=======COMIT====");
                     fragmentTransaction.replace(R.id.frame_cook_container, step3CookFragment);
                     fragmentTransaction.commit();
                 }else{
                     adress = checkNewAdress.getText().toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Date", date);
-                    bundle.putString("Time", time);
-                    bundle.putString("Adress",adress);
+                    ListMealCache.setAdress(adress);
 
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     Step3CookFragment step3CookFragment = new Step3CookFragment();
-                    step3CookFragment.setArguments(bundle);
-
-                    Log.e("====COMMIT====","=======COMIT====");
                     fragmentTransaction.replace(R.id.frame_cook_container, step3CookFragment);
                     fragmentTransaction.commit();
                 }

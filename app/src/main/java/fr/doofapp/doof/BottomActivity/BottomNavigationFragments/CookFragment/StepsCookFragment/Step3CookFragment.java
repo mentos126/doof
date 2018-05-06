@@ -66,8 +66,6 @@ public class Step3CookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cook_step3, container, false);
 
-        Bundle bundle = getArguments();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
@@ -76,9 +74,6 @@ public class Step3CookFragment extends Fragment {
             }
         }
 
-        date = bundle.get("Date").toString();
-        time = bundle.get("Time").toString();
-        adress = bundle.get("Adress").toString();
 
         name = (EditText) rootView.findViewById(R.id.name);
         description = (EditText) rootView.findViewById(R.id.description);
@@ -127,17 +122,11 @@ public class Step3CookFragment extends Fragment {
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("Date", date);
-                bundle.putString("Time", time);
-                bundle.putString("Adress", adress);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 Step2CookFragment step2CookFragment = new Step2CookFragment();
-                step2CookFragment.setArguments(bundle);
-
                 fragmentTransaction.replace(R.id.frame_cook_container, step2CookFragment);
                 fragmentTransaction.commit();
             }
@@ -155,42 +144,34 @@ public class Step3CookFragment extends Fragment {
                     if(newPhoto != null){
                         Boolean ct = contain.isChecked();
 
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        /*ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         newPhoto.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
+                        byte[] byteArray = stream.toByteArray();*/
 
-                        Bundle bundle = new Bundle();
+                        List<String> titles = ListMealCache.getTitles();
+                        List<String> descriptions = ListMealCache.getDescriptions();
+                        List<Bitmap> photos = ListMealCache.getPhotos();
+                        List<Integer> nbPortions = ListMealCache.getNbPortions();
+                        List<Integer> prices = ListMealCache.getPrices();
 
-                        ListMealCache meals = ListMealCache.getInstance();
+                        titles.add(title);
+                        descriptions.add(desc);
+                        photos.add(newPhoto);
+                        nbPortions.add(nbPortion);
+                        prices.add(price);
+                        ListMealCache.setIsContain(ct);
 
-                        bundle.putString("Date", date);
-                        bundle.putString("Time", time);
-                        bundle.putString("Adress", adress);
-                        bundle.putString("MainTitle", title);
-                        bundle.putString("MainDescription", desc);
-                        bundle.putInt("MainNbPoriotn", nbPortion);
-                        bundle.putInt("MAinPrice", price);
-                        bundle.putBoolean("IsContainer",ct);
-
-                        meals.setMainPhoto(newPhoto);
-                        List<String> titles = new ArrayList<>();
-                        meals.setTitles(titles);
-                        List<String> descriptions = new ArrayList<>();
-                        meals.setDescriptions(descriptions);
-                        List<byte []> photos = new ArrayList<>();
-                        meals.setPhotos(photos);
-                        List<Integer> nbPortions = new ArrayList<>();
-                        meals.setNbPortions(nbPortions);
-                        List<Integer> prices = new ArrayList<>();
-                        meals.setPrices(prices);
+                        ListMealCache.setTitles(titles);
+                        ListMealCache.setDescriptions(descriptions);
+                        ListMealCache.setPhotos(photos);
+                        ListMealCache.setNbPortions(nbPortions);
+                        ListMealCache.setPrices(prices);
 
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         //TODO change step 4
                         Step5CookFragment step5CookFragment = new Step5CookFragment();
-                        step5CookFragment.setArguments(bundle);
-                        Log.e("====COMMIT====","=======COMIT====");
                         fragmentTransaction.replace(R.id.frame_cook_container, step5CookFragment);
                         fragmentTransaction.commit();
 
@@ -198,10 +179,10 @@ public class Step3CookFragment extends Fragment {
                         Toast.makeText(getActivity(), R.string.prompt_add_photo,Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    if(!desc.equals("") && !title.equals("")){
-                        Toast.makeText(getActivity(),getResources().getString(R.string.prompt_edit_all),Toast.LENGTH_LONG).show();
-                    }else{
+                    if(nbPortion <= 0){
                         Toast.makeText(getActivity(), R.string.prompt_portion,Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getActivity(),getResources().getString(R.string.prompt_edit_all),Toast.LENGTH_LONG).show();
                     }
                 }
 
