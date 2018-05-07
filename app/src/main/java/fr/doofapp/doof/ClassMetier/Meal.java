@@ -1,5 +1,7 @@
 package fr.doofapp.doof.ClassMetier;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 
 public class Meal implements Serializable {
@@ -10,14 +12,18 @@ public class Meal implements Serializable {
     private String linkMeal;
     private String date;
     private String description;
+    private String adress;
+    private LatLng latlng;
 
-    public Meal(String photo, int price, String name, String linkMeal, String date, String description){
+    public Meal(String photo, int price, String name, String linkMeal, String date, String description, String adress, LatLng latlng){
         this.photo = photo;
         this.price = price;
         this.name = name;
         this.date = date;
         this.linkMeal = linkMeal;
         this.description = description;
+        this.adress = adress;
+        this.latlng = latlng;
     }
 
     public String getPhoto() {return photo;}
@@ -37,4 +43,10 @@ public class Meal implements Serializable {
 
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
+
+    public String getAdress() {return adress;}
+    public void setAdress(String adress) {this.adress = adress;}
+
+    public LatLng getLatlng() {return latlng;}
+    public void setLatlng(LatLng latlng) {this.latlng = latlng;}
 }

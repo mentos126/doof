@@ -191,6 +191,7 @@
     <string name="prompt_error_adress">Renseigner adresse</string>
     <string name="prompt_error_firstname">Renseigner votre prénom</string>
     <string name="prompt_error_familyname">Renseigné votre nom</string>
+    <string name="prompt_error_nbportion">renseigné le nombre de portion</string>
 
 
 </resources>

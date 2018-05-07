@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
 import fr.doofapp.doof.TutorialChangeActivity.TutorialChangeActivity;
@@ -56,23 +57,14 @@ public class FinaliseActivity extends AppCompatActivity {
     List<Integer> prices = new ArrayList<>();
     List<String> allergens = new ArrayList<>();
 
-    /*@Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putBoolean("Ms", true);
-        savedInstanceState.putSerializable("Meals",meals);
-        savedInstanceState.putIntArray("Prices", prices);
-    }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finalise);
 
-        meals = (List<Meal>) getIntent().getSerializableExtra("Meals");
-        prices = (List<Integer>) getIntent().getSerializableExtra("Prices");
-        allergens = (List<String>) getIntent().getSerializableExtra("Allergens");
+        meals = CommandCache.getMeals();
+        prices = CommandCache.getPrices();
+        allergens = CommandCache.getAllergens();
 
         /***************************************/
 
@@ -133,8 +125,10 @@ public class FinaliseActivity extends AppCompatActivity {
 
         prompt_nbtikets = (TextView) findViewById(R.id.prompt_nbtikets);
         price = 0;
-        for (int i : prices){
-            price += i;
+
+        int countMeals = meals.size();
+        for(int i = 0; i < countMeals; i++){
+            price += (meals.get(i).getPrice() * prices.get(i));
         }
         String s = price+" tickets";
         prompt_nbtikets.setText(s);
@@ -212,12 +206,12 @@ public class FinaliseActivity extends AppCompatActivity {
 
     protected void onActionModifyPayment(){
         //TODO
-        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTER",Toast.LENGTH_LONG).show();
     }
 
     protected void onActionRegisterCaution(){
         //TODO
-        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTER",Toast.LENGTH_LONG).show();
     }
 
     protected void onActionTutorial(){
@@ -227,7 +221,7 @@ public class FinaliseActivity extends AppCompatActivity {
 
     protected void onActionPayment(){
         //TODO
-        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTE",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "PAS ENCORE IMPLEMENTER",Toast.LENGTH_LONG).show();
     }
 
 }

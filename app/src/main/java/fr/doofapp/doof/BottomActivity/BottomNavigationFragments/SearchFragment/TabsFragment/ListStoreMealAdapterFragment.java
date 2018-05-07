@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.io.Serializable;
 import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
 import fr.doofapp.doof.R;
@@ -70,9 +71,8 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("==========CLICK========","CLICK");
                 final Intent myIntent = new Intent(view.getContext(), CommandMealActivity.class);
-                myIntent.putExtra("Meal", (Serializable) mTemp);
+                CommandCache.setMeal(mTemp);
                 context.startActivity(myIntent);
             }
         });

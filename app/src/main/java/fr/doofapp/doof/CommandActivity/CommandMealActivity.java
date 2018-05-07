@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,7 +27,11 @@ import java.util.List;
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
+import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
@@ -43,6 +49,11 @@ public class CommandMealActivity extends AppCompatActivity {
     private int nbMeals;
 
     private List<String> allergens;
+    LinearLayout rel_primary, rel_secondary;
+    Button bt;
+
+    private UserDAO db;
+    private User u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +61,22 @@ public class CommandMealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_command_meal);
 
         allergens = new ArrayList<>();
+        db = new UserDAO(getApplicationContext());
 
-        meal = (Meal) getIntent().getSerializableExtra("Meal");
+        meal = CommandCache.getMeal();
         Log.e("=============",meal.getLinkMeal());
         nbMeals = 0;
+
+        bt = (Button) findViewById(R.id.bt);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommandMealActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        rel_primary = (LinearLayout) findViewById(R.id.rel_primary);
+        rel_secondary = (LinearLayout) findViewById(R.id.rel_secondary);
 
         photo = (ImageView) findViewById(R.id.prompt_photo);
         star1 = (ImageView) findViewById(R.id.star1);
@@ -208,27 +231,59 @@ public class CommandMealActivity extends AppCompatActivity {
     }
 
     public void doValidateAction(){
-        if(nbMeals > 0){
-            //TODO Comment géré les allergenes ??
-            Intent myIntent = new Intent(CommandMealActivity.this, RecapitulativeActivity.class);
 
-            List<Meal> meals = new ArrayList<>();
-            meals.add(meal);
-            myIntent.putExtra("Meals", (Serializable) meals);
+        if(userIsConnected()){
 
-            List<Integer> prices = new ArrayList<>();
-            prices.add(nbMeals);
-            myIntent.putExtra("Prices", (Serializable) prices);
+            if(nbMeals > 0){
+                //TODO Comment géré les allergenes ??
 
-            //TODO add allergenes dans Meal
-            for (Meal i : meals) {
-                if (!allergens.contains(i.getDescription())){
-                    allergens.add(i.getDescription());
+                List<Meal> meals = new ArrayList<>();
+                meals.add(meal);
+                CommandCache.setMeals(meals);
+
+                List<Integer> prices = new ArrayList<>();
+                prices.add(nbMeals);
+                CommandCache.setPrices(prices);
+
+                //TODO add allergenes dans Meal
+                for (Meal i : meals) {
+                    if (!allergens.contains(i.getDescription())){
+                        allergens.add(i.getDescription());
+                    }
                 }
+                CommandCache.setAllergens(allergens);
+
+                Intent myIntent = new Intent(CommandMealActivity.this, RecapitulativeActivity.class);
+                startActivity(myIntent);
+            }else{
+                Toast.makeText(this, R.string.prompt_error_nbportion,Toast.LENGTH_LONG).show();
             }
-            myIntent.putStringArrayListExtra("Allergens", (ArrayList<String>) allergens);
-            startActivity(myIntent);
+        }else{
+            rel_primary.setVisibility(View.GONE);
+            rel_secondary.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    private boolean userIsConnected() {
+
+        db.open();
+        u = null;
+        u = db.getUserConnected();
+        db.close();
+        if(u == null){
+            Log.e("=======USER=ID=========","NULL");
+        }else{
+            Log.e("=======USER=ID=========",u.getUserId());
+        }
+        if (u != null && u.getConnected() == 1){
+            Log.e("=======USER=CO=========","YES");
+            return true;
+        }else{
+            Log.e("=======USER=CO=========","NO");
+            return false;
+        }
+
     }
 
 }

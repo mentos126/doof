@@ -237,7 +237,9 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
                                         jsonObject.get("title").toString(),
                                         jsonObject.get("link_meal").toString(),
                                         jsonObject.get("date_heure").toString(),
-                                        "description"
+                                        "description",
+                                        "adresse",
+                                        new LatLng(4,34)
                                 );
 
                                 JSONObject LatLng;

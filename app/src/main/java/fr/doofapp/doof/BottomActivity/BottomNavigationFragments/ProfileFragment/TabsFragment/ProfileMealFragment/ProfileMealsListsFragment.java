@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,7 +117,9 @@ public class ProfileMealsListsFragment extends Fragment {
                                         jsonObject.get("name_user").toString(),
                                         "link",
                                         "date",
-                                        "description"
+                                        "description",
+                                        "adresse",
+                                        new LatLng(4,34)
                                 );
                                 onlineMealList.add(meal);
                             }
@@ -134,7 +137,9 @@ public class ProfileMealsListsFragment extends Fragment {
                                         jsonObject.get("name_user").toString(),
                                         "link",
                                         "date",
-                                        "description"
+                                        "description",
+                                        "adresse",
+                                        new LatLng(4,34)
                                 );
                                 lastMealList.add(meal);
                             }

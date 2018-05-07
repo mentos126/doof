@@ -12,244 +12,267 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
 
             <LinearLayout
+                android:id="@+id/rel_primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/prompt_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_person_white_24dp"/>
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/prompt_name"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:id="@+id/prompt_photo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        tools:layout_editor_absoluteX="128dp"
-                        tools:layout_editor_absoluteY="416dp" />
+                        app:srcCompat="@drawable/ic_person_white_24dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/star1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@android:drawable/btn_star_big_on"
-                            tools:layout_editor_absoluteX="121dp"
-                            tools:layout_editor_absoluteY="355dp" />
-                        <ImageView
-                            android:id="@+id/star2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@android:drawable/btn_star_big_on"
-                            tools:layout_editor_absoluteX="121dp"
-                            tools:layout_editor_absoluteY="355dp" />
-
-                        <ImageView
-                            android:id="@+id/star3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@android:drawable/btn_star_big_on"
-                            tools:layout_editor_absoluteX="121dp"
-                            tools:layout_editor_absoluteY="355dp" />
-
-                        <ImageView
-                            android:id="@+id/star4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@android:drawable/btn_star_big_on"
-                            tools:layout_editor_absoluteX="121dp"
-                            tools:layout_editor_absoluteY="355dp" />
-
-                        <ImageView
-                            android:id="@+id/star5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@android:drawable/btn_star_big_on"
-                            tools:layout_editor_absoluteX="121dp"
-                            tools:layout_editor_absoluteY="355dp" />
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/note_totale"
-                            android:layout_width="fill_parent"
+                            android:id="@+id/prompt_name"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"/>
+                            android:text=""
+                            tools:layout_editor_absoluteX="128dp"
+                            tools:layout_editor_absoluteY="416dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/star1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@android:drawable/btn_star_big_on"
+                                tools:layout_editor_absoluteX="121dp"
+                                tools:layout_editor_absoluteY="355dp" />
+                            <ImageView
+                                android:id="@+id/star2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@android:drawable/btn_star_big_on"
+                                tools:layout_editor_absoluteX="121dp"
+                                tools:layout_editor_absoluteY="355dp" />
+
+                            <ImageView
+                                android:id="@+id/star3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@android:drawable/btn_star_big_on"
+                                tools:layout_editor_absoluteX="121dp"
+                                tools:layout_editor_absoluteY="355dp" />
+
+                            <ImageView
+                                android:id="@+id/star4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@android:drawable/btn_star_big_on"
+                                tools:layout_editor_absoluteX="121dp"
+                                tools:layout_editor_absoluteY="355dp" />
+
+                            <ImageView
+                                android:id="@+id/star5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@android:drawable/btn_star_big_on"
+                                tools:layout_editor_absoluteX="121dp"
+                                tools:layout_editor_absoluteY="355dp" />
+
+                            <TextView
+                                android:id="@+id/note_totale"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="TextView"/>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/prompt_meal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_person_white_24dp"/>
+
+                <TextView
+                    android:id="@+id/prompt_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
+
+                <TextView
+                    android:id="@+id/prompt_meal_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="TextView"/>
+
+                <TextView
+                    android:id="@+id/prompt_meal_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/minus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_minus" />
+
+                    <TextView
+                        android:id="@+id/prompt_how_many"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                    <Button
+                        android:id="@+id/plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_plus" />
 
                 </LinearLayout>
 
-            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/prompt_meal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_person_white_24dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/prompt_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/checkbox_on_background"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="398dp" />
 
-            <TextView
-                android:id="@+id/prompt_meal_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/prompt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
 
-            <TextView
-                android:id="@+id/prompt_meal_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
+                </LinearLayout>
 
-           <!--<NumberPicker
-                android:id="@+id/how_many"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-           <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/checkbox_on_background"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="398dp" />
+
+                    <TextView
+                        android:id="@+id/prompt_heure"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/checkbox_on_background"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="398dp" />
+
+                    <TextView
+                        android:id="@+id/prompt_adress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/checkbox_on_background"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="398dp" />
+
+                    <TextView
+                        android:id="@+id/prompt_if_contenant"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+                </LinearLayout>
 
                 <Button
-                    android:id="@+id/minus"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/validate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_minus" />
+                    android:text="@string/validate_button"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rel_secondary"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/prompt_how_many"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:gravity="center_horizontal"
+                    android:text="@string/not_connected_user" />
 
                 <Button
-                    android:id="@+id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_plus" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/checkbox_on_background"
-                    tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="398dp" />
-
-                <TextView
-                    android:id="@+id/prompt_date"
+                    android:id="@+id/bt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:gravity="center_horizontal"
+                    android:text="@string/login_button" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/checkbox_on_background"
-                    tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="398dp" />
-
-                <TextView
-                    android:id="@+id/prompt_heure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/checkbox_on_background"
-                    tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="398dp" />
-
-                <TextView
-                    android:id="@+id/prompt_adress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/checkbox_on_background"
-                    tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="398dp" />
-
-                <TextView
-                    android:id="@+id/prompt_if_contenant"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/validate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/validate_button"/>
-
         </LinearLayout>
-
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

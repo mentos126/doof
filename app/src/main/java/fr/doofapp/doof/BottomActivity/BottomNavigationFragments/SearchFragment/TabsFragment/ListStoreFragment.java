@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,7 +101,9 @@ public class ListStoreFragment extends Fragment {
                                         jsonObject.get("title").toString(),
                                         jsonObject.get("link_meal").toString(),
                                         jsonObject.get("date_heure").toString(),
-                                        "description"
+                                        "description",
+                                        "adresse",
+                                        new LatLng(4,34)
                                 );
                                 mealList.add(meal);
                             }
