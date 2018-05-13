@@ -16,10 +16,35 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.ListMealCache;
+import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
+import fr.doofapp.doof.LoginActivity.RegisterActivity;
 import fr.doofapp.doof.R;
 
 public class Step5CookFragment extends Fragment {
@@ -35,9 +60,17 @@ public class Step5CookFragment extends Fragment {
     Boolean contain;
     Bitmap mainPhoto;
 
+    private AbstractHttpClient mHttpClient;
+    private RequestQueue mQueue;
+    private UserDAO db;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cook_step5, container, false);
+
+        db = new UserDAO(getActivity());
+        mHttpClient = new DefaultHttpClient();
+        mQueue = Volley.newRequestQueue(getActivity(), new HttpClientStack(mHttpClient));
 
         date = ListMealCache.getDate();
         time = ListMealCache.getTime();
@@ -77,17 +110,10 @@ public class Step5CookFragment extends Fragment {
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("Date", date);
-                bundle.putString("Time", time);
-                bundle.putString("Adress", adress);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
                 Step3CookFragment step3CookFragment = new Step3CookFragment();
-                step3CookFragment.setArguments(bundle);
-
                 fragmentTransaction.replace(R.id.frame_cook_container, step3CookFragment);
                 fragmentTransaction.commit();
             }
@@ -97,9 +123,31 @@ public class Step5CookFragment extends Fragment {
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO send request to create meal
-                Intent myIntent = new Intent(view.getContext(), BottomActivity.class);
-                getActivity().startActivity(myIntent);
+                JSONObject jsonBodyObj = new JSONObject();
+                try{
+
+                    jsonBodyObj.put("adresse", adress);
+                    jsonBodyObj.put("date", date);
+                    jsonBodyObj.put("photo", null);
+                    jsonBodyObj.put("creneau", time);
+                    jsonBodyObj.put("titre",mainTitle);
+                    jsonBodyObj.put("description",mainDescription);
+                    jsonBodyObj.put("prix",mainPrice);
+                    jsonBodyObj.put("nbPart",mainNbPortion);
+                    jsonBodyObj.put("contenant", contain);
+                    jsonBodyObj.put("allergenes", null);
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+                String URL = URLProject.getInstance().getCREATE_MEAL();
+                db.open();
+                User u = null;
+                u = db.getUserConnected();
+                db.close();
+                URL = URL + "/" + u.getToken();
+                mQueue.add(createRequest(URL, jsonBodyObj));
+
             }
         });
 
@@ -110,5 +158,81 @@ public class Step5CookFragment extends Fragment {
 
         return rootView;
     }
+
+
+
+
+    private JsonObjectRequest createRequest(String URL, JSONObject jsonObject)  {
+        JSONObject jsonBodyObj =  jsonObject;
+        final String requestBody = jsonBodyObj.toString();
+        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
+                URL, jsonBodyObj, new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                CookieStore cs = mHttpClient.getCookieStore();
+                BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
+                if (c != null) {
+                    setTvCookieText(c.getValue());
+                }
+                cs.addCookie(c);
+                Log.d("SUCCESS LISTENER", response.toString());
+                try {
+                    VolleyLog.v("Response:%n %s", response.toString(4));
+
+                    /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                    byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
+                    String resPass = convertByteArrayToHexString(hash);*/
+
+                    if(response.isNull("error")){
+
+                        Intent myIntent = new Intent(getActivity(), BottomActivity.class);
+                        getActivity().startActivity(myIntent);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            public byte[] getBody() {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+        return JOPR;
+    }
+
+    private void setTvCookieText(String str) {}
+
+    public Cookie getCookie(CookieStore cs, String cookieName) {
+        Cookie ret = null;
+        List<Cookie> l = cs.getCookies();
+        for (Cookie c : l) {
+            if (c.getName().equals(cookieName)) {
+                ret = c;
+                break;
+            }
+        }
+        return ret;
+    }
+
 
 }

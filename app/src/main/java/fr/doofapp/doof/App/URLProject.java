@@ -5,27 +5,23 @@ public class URLProject  {
 
     private static URLProject uniqueInstance;
 
-    //private String DNS = "http://mon-site-en-ligne.fr";
-    private String DNS = "http://163.172.142.75";
-
-    private String DNSPORT = DNS + ":4007";
-    private String APP_DIR = DNSPORT + "/doof";
-
-    private String SERVICE_DIR = DNS + "/doofprod";
-
-    private String LOGIN = SERVICE_DIR + "/user.json";
-            //"http://mon-site-en-ligne.fr:4007/doof/login/jc/papillon";
-    /*APP_DIR + "/login/jc/papillon";*/ //SERVICE_DIR + "/user.json";
+    private String API = "http://jcdev.io:4007/doof/";
+    private String LOGIN = API + "login";
+    private String REGISTER = API + "register";
+    private String PROFILE_UPDATE = API + "profile/update";
+    private String MY_ADRESS = API + "user/adress/mine";
+    private String CREATE_MEAL = API + "repas/publish";
 
 
-    private String PROFILE = SERVICE_DIR + "/profile.json";
+
+    private String PROFILE = API + "/profile.json";
     private String MYPROFILE = PROFILE;
-    private String UPDATE_PROFILE = SERVICE_DIR + "/update_profile.json";
-    private String PROFILE_COMMENTS = SERVICE_DIR + "/comments.json";
-    private String PROFILE_MEALS = SERVICE_DIR + "/profile_meals.json";
-    private String MEALS = SERVICE_DIR + "/meals.json";
-    private String ONEMEAL = SERVICE_DIR + "/meal.json";
-    private String CALENDARMEALS = SERVICE_DIR + "/calendar.json";
+    private String UPDATE_PROFILE = API + "/update_profile.json";
+    private String PROFILE_COMMENTS = API + "/comments.json";
+    private String PROFILE_MEALS = API + "/profile_meals.json";
+    private String MEALS = API + "/meals.json";
+    private String ONEMEAL = API + "/meal.json";
+    private String CALENDARMEALS = API + "/calendar.json";
 
     private String PROFILE_UPDATE_ROFILE = "";
 
@@ -38,7 +34,6 @@ public class URLProject  {
         return uniqueInstance;
     }
 
-    public String getLOGIN() {return LOGIN;}
     public String getPROFILE() {return PROFILE;}
     public String getPROFILE_COMMENTS() {return PROFILE_COMMENTS;}
     public String getPROFILE_MEALS() {return PROFILE_MEALS;}
@@ -47,4 +42,11 @@ public class URLProject  {
     public String getONEMEAL() {return ONEMEAL;}
     public String updatePROFILE() {return UPDATE_PROFILE;}
     public String getCALENDARMEALS() {return CALENDARMEALS;}
+
+    /// NEW ***
+    public String getREGISTER() {return REGISTER;}
+    public String getLOGIN() {return LOGIN;}
+    public String getPROFILE_UPDATE() {return PROFILE_UPDATE;}
+    public String getMY_ADRESS() {return MY_ADRESS;}
+    public String getCREATE_MEAL() {return CREATE_MEAL;}
 }

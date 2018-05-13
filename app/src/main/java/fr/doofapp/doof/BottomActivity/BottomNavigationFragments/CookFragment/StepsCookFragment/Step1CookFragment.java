@@ -17,11 +17,32 @@ import android.widget.NumberPicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.ClassMetier.ListMealCache;
+import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
+import fr.doofapp.doof.LoginActivity.RegisterActivity;
 import fr.doofapp.doof.R;
 
 public class Step1CookFragment extends Fragment {
@@ -32,12 +53,18 @@ public class Step1CookFragment extends Fragment {
     DatePicker date;
     Button next;
     int bHour, bMin, eMin;
+    private UserDAO db;
+
+    private AbstractHttpClient mHttpClient;
+    private RequestQueue mQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         rootView =  inflater.inflate(R.layout.fragment_cook_step1, container, false);
 
-        //TODO get information of user "adresses"
+        mHttpClient = new DefaultHttpClient();
+        mQueue = Volley.newRequestQueue(getActivity(), new HttpClientStack(mHttpClient));
+        db = new UserDAO(getActivity());
 
         Calendar calendar = Calendar.getInstance();
         thisYear = calendar.get(Calendar.YEAR);
@@ -84,7 +111,6 @@ public class Step1CookFragment extends Fragment {
 
                 getDate();
 
-                //TODO get adresss user
                 String adress = "ERREUR";
 
                 if (!d.equals("") && !t.equals("")){

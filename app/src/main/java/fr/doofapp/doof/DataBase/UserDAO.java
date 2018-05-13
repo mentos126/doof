@@ -13,11 +13,13 @@ public class UserDAO extends DAOBase{
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
     public static final String ISCONECTED = "isconnected";
+    public static final String TOKEN = "token";
 
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" +
             EMAIL + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             PASSWORD + " TEXT, " +
+            TOKEN + " TEXT, " +
             ROLE + " INTEGER, " +
             ISCONECTED + " INTEGER);";
 
@@ -32,6 +34,7 @@ public class UserDAO extends DAOBase{
         ContentValues value = new ContentValues();
         value.put(UserDAO.EMAIL, m.getUserId());
         value.put(UserDAO.PASSWORD, m.getPassword());
+        value.put(UserDAO.TOKEN, m.getToken());
         value.put(UserDAO.ROLE, m.getRole());
         value.put(UserDAO.ISCONECTED, m.getConnected());
         mDb.insert(UserDAO.TABLE_NAME, null, value);
@@ -49,27 +52,30 @@ public class UserDAO extends DAOBase{
 
     public User getUserConnected() {
         String email = "";
+        String token = "";
         String password = "";
         int role = -1;
         int isConnected = 0;
         String sqlQuery = "select " + UserDAO.EMAIL + ", " +
                 UserDAO.PASSWORD + ", " +
+                UserDAO.TOKEN + ", " +
                 UserDAO.ROLE + ", "  +
                 UserDAO.ISCONECTED + " " +
                 " from " + UserDAO.TABLE_NAME +
                 " where " + UserDAO.ISCONECTED + " = ?; ";
         Cursor c = mDb.rawQuery(sqlQuery, new String[]{"1"});
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            if (c.getInt(3) == 1){
+            if (c.getInt(4) == 1){
                 email = c.getString(0);
                 password = c.getString(1);
-                role = c.getInt(2);
-                isConnected = c.getInt(3);
+                token = c.getString(2);
+                role = c.getInt(3);
+                isConnected = c.getInt(4);
             }
             break;
         }
         c.close();
-        User u = new User(email, password, role, isConnected);
+        User u = new User(email, password, token, role, isConnected);
         return u;
     }
 

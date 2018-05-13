@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
@@ -63,7 +64,9 @@ import org.json.JSONObject;
 import static android.Manifest.permission.READ_CONTACTS;
 import static java.lang.Integer.parseInt;
 
+//////////////////////////////////////////////////////////
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
@@ -75,6 +78,7 @@ import com.android.volley.Request.Method;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -395,47 +399,78 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
 
+
+
         ///////////////////////////////////
-        private StringRequest createRequest(String URL) {
-            StringRequest myReq = new StringRequest(Method.GET,
-                    URL,
-                    createMyReqSuccessListener(),
-                    createMyReqErrorListener());
-            return myReq;
-        }
-        private Response.Listener<String> createMyReqSuccessListener() {
-            return new Response.Listener<String>() {
+
+        private JsonObjectRequest createRequest(String URL)  {
+            JSONObject jsonBodyObj = new JSONObject();
+            try{
+                jsonBodyObj.put("id", mEmail);
+                jsonBodyObj.put("pwd", mPassword);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            final String requestBody = jsonBodyObj.toString();
+
+            JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
+                    URL, jsonBodyObj, new Response.Listener<JSONObject>(){
                 @Override
-                public void onResponse(String response) {
+                public void onResponse(JSONObject response) {
+
                     CookieStore cs = mHttpClient.getCookieStore();
                     BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
-                    if (c != null) {
-                        setTvCookieText(c.getValue());
+                    cs.addCookie(c);
+
+                    Log.d("SUCCESS LISTENER", response.toString());
+                    try {
+                        VolleyLog.v("Response:%n %s", response.toString(4));
+
+                        User u = null;
+                        u = new User(mEmail,
+                                mPassword,
+                                response.get("token").toString(),
+                                1,
+                                1);
+                        /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
+                        String resPass = convertByteArrayToHexString(hash);*/
+                        //Log.d("LoginActivity", resPass);
+
+                        if(response.isNull("error")){
+                            db.open();
+                            db.addUser(u);
+                            db.close();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    Log.d("SUCCESS LISTENER",response);
                 }
-            };
-        }
-        private Response.ErrorListener createMyReqErrorListener() {
-            return new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    setTvCookieText(error.getMessage());
+                    VolleyLog.e("Error: ", error.getMessage());
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+                @Override
+                public byte[] getBody() {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                requestBody, "utf-8");
+                        return null;
+                    }
                 }
             };
-        }
-        private void setTvCookieText(String str) {}
-
-        public Cookie getCookie(CookieStore cs, String cookieName) {
-            Cookie ret = null;
-            List<Cookie> l = cs.getCookies();
-            for (Cookie c : l) {
-                if (c.getName().equals(cookieName)) {
-                    ret = c;
-                    break;
-                }
-            }
-            return ret;
+            return JOPR;
         }
         // end
         //////////////////////////////////
@@ -464,58 +499,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         public void volleyJsonArrayRequest() {
 
-            //mQueue.add(createRequest());
             String URL = URLProject.getInstance().getLOGIN();
-            /*okieStore cs = mHttpClient.getCookieStore();
-            BasicClientCookie c = (BasicClientCookie) getCookie(cs, "my_cookie");
-            cs.addCookie(c);
-            mQueue.add(createRequest(URL));*/
+            mQueue.add(createRequest(URL));
 
-            final JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            Log.e("====LoginActivity===", response.toString());
-                            try {
-                                //(response.isNull("error"))
-                                //
-                                //sponse = (JSONObject) response.get("result");
-                                User u = null;
-                                u = new User(response.get("email").toString(),
-                                        response.get("password").toString(),
-                                        parseInt(response.get("role").toString()),
-                                        1);
-                                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                                byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-                                String resPass = convertByteArrayToHexString(hash);
-                                Log.d("LoginActivity", resPass);
-                                if (u != null && u.getPassword().equals(resPass) && u.getUserId().equals(mEmail)) {
-                                    db.open();
-                                    db.addUser(u);
-                                    db.close();
-                                }
-                                //ast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
-                                //else {
-                                //  Toast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
-                                //
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
-                        }
-                    });
-
-            AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
 
         }
 
@@ -554,6 +540,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
 
+        private void setTvCookieText(String str) {}
+
+        public Cookie getCookie(CookieStore cs, String cookieName) {
+            Cookie ret = null;
+            List<Cookie> l = cs.getCookies();
+            for (Cookie c : l) {
+                if (c.getName().equals(cookieName)) {
+                    ret = c;
+                    break;
+                }
+            }
+            return ret;
+        }
+
         @Override
         protected void onCancelled() {
             mAuthTask = null;
@@ -561,6 +561,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
+
+   /*private Response.Listener<String> createMyReqSuccessListener() {
+            return new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    CookieStore cs = mHttpClient.getCookieStore();
+                    BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
+                    if (c != null) {
+                        setTvCookieText(c.getValue());
+                    }
+                    Log.d("SUCCESS LISTENER",response);
+                }
+            };
+        }*/
 
 /*JsonArrayRequest jsonArrayReq = new JsonArrayRequest(REQUEST_TAG,
                     new Response.Listener<JSONArray>() {
@@ -639,3 +653,55 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            }catch (JSONException e) {
 //                e.printStackTrace();
 //            }
+
+/*okieStore cs = mHttpClient.getCookieStore();
+            BasicClientCookie c = (BasicClientCookie) getCookie(cs, "my_cookie");
+            cs.addCookie(c);
+            mQueue.add(createRequest(URL));*/
+
+            /*final JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.e("====LoginActivity===", response.toString());
+                            try {
+                                //(response.isNull("error"))
+                                //
+                                //sponse = (JSONObject) response.get("result");
+                                User u = null;
+                                u = new User(response.get("email").toString(),
+                                        response.get("password").toString(),
+                                        parseInt(response.get("role").toString()),
+                                        1);
+                                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                                byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
+                                String resPass = convertByteArrayToHexString(hash);
+                                Log.d("LoginActivity", resPass);
+                                if (u != null && u.getPassword().equals(resPass) && u.getUserId().equals(mEmail)) {
+                                    db.open();
+                                    db.addUser(u);
+                                    db.close();
+                                }
+                                //ast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
+                                //else {
+                                //  Toast.makeText(LoginActivity.this, "ERREUR EST NULL", Toast.LENGTH_LONG).show();
+                                //
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
+                        }
+                    });
+
+            AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
+            */

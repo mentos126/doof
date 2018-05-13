@@ -6,12 +6,15 @@ public class User {
     private String password;
     private int role;
     private int isConnected;
+    private String token;
 
-    public User(String userId, String password, int role, int isConnected){
+
+    public User(String userId, String password, String token, int role, int isConnected){
         super();
         this.userId = userId;
         this.password = password;
         this.role = role;
+        this.token = token;
         this.isConnected = isConnected;
     }
 
@@ -39,4 +42,6 @@ public class User {
         this.isConnected = connected;
     }
 
+    public String getToken() {return token;}
+    public void setToken(String token) {this.token = token;}
 }
