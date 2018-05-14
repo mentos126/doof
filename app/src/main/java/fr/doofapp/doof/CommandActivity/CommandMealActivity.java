@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +33,7 @@ import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
+import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
@@ -75,6 +77,7 @@ public class CommandMealActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         rel_primary = (LinearLayout) findViewById(R.id.rel_primary);
         rel_secondary = (LinearLayout) findViewById(R.id.rel_secondary);
 
@@ -84,18 +87,42 @@ public class CommandMealActivity extends AppCompatActivity {
         star3 = (ImageView) findViewById(R.id.star3);
         star4 = (ImageView) findViewById(R.id.star4);
         star5 = (ImageView) findViewById(R.id.star5);
+
         meal_photo = (ImageView) findViewById(R.id.prompt_meal);
+        Meal m = CommandCache.getMeal();
+        new DownLoadImageTask(meal_photo).execute(m.getPhoto());
 
         name = (TextView) findViewById(R.id.prompt_name);
         note_totale = (TextView) findViewById(R.id.note_totale);
+
         price = (TextView) findViewById(R.id.prompt_price);
+        price.setText(String.valueOf(m.getPrice()+" tickets"));
+
         meal_title = (TextView) findViewById(R.id.prompt_meal_title );
+        meal_title.setText(m.getName());
+
         meal_description = (TextView) findViewById(R.id.prompt_meal_description);
+        meal_description.setText(m.getDescription());
+
         how_many = (TextView) findViewById(R.id.prompt_how_many);
+
         date = (TextView) findViewById(R.id.prompt_date);
+        date.setText(m.getDate());
         heure = (TextView) findViewById(R.id.prompt_heure);
+        Log.e("======DATE=====",m.getDate());
+        heure.setText(m.getDate().trim().split("\\\\s+")[0]);
+
         adress = (TextView) findViewById(R.id.prompt_adress);
+        adress.setText(m.getAdress());
+
         if_contenant = (TextView) findViewById(R.id.prompt_if_contenant);
+        String s ="";
+        if(m.getContain()){
+            s = "POSSEDE CONTENANT: OUI";
+        }else{
+            s = "POSSEDE CONTENANT: NON";
+        }
+        if_contenant.setText(s);
 
         minus = (Button) findViewById(R.id.minus);
         minus.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +148,7 @@ public class CommandMealActivity extends AppCompatActivity {
             }
         });
 
-        String s = nbMeals+"";
+        s = nbMeals+"";
         how_many.setText(s);
         getMealWeb();
     }
@@ -129,7 +156,7 @@ public class CommandMealActivity extends AppCompatActivity {
     public void getMealWeb(){
         String link = meal.getLinkMeal();
         //TODO use link for url
-        String URL = URLProject.getInstance().getONEMEAL();
+        String URL = URLProject.getInstance().getONEMEAL()+"/"+meal.getLinkMeal();
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
@@ -138,57 +165,89 @@ public class CommandMealActivity extends AppCompatActivity {
                         Log.e("LoginActivity", response.toString());
                         try {
 
-                            new DownLoadImageTask(photo).execute(response.get("cook_photo").toString());
-                            new DownLoadImageTask(meal_photo).execute(response.get("meal_photo").toString());
+                            if(!response.isNull("error")){
+                                Toast.makeText(CommandMealActivity.this, "ERREUR SERVEUR",Toast.LENGTH_LONG).show();
+                            }else {
 
-                            String s = response.get("cook_name").toString();
-                            name.setText(s);
+                                JSONObject user = response.getJSONObject("result").getJSONObject("user");
+                                JSONObject meal = response.getJSONObject("result").getJSONObject("meal");
+                                CommandCache.setIdOrder(meal.getJSONArray("orders").getJSONObject(0).get("_id").toString());
 
-                            s = response.get("cook_note").toString() + "/5  "+
-                                    "X"+ getResources().getString(R.string.opinions);
-                            note_totale.setText(s);
-                            double noteTotale = parseDouble(response.get("cook_note").toString());
-                            if(noteTotale < 5.0) {
-                                star5.setImageResource(R.drawable.ic_home_black_24dp);
-                                if(noteTotale < 4.0) {
-                                    star4.setImageResource(R.drawable.ic_home_black_24dp);
-                                    if(noteTotale < 3.0) {
-                                        star3.setImageResource(R.drawable.ic_home_black_24dp);
-                                        if(noteTotale < 2.0) {
-                                            star2.setImageResource(R.drawable.ic_home_black_24dp);
-                                            if(noteTotale < 1.0) {
-                                                star1.setImageResource(R.drawable.ic_home_black_24dp);
+                                final String link =  user.get("_id").toString();
+
+                                //TODO photo + link
+                                //new DownLoadImageTask(photo).execute(user.get("photo").toString());
+                                photo.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(CommandMealActivity.this, ProfileActivity.class);
+                                        intent.putExtra("Link", link);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                //new DownLoadImageTask(meal_photo).execute(response.get("meal_photo").toString());
+
+                                String s = user.get("nom").toString() + " " + user.get("prenom").toString();
+                                name.setText(s);
+
+                                JSONArray com = user.getJSONArray("commentaires");
+                                /*JSONObject jnote = user.getJSONObject("note");
+
+                                double noteTotale = 0;
+                                if(!jnote.isNull("accueil") && !jnote.isNull("proprete") && !jnote.isNull("cuisine")){
+                                    double home = parseDouble(jnote.get("accueil").toString());
+                                    double cleanless = parseDouble(jnote.get("proprete").toString());
+                                    double cook = parseDouble(jnote.get("cuisine").toString());
+                                    noteTotale = (home+cleanless+cook)/3;
+                                }*/
+
+                                double noteTotale = parseDouble(user.get("note").toString());
+
+                                s = noteTotale + "/5  "+ com.length()+ " " + getResources().getString(R.string.opinions);
+                                note_totale.setText(s);
+
+                                if(noteTotale < 5.0) {
+                                    star5.setImageResource(R.drawable.ic_home_black_24dp);
+                                    if(noteTotale < 4.0) {
+                                        star4.setImageResource(R.drawable.ic_home_black_24dp);
+                                        if(noteTotale < 3.0) {
+                                            star3.setImageResource(R.drawable.ic_home_black_24dp);
+                                            if(noteTotale < 2.0) {
+                                                star2.setImageResource(R.drawable.ic_home_black_24dp);
+                                                if(noteTotale < 1.0) {
+                                                    star1.setImageResource(R.drawable.ic_home_black_24dp);
+                                                }
                                             }
                                         }
                                     }
                                 }
+
+                                /*s = response.get("meal_price").toString() + " tickets";
+                                price.setText(s);
+
+                                s = response.get("meal_title").toString();
+                                meal_title.setText(s);
+
+                                s = response.get("meal_description").toString();
+                                meal_description.setText(s);*/
+
+                                s = meal.get("date").toString();
+                                date.setText(s);
+
+                                s = meal.get("creneau").toString();
+                                heure.setText(s);
+
+                                /*s = response.get("meal_adress").toString();
+                                adress.setText(s);
+
+                                s = response.get("meal_is_conteant").toString();
+                                if(response.getBoolean("meal_is_conteant")){
+                                    if_contenant.setText(getResources().getString(R.string.is_true_contenant));
+                                }else{
+                                    if_contenant.setText(getResources().getString(R.string.is_false_contenant));
+                                }*/
                             }
-
-                            s = response.get("meal_price").toString() + " tickets";
-                            price.setText(s);
-
-                            s = response.get("meal_title").toString();
-                            meal_title.setText(s);
-
-                            s = response.get("meal_description").toString();
-                            meal_description.setText(s);
-
-                            s = response.get("meal_day").toString();
-                            date.setText(s);
-
-                            s = response.get("meal_hour").toString();
-                            heure.setText(s);
-
-                            s = response.get("meal_adress").toString();
-                            adress.setText(s);
-
-                            s = response.get("meal_is_conteant").toString();
-                            if(response.getBoolean("meal_is_conteant")){
-                                if_contenant.setText(getResources().getString(R.string.is_true_contenant));
-                            }else{
-                                if_contenant.setText(getResources().getString(R.string.is_false_contenant));
-                            }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -248,7 +307,7 @@ public class CommandMealActivity extends AppCompatActivity {
                 //TODO add allergenes dans Meal
                 for (Meal i : meals) {
                     if (!allergens.contains(i.getDescription())){
-                        allergens.add(i.getDescription());
+                        //allergens.add(i.getDescription());
                     }
                 }
                 CommandCache.setAllergens(allergens);

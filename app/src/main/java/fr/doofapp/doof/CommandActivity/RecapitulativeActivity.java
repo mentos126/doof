@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -63,6 +64,7 @@ public class RecapitulativeActivity extends AppCompatActivity implements OnMapRe
         for (String i : allergens) {
             s += i + " ";
         }
+        Log.e("=====SSSS====",s);
         prompt_allergen.setText(s);
 
         prompt_adress = (TextView) findViewById(R.id.prompt_adress);
@@ -120,22 +122,18 @@ public class RecapitulativeActivity extends AppCompatActivity implements OnMapRe
             mapFragment.onResume();
             mapFragment.getMapAsync((OnMapReadyCallback) this);
         }
-        //mapFragment.getMapAsync(this);
 
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //TODO get latlng Meal
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 20);
             return;
         }else{
-            LatLng cam = new LatLng(meals.get(0).getLatlng().latitude, meals.get(0).getLatlng().latitude);
+            LatLng cam = new LatLng(meals.get(0).getLatlng().latitude, meals.get(0).getLatlng().longitude);
             GoogleMap map = googleMap;
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(cam, 13));
             map.addMarker(new MarkerOptions()

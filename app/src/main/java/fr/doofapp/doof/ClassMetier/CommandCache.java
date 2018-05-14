@@ -19,6 +19,7 @@ public class CommandCache {
     private static List<Meal> meals;
     private static List<Integer> prices;
     private static List<String> allergens;
+    private static String idOrder;
 
     public static Meal getMeal() {return meal;}
     public static void setMeal(Meal meal) {CommandCache.meal = meal;}
@@ -31,4 +32,7 @@ public class CommandCache {
 
     public static List<String> getAllergens() {return allergens;}
     public static void setAllergens(List<String> allergens) {CommandCache.allergens = allergens;}
+
+    public static String getIdOrder() {return idOrder;}
+    public static void setIdOrder(String idOrder) {CommandCache.idOrder = idOrder;}
 }

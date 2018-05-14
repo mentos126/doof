@@ -45,9 +45,7 @@
                             android:id="@+id/prompt_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            tools:layout_editor_absoluteX="128dp"
-                            tools:layout_editor_absoluteY="416dp" />
+                            android:text="" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -58,46 +56,36 @@
                                 android:id="@+id/star1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@android:drawable/btn_star_big_on"
-                                tools:layout_editor_absoluteX="121dp"
-                                tools:layout_editor_absoluteY="355dp" />
+                                app:srcCompat="@android:drawable/btn_star_big_on" />
                             <ImageView
                                 android:id="@+id/star2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@android:drawable/btn_star_big_on"
-                                tools:layout_editor_absoluteX="121dp"
-                                tools:layout_editor_absoluteY="355dp" />
+                                app:srcCompat="@android:drawable/btn_star_big_on"/>
 
                             <ImageView
                                 android:id="@+id/star3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@android:drawable/btn_star_big_on"
-                                tools:layout_editor_absoluteX="121dp"
-                                tools:layout_editor_absoluteY="355dp" />
+                                app:srcCompat="@android:drawable/btn_star_big_on" />
 
                             <ImageView
                                 android:id="@+id/star4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@android:drawable/btn_star_big_on"
-                                tools:layout_editor_absoluteX="121dp"
-                                tools:layout_editor_absoluteY="355dp" />
+                                app:srcCompat="@android:drawable/btn_star_big_on"/>
 
                             <ImageView
                                 android:id="@+id/star5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@android:drawable/btn_star_big_on"
-                                tools:layout_editor_absoluteX="121dp"
-                                tools:layout_editor_absoluteY="355dp" />
+                                app:srcCompat="@android:drawable/btn_star_big_on"/>
 
                             <TextView
                                 android:id="@+id/note_totale"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="TextView"/>
+                                android:text=""/>
 
                         </LinearLayout>
 
@@ -116,20 +104,20 @@
                     android:id="@+id/prompt_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/prompt_meal_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="TextView"/>
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/prompt_meal_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    android:text=""/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

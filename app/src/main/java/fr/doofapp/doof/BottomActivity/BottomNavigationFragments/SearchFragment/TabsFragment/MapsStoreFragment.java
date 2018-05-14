@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +45,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.gson.JsonObject;
 
 
 import org.json.JSONArray;
@@ -56,6 +58,7 @@ import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
 import fr.doofapp.doof.R;
@@ -181,7 +184,7 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     public void onInfoWindowClick(Marker marker) {
         final Intent myIntent = new Intent(getView().getContext(), CommandMealActivity.class);
         Meal mTemp = (Meal) marker.getTag();
-        myIntent.putExtra("Meal", (Serializable) mTemp);
+        CommandCache.setMeal(mTemp);
         startActivity(myIntent);
     }
 
@@ -191,7 +194,6 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        //TODO get POSITION
         CameraPosition Liberty = CameraPosition.builder().target(new LatLng(43.632344,3.844843)).zoom(14).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
 
@@ -218,57 +220,65 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
 
     protected void prepareMealData(){
 
-        //TODO use location
-        String URL = URLProject.getInstance().getMEALS();
-        JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONArray>() {
+        String URL = URLProject.getInstance().getSEARCH_MEAL();
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.e("=========MEALS========", response.toString());
                         try {
-                            Meal meal;
-                            int countObject = response.length();
-                            for(int i=0 ; i<countObject; i++){
-                                JSONObject jsonObject;
-                                jsonObject = response.getJSONObject(i);
-                                meal = new Meal(
-                                        jsonObject.get("photo_meal").toString(),
-                                        parseInt(jsonObject.get("price").toString()),
-                                        jsonObject.get("title").toString(),
-                                        jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString(),
-                                        "description",
-                                        "adresse",
-                                        new LatLng(4,34)
-                                );
+                            if(!response.isNull("error")){
+                                Toast.makeText(getActivity(), "ERREUR SERVEUR",Toast.LENGTH_LONG).show();
+                            }else{
+                                JSONArray res = response.getJSONArray("result");
+                                Meal meal;
+                                int countObject = res.length();
+                                for(int i=0 ; i<countObject; i++){
+                                    JSONObject jsonObject;
+                                    jsonObject = res.getJSONObject(i);
+                                    JSONArray orders = jsonObject.getJSONArray("orders");
+                                    JSONObject jsonOrders = orders.getJSONObject(0);
 
-                                JSONObject LatLng;
-                                LatLng = jsonObject.getJSONObject("latlng");
-                                final double lat = parseDouble(LatLng.get("lat").toString());
-                                final double lng = parseDouble(LatLng.get("lng").toString());
+                                    JSONObject LatLng;
+                                    LatLng = jsonObject.getJSONObject("adresse");
+                                    final double lat = parseDouble(LatLng.get("lat").toString());
+                                    final double lng = parseDouble(LatLng.get("lng").toString());
 
-                                final Meal finalMeal = meal;
-                                Volley.newRequestQueue(getActivity().getApplicationContext())
-                                        .add(new ImageRequest(meal.getPhoto(), new Response.Listener<Bitmap>() {
-                                            @Override
-                                            public void onResponse(Bitmap bitmap) {
-                                                b = bitmap;
+                                    meal = new Meal(
+                                            jsonOrders.get("photo").toString(),
+                                            parseInt(jsonOrders.get("prix").toString()),
+                                            jsonOrders.get("titre").toString(),
+                                            jsonObject.get("_id").toString(),
+                                            jsonObject.get("date").toString()+"  "+jsonObject.get("creneau").toString(),
+                                            jsonOrders.get("description").toString(),
+                                            LatLng.get("rue").toString(),
+                                            new LatLng(lat,lng)
+                                    );
+                                    meal.setContain(jsonOrders.getBoolean("contenant"));
 
-                                                Marker marker = mGoogleMap.addMarker(
-                                                        new MarkerOptions()
-                                                                .position(new LatLng(lat,lng))
-                                                                .title(finalMeal.getName())
-                                                                .snippet(finalMeal.getDescription()+" "+finalMeal.getDate())
-                                                                .icon(BitmapDescriptorFactory.fromBitmap(b))
-                                                                .anchor(0.5f, 1)
+                                    final Meal finalMeal = meal;
+                                    Volley.newRequestQueue(getActivity().getApplicationContext())
+                                            .add(new ImageRequest(meal.getPhoto(), new Response.Listener<Bitmap>() {
+                                                @Override
+                                                public void onResponse(Bitmap bitmap) {
+                                                    b = bitmap;
 
-                                                );
-                                                marker.setTag(finalMeal);
+                                                    Marker marker = mGoogleMap.addMarker(
+                                                            new MarkerOptions()
+                                                                    .position(new LatLng(lat,lng))
+                                                                    .title(finalMeal.getName())
+                                                                    .snippet(finalMeal.getDescription()+" "+finalMeal.getDate())
+                                                                    .icon(BitmapDescriptorFactory.fromBitmap(b))
+                                                                    .anchor(0.5f, 1)
 
-                                            }
-                                            //TODO change size of bitmap
-                                        }, 100, 100, null, null));
-                                mealList.add(meal);
+                                                    );
+                                                    marker.setTag(finalMeal);
+
+                                                }
+                                                //TODO change size of bitmap
+                                            }, 100, 100, null, null));
+                                    mealList.add(meal);
+                                }
                             }
                             //mAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

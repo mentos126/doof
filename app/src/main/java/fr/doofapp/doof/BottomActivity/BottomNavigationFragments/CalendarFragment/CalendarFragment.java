@@ -1,10 +1,15 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment;
 
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -35,6 +40,8 @@ import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreMealAdapterFragment;
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.LoginActivity.LoginActivity;
+import fr.doofapp.doof.Notify.NotifyCalendarService;
 import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
 
@@ -47,6 +54,8 @@ public class CalendarFragment extends Fragment {
     private RecyclerView meals;
     private CalendarAdapterFragment mAdapter;
     View rootView;
+
+    Button notif;
 
     public CalendarFragment(){}
 
@@ -69,6 +78,30 @@ public class CalendarFragment extends Fragment {
         meals.setLayoutManager(mOnlineLayoutManager);
         meals.setItemAnimator(new DefaultItemAnimator());
         meals.setAdapter(mAdapter);
+
+        //NotifyCalendarService notify = new NotifyCalendarService();
+
+        notif = (Button) rootView.findViewById(R.id.notif);
+        notif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+                builder.setSmallIcon(R.drawable.ic_cake_white_24dp);
+                builder.setContentTitle("My title");
+                builder.setContentText("My Text");
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+                stackBuilder.addParentStack(LoginActivity.class);
+                stackBuilder.addNextIntent(intent);
+                PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(pendingIntent);
+                builder.setAutoCancel(true);
+                NotificationManager NM = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                NM.notify(0, builder.build());
+
+            }
+        });
 
         prepareMealData();
 

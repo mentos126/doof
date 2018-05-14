@@ -30,7 +30,6 @@ import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
-//TODO PB sur les tabview lors de changement de fragment !!!
 public class BottomActivity extends AppCompatActivity /*implements SearchFragment.SendListMeal*/ {
 
     private UserDAO db;
@@ -49,6 +48,7 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     }else{
                         fragment = new NotConnectedFragment();
                     }
+                    fragment = new CalendarFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_rechercher:

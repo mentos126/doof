@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -34,6 +35,7 @@ import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
 
+import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 
@@ -45,9 +47,7 @@ public class ListStoreFragment extends Fragment {
     View rootView;
 
 
-    public ListStoreFragment() {
-        // Required empty public constructor
-    }
+    public ListStoreFragment() {}
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_list_store, container, false);
@@ -71,43 +71,48 @@ public class ListStoreFragment extends Fragment {
 
     }
 
-    /*public void receiveData(List<Meal> lm){
-        mealList = lm;
-        Log.e("========!!!!!!========",mealList.toString());
-        mAdapter.notifyDataSetChanged();
-
-    }*/
-
     protected void prepareMealData(){
 
-        //Log.e("========mLIST=======",mealList.toString());
+        String URL = URLProject.getInstance().getSEARCH_MEAL();
 
-        String URL = URLProject.getInstance().getMEALS();
-
-        JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.e("=========MEALS========", response.toString());
                         try {
-                            Meal meal;
-                            int countObject = response.length();
-                            for(int i=0 ; i<countObject; i++){
-                                JSONObject jsonObject;
-                                jsonObject = response.getJSONObject(i);
-                                meal = new Meal(
-                                        jsonObject.get("photo_meal").toString(),
-                                        parseInt(jsonObject.get("price").toString()),
-                                        jsonObject.get("title").toString(),
-                                        jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString(),
-                                        "description",
-                                        "adresse",
-                                        new LatLng(4,34)
-                                );
-                                mealList.add(meal);
+                            if(!response.isNull("error")){
+                                Toast.makeText(getActivity(), "ERREUR SERVEUR",Toast.LENGTH_LONG).show();
+                            }else{
+                                JSONArray res = response.getJSONArray("result");
+                                Meal meal;
+                                int countObject = res.length();
+                                for(int i=0 ; i<countObject; i++){
+                                    JSONObject jsonObject;
+                                    jsonObject = res.getJSONObject(i);
+                                    JSONArray orders = jsonObject.getJSONArray("orders");
+                                    JSONObject jsonOrders = orders.getJSONObject(0);
+
+                                    JSONObject LatLng;
+                                    LatLng = jsonObject.getJSONObject("adresse");
+                                    final double lat = parseDouble(LatLng.get("lat").toString());
+                                    final double lng = parseDouble(LatLng.get("lng").toString());
+
+                                    meal = new Meal(
+                                            jsonOrders.get("photo").toString(),
+                                            parseInt(jsonOrders.get("prix").toString()),
+                                            jsonOrders.get("titre").toString(),
+                                            jsonObject.get("_id").toString(),
+                                            jsonObject.get("date").toString()+"  "+jsonObject.get("creneau").toString(),
+                                            jsonOrders.get("description").toString(),
+                                            LatLng.get("rue").toString(),
+                                            new LatLng(lat,lng)
+                                    );
+                                    meal.setContain(jsonOrders.getBoolean("contenant"));
+                                    mealList.add(meal);
+                                }
+                                mAdapter.notifyDataSetChanged();
                             }
-                            mAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

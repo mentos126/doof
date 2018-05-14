@@ -95,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!email.getText().toString().equals("") && email.getText().toString().contains("@")){
                     if(pass1.getText().toString().length() >= 8 && pass1.getText().toString().equals(pass2.getText().toString())){
                         if(!adress.getText().toString().equals("")){
-                                //TODO request register account
                             JSONObject jsonBodyObj = new JSONObject();
                             try{
                                 jsonBodyObj.put("id", email.getText().toString());

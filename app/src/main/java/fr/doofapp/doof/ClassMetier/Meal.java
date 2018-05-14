@@ -14,6 +14,7 @@ public class Meal implements Serializable {
     private String description;
     private String adress;
     private LatLng latlng;
+    private Boolean contain;
 
     public Meal(String photo, int price, String name, String linkMeal, String date, String description, String adress, LatLng latlng){
         this.photo = photo;
@@ -49,4 +50,7 @@ public class Meal implements Serializable {
 
     public LatLng getLatlng() {return latlng;}
     public void setLatlng(LatLng latlng) {this.latlng = latlng;}
+
+    public Boolean getContain() {return contain;}
+    public void setContain(Boolean contain) {this.contain = contain;}
 }

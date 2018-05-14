@@ -37,6 +37,8 @@ import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
+import fr.doofapp.doof.ProfileActivity.TabsFragments.ProfileCommentFragment.PublicProfileCommentsListFragment;
+import fr.doofapp.doof.ProfileActivity.TabsFragments.ProfileMealFragment.PublicProfileMealsListsFragment;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
@@ -62,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Button editPhoto;
     private Button editProfile;
+
+    private String link;
 
     private int[] tabIcons = {
             R.drawable.ic_dashboard_black_24dp,
@@ -146,6 +150,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            link= null;
+        } else {
+            link= extras.getString("Link");
+        }
+
+
         mProfile = new Profile("ERREUR","ERREUR","ERREUR",-1, "ERREUR",
                 -1,-1,-1,-1, "ERREUR", "ERREUR");
 
@@ -205,8 +217,8 @@ public class ProfileActivity extends AppCompatActivity {
     * */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
-        adapter.addFragment(new ProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
+        adapter.addFragment(new PublicProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
+        adapter.addFragment(new PublicProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
         viewPager.setAdapter(adapter);
     }
 

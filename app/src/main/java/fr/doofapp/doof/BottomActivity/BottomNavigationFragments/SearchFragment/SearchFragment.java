@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,7 @@ import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.MapsStoreFragment;
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.R;
 
@@ -68,6 +70,12 @@ public class SearchFragment extends Fragment {
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabsSearch);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcon();
+
+        CommandCache.setMeal(new Meal("",-1,"","","","","",new LatLng(0,0)));
+        CommandCache.setAllergens(new ArrayList<String>());
+        CommandCache.setPrices(new ArrayList<Integer>());
+        CommandCache.setMeals(new ArrayList<Meal>());
+
         return rootView;
     }
 
