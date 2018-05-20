@@ -397,10 +397,10 @@ public class CommentActivity extends AppCompatActivity {
 
                 User u = null;
                 db.open();
-                db.addUser(u);
+                u = db.getUserConnected();
                 db.close();
                 //TODO change url and jsoon
-                String URL = URLProject.getInstance().getREGISTER();
+                String URL = "/"+u.getToken();
 
                 dialog = ProgressDialog.show(this, "", "", true);
                 mQueue.add(createRequest(URL, json));
