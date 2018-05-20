@@ -1,10 +1,13 @@
 package fr.doofapp.doof.MealActivity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,6 +38,8 @@ public class MealActivity extends AppCompatActivity {
     private Meal meal;
     private List<String> allergens;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +68,16 @@ public class MealActivity extends AppCompatActivity {
         adress = (TextView) findViewById(R.id.prompt_adress);
         if_contenant = (TextView) findViewById(R.id.prompt_if_contenant);
 
+        dialog = ProgressDialog.show(this, "", "", true);
         getMealWeb();
 
     }
 
     public void getMealWeb(){
+        //TODO change celon les envies et le jSON
+
         String link = meal.getLinkMeal();
-        //TODO use link for url
-        String URL = URLProject.getInstance().getONEMEAL();
+        String URL = URLProject.getInstance().getONEMEAL()+"/"+meal.getLinkMeal();
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
@@ -136,11 +143,14 @@ public class MealActivity extends AppCompatActivity {
                         }catch (Exception e){
                             e.printStackTrace();
                         }
+                        dialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.prompt_error_impossible),Toast.LENGTH_SHORT).show();
                         VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
                     }
                 });

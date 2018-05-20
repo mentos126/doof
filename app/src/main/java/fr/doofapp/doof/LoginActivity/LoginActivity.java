@@ -404,10 +404,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         ///////////////////////////////////
 
         private JsonObjectRequest createRequest(String URL)  {
+
+            MessageDigest digest = null;
+            byte[] hash = new byte[0];
+            String resPass = null;
+            try {
+                digest = MessageDigest.getInstance("SHA-256");
+                hash = digest.digest(mPassword.getBytes("UTF-8"));
+                resPass = convertByteArrayToHexString(hash);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            //Log.d("LoginActivity", resPass);
+
             JSONObject jsonBodyObj = new JSONObject();
             try{
                 jsonBodyObj.put("id", mEmail);
-                jsonBodyObj.put("pwd", mPassword);
+                jsonBodyObj.put("pwd", resPass);
             }catch (JSONException e){
                 e.printStackTrace();
             }
@@ -432,10 +447,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 response.get("token").toString(),
                                 1,
                                 1);
-                        /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                        byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-                        String resPass = convertByteArrayToHexString(hash);*/
-                        //Log.d("LoginActivity", resPass);
 
                         if(response.isNull("error")){
                             db.open();

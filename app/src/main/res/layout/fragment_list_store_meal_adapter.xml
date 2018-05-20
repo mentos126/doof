@@ -45,9 +45,8 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="11dp" />
 
-
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/nb_part"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/date"
@@ -56,6 +55,25 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="11dp" />
 
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nb_part"
+                android:layout_marginRight="10dp"
+                android:gravity="right"
+                android:textColor="@color/colorAccent"
+                android:textSize="11dp" />
+
+            <TextView
+                android:id="@+id/tv10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/price"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:text="@string/prompt_commend"
+                android:textSize="22dp" />
 
         </RelativeLayout>
 

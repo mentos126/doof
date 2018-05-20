@@ -30,7 +30,7 @@ import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.R;
 
-public class BottomActivity extends AppCompatActivity /*implements SearchFragment.SendListMeal*/ {
+public class BottomActivity extends AppCompatActivity {
 
     private UserDAO db;
     private User u;
@@ -48,7 +48,6 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     }else{
                         fragment = new NotConnectedFragment();
                     }
-                    fragment = new CalendarFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_rechercher:
@@ -105,6 +104,7 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
             Log.e("=======USER=ID=========","NULL");
         }else{
             Log.e("=======USER=ID=========",u.getUserId());
+            Log.e("=======USER=ID=========",u.getToken());
         }
         if (u != null && u.getConnected() == 1){
             Log.e("=======USER=CO=========","YES");
@@ -133,9 +133,15 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
         Fragment fragment;
         int tab;
         try {
-            tab = (int) getIntent().getSerializableExtra("Tab");
+            Log.e("======1========","===================");
+            Log.e("=======2=======","TAB");
+            Intent intent2 = getIntent();
+            tab = intent2.getIntExtra("Tab",-1 );
+            Log.e("========3======","===================");
+            Log.e("=========4=====",tab+"");
             switch (tab) {
-                case R.id.navigation_agenda:
+                case 1:
+                    tab = R.id.navigation_agenda;
                     if(userIsConnected()){
                         fragment = new CalendarFragment();
                     }else{
@@ -160,7 +166,8 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     }
                     loadFragment(fragment);
                     break;
-                case R.id.navigation_profil:
+                case 4:
+                    tab = R.id.navigation_profil;
                     if(userIsConnected()){
                         fragment = new ProfileFragment();
                     }else{
@@ -168,10 +175,16 @@ public class BottomActivity extends AppCompatActivity /*implements SearchFragmen
                     }
                     loadFragment(fragment);
                     break;
+                default:
+                    tab = R.id.navigation_rechercher;
+                    fragment = new SearchFragment();
+                    loadFragment(fragment);
+                    break;
+
             }
         }catch (Exception e){
-            tab = R.id.navigation_agenda;
-            fragment = new CalendarFragment();
+            tab = R.id.navigation_rechercher;
+            fragment = new SearchFragment();
             loadFragment(fragment);
         }
         navigation.setSelectedItemId(tab);

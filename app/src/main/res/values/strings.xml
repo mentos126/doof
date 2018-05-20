@@ -192,6 +192,11 @@
     <string name="prompt_error_firstname">Renseigner votre prénom</string>
     <string name="prompt_error_familyname">Renseigné votre nom</string>
     <string name="prompt_error_nbportion">renseigné le nombre de portion</string>
+    <string name="prompt_error_impossible">ERREUR IMPOSSIBLE</string>
+    <string name="prompt_commend">COMMANDER</string>
+    <string name="prompt_deconexion">Déconnection</string>
+    <string name="prompt_title_credit">Acheter des tickets</string>
+    <string name="prompt_credit">Créditer des tickets</string>
 
 
 </resources>

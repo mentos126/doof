@@ -1,5 +1,7 @@
 package fr.doofapp.doof.LoginActivity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private UserDAO db;
 
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,16 +94,42 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private String convertByteArrayToHexString(byte[] arrayBytes) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < arrayBytes.length; i++) {
+            stringBuffer.append(Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16)
+                    .substring(1));
+        }
+        return stringBuffer.toString();
+    }
+
     private void doActionValidate() {
         if(!family_name.getText().toString().equals("")){
             if(!first_name.getText().toString().equals("")){
                 if(!email.getText().toString().equals("") && email.getText().toString().contains("@")){
                     if(pass1.getText().toString().length() >= 8 && pass1.getText().toString().equals(pass2.getText().toString())){
                         if(!adress.getText().toString().equals("")){
+
+
+                            byte[] hash = new byte[0];
+                            MessageDigest digest = null;
+                            String resPass = null;
+                            try {
+                                digest = MessageDigest.getInstance("SHA-256");
+                                hash = digest.digest(pass1.getText().toString().getBytes("UTF-8"));
+                                resPass = convertByteArrayToHexString(hash);
+                            }catch (NoSuchAlgorithmException e) {
+                                    e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("========DIGEST========",resPass);
+
                             JSONObject jsonBodyObj = new JSONObject();
                             try{
                                 jsonBodyObj.put("id", email.getText().toString());
-                                jsonBodyObj.put("pwd", pass1.getText().toString());
+                                jsonBodyObj.put("pwd", resPass);
                                 jsonBodyObj.put("prenom", first_name.getText().toString());
                                 jsonBodyObj.put("nom", family_name.getText().toString());
                                 jsonBodyObj.put("adresse", adress.getText().toString());
@@ -107,7 +138,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             String URL = URLProject.getInstance().getREGISTER();
+
+                            dialog = ProgressDialog.show(this, "", "", true);
                             mQueue.add(createRequest(URL, jsonBodyObj, 0));
+
 
                         }else {
                             Toast.makeText(this, R.string.prompt_error_adress,Toast.LENGTH_LONG).show();
@@ -145,17 +179,26 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     VolleyLog.v("Response:%n %s", response.toString(4));
 
-                    /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-                    String resPass = convertByteArrayToHexString(hash);*/
-
                     if(response.isNull("error")){
                         switch (who){
                             case 0: {
+                                byte[] hash = new byte[0];
+                                MessageDigest digest = null;
+                                String resPass = null;
+                                try {
+                                    digest = MessageDigest.getInstance("SHA-256");
+                                    hash = digest.digest(pass1.getText().toString().getBytes("UTF-8"));
+                                    resPass = convertByteArrayToHexString(hash);
+                                }catch (NoSuchAlgorithmException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+
                                 JSONObject jsonBodyObj = new JSONObject();
                                 try{
                                     jsonBodyObj.put("id", email.getText().toString());
-                                    jsonBodyObj.put("pwd", pass1.getText().toString());
+                                    jsonBodyObj.put("pwd", resPass);
                                 }catch (JSONException e){
                                     e.printStackTrace();
                                 }
@@ -174,6 +217,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 db.addUser(u);
                                 db.close();
 
+                                dialog.dismiss();
+
                                 Intent intent = new Intent(RegisterActivity.this, BottomActivity.class);
                                 startActivity(intent);
 
@@ -191,6 +236,8 @@ public class RegisterActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(),"ERREUR IMPOSSIBLE",Toast.LENGTH_LONG).show();
                 VolleyLog.e("Error: ", error.getMessage());
             }
         }){

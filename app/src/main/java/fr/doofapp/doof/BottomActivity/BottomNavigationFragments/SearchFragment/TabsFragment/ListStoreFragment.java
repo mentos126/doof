@@ -108,6 +108,8 @@ public class ListStoreFragment extends Fragment {
                                             LatLng.get("rue").toString(),
                                             new LatLng(lat,lng)
                                     );
+
+                                    meal.setNbPart(parseInt(jsonOrders.get("nbPart").toString()));
                                     meal.setContain(jsonOrders.getBoolean("contenant"));
                                     mealList.add(meal);
                                 }

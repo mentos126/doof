@@ -121,6 +121,9 @@ public class Step5CookFragment extends Fragment {
         mainNbPortion =  ListMealCache.getNbPortions().get(0);
         mainPrice = ListMealCache.getPrices().get(0);
 
+        Log.e("========PRICE=======", mainPrice+"");
+        Log.e("========NBPORT=======", mainNbPortion+"");
+
         prompt_adress = (TextView) rootView.findViewById(R.id.prompt_adress);
         prompt_adress.setText(adress);
         prompt_date = (TextView) rootView.findViewById(R.id.prompt_date);
@@ -162,49 +165,43 @@ public class Step5CookFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //dialog = ProgressDialog.show(getActivity(), "", "Uploading file...", true);
-                //loading = ProgressDialog.show(getActivity(),"Uploading...","Please wait...",false,false);
+              dialog = ProgressDialog.show(getActivity(), "", "Uploading file...", true);
                 new Thread(new Runnable() {
                     public void run() {
-                        /*getActivity().runOnUiThread(new Runnable() {
+                        getActivity().runOnUiThread(new Runnable() {
                             public void run() {
                                 Log.e("==========BEGIN========","uploading started.....");
+                                JSONObject jsonBodyObj = new JSONObject();
+                                try{
+
+                                    jsonBodyObj.put("adresse", adress);
+                                    jsonBodyObj.put("date", date);
+                                    jsonBodyObj.put("photo", toBase64(mainPhoto));
+                                    jsonBodyObj.put("creneau", time);
+                                    jsonBodyObj.put("titre",mainTitle);
+                                    jsonBodyObj.put("description",mainDescription);
+                                    jsonBodyObj.put("prix",mainPrice);
+                                    jsonBodyObj.put("nbPart",mainNbPortion);
+                                    jsonBodyObj.put("contenant", contain);
+                                    jsonBodyObj.put("allergenes", null);
+
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+                                String URL = URLProject.getInstance().getCREATE_MEAL();
+                                db.open();
+                                User u = null;
+                                u = db.getUserConnected();
+                                db.close();
+                                URL = URL + "/" + u.getToken();
+                                mQueue.add(createRequest(URL, jsonBodyObj));
+
                             }
-                        });*/
-
-                        //uploadFile();
-
-                        uploadImage(mainPhoto);
-
-                        //testBitmap();
+                        });
 
                     }
                 }).start();
 
-                /*JSONObject jsonBodyObj = new JSONObject();
-                try{
-
-                    jsonBodyObj.put("adresse", adress);
-                    jsonBodyObj.put("date", date);
-                    jsonBodyObj.put("photo", null);
-                    jsonBodyObj.put("creneau", time);
-                    jsonBodyObj.put("titre",mainTitle);
-                    jsonBodyObj.put("description",mainDescription);
-                    jsonBodyObj.put("prix",mainPrice);
-                    jsonBodyObj.put("nbPart",mainNbPortion);
-                    jsonBodyObj.put("contenant", contain);
-                    jsonBodyObj.put("allergenes", null);
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-                String URL = URLProject.getInstance().getCREATE_MEAL();
-                db.open();
-                User u = null;
-                u = db.getUserConnected();
-                db.close();
-                URL = URL + "/" + u.getToken();
-                mQueue.add(createRequest(URL, jsonBodyObj));*/
 
             }
         });
@@ -214,10 +211,85 @@ public class Step5CookFragment extends Fragment {
 
     public String toBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
+
+    private void setTvCookieText(String str) {}
+
+    public Cookie getCookie(CookieStore cs, String cookieName) {
+        Cookie ret = null;
+        List<Cookie> l = cs.getCookies();
+        for (Cookie c : l) {
+            if (c.getName().equals(cookieName)) {
+                ret = c;
+                break;
+            }
+        }
+        return ret;
+    }
+
+    private JsonObjectRequest createRequest(String URL, JSONObject jsonObject)  {
+        JSONObject jsonBodyObj =  jsonObject;
+        final String requestBody = jsonBodyObj.toString();
+        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
+                URL, jsonBodyObj, new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                CookieStore cs = mHttpClient.getCookieStore();
+                BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
+                if (c != null) {
+                    setTvCookieText(c.getValue());
+                }
+
+                cs.addCookie(c);
+                Log.d("SUCCESS LISTENER", response.toString());
+                dialog.dismiss();
+                try {
+                    VolleyLog.v("Response:%n %s", response.toString(4));
+
+                    if(response.isNull("error")){
+
+                        Intent myIntent = new Intent(getActivity(), BottomActivity.class);
+                        getActivity().startActivity(myIntent);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            public byte[] getBody() {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+        return JOPR;
+    }
+
+
+    /*********************TEST NE MARCHE PAS****************************/
 
     private void testBitmap() {
         String url = URLProject.getInstance().getUPLOAD();
@@ -266,79 +338,6 @@ public class Step5CookFragment extends Fragment {
         requestQueue.add(stringRequest);
 
 
-    }
-
-
-    private JsonObjectRequest createRequest(String URL, JSONObject jsonObject)  {
-        JSONObject jsonBodyObj =  jsonObject;
-        final String requestBody = jsonBodyObj.toString();
-        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
-                URL, jsonBodyObj, new Response.Listener<JSONObject>(){
-            @Override
-            public void onResponse(JSONObject response) {
-                CookieStore cs = mHttpClient.getCookieStore();
-                BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
-                if (c != null) {
-                    setTvCookieText(c.getValue());
-                }
-                cs.addCookie(c);
-                Log.d("SUCCESS LISTENER", response.toString());
-                try {
-                    VolleyLog.v("Response:%n %s", response.toString(4));
-
-                    /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    byte[] hash = digest.digest(mPassword.getBytes("UTF-8"));
-                    String resPass = convertByteArrayToHexString(hash);*/
-
-                    if(response.isNull("error")){
-
-                        Intent myIntent = new Intent(getActivity(), BottomActivity.class);
-                        getActivity().startActivity(myIntent);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-            @Override
-            public byte[] getBody() {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
-                            requestBody, "utf-8");
-                    return null;
-                }
-            }
-        };
-        return JOPR;
-    }
-
-    private void setTvCookieText(String str) {}
-
-    public Cookie getCookie(CookieStore cs, String cookieName) {
-        Cookie ret = null;
-        List<Cookie> l = cs.getCookies();
-        for (Cookie c : l) {
-            if (c.getName().equals(cookieName)) {
-                ret = c;
-                break;
-            }
-        }
-        return ret;
     }
 
 
@@ -501,9 +500,6 @@ public class Step5CookFragment extends Fragment {
         } // End else block
     }
 
-
-
-
     private void uploadImage(Bitmap thumbnailBitmap) {
         String lineEnd = "\r\n";
         String twoHyphens = "--";
@@ -586,5 +582,7 @@ public class Step5CookFragment extends Fragment {
 
         dataOutputStream.writeBytes(lineEnd);
     }
+
+    /*******************FIN TEST NE MARCHE PAS***************************/
 
 }

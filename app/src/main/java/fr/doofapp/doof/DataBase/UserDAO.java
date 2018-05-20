@@ -77,6 +77,7 @@ public class UserDAO extends DAOBase{
         c.close();
         User u = new User(email, password, token, role, isConnected);
         return u;
+
     }
 
 

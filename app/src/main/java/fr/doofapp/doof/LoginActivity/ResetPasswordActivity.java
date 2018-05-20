@@ -41,9 +41,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     pass1.getText().toString().equals(pass2.getText().toString())){
 
                 //TODO request reset password
-
-                Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
-                startActivity(intent);
+                Toast.makeText(this, "PAS ENCORE IMPLEMENTER",Toast.LENGTH_SHORT).show();
+                /*Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                startActivity(intent);*/
 
             }else{
                 Toast.makeText(this, R.string.prompt_error_password,Toast.LENGTH_LONG).show();

@@ -2,6 +2,7 @@ package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -76,6 +77,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     View mView;
     List<Meal> mealList = new ArrayList<>();
     Bitmap b;
+
+    Dialog dialog;
 
     LocationManager locationManager;
     LocationListener locationListener;
@@ -267,7 +270,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
                                                             new MarkerOptions()
                                                                     .position(new LatLng(lat,lng))
                                                                     .title(finalMeal.getName())
-                                                                    .snippet(finalMeal.getDescription()+" "+finalMeal.getDate())
+                                                                    .snippet(finalMeal.getDate()+" "+finalMeal.getDescription())
+                                                                    .snippet(getString(R.string.prompt_commend))
                                                                     .icon(BitmapDescriptorFactory.fromBitmap(b))
                                                                     .anchor(0.5f, 1)
 
@@ -275,7 +279,6 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
                                                     marker.setTag(finalMeal);
 
                                                 }
-                                                //TODO change size of bitmap
                                             }, 100, 100, null, null));
                                     mealList.add(meal);
                                 }

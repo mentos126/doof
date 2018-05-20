@@ -99,8 +99,9 @@
 
         <service
             android:name=".Notify.NotifyCalendarService"
-            android:exported="false"/>
+            android:exported="false" />
 
+        <activity android:name=".CreditActivity.CreditActivity"></activity>
     </application>
 
 </manifest>

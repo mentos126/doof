@@ -33,6 +33,7 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import fr.doofapp.doof.ClassMetier.ListMealCache;
 import fr.doofapp.doof.R;
@@ -144,15 +145,11 @@ public class Step3CookFragment extends Fragment {
                     if(newPhoto != null){
                         Boolean ct = contain.isChecked();
 
-                        /*ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        newPhoto.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();*/
-
-                        List<String> titles = ListMealCache.getTitles();
-                        List<String> descriptions = ListMealCache.getDescriptions();
+                        List<String> titles = new ArrayList<>(); //ListMealCache.getTitles();
+                        List<String> descriptions = new ArrayList<>(); //ListMealCache.getDescriptions();
                         List<Bitmap> photos = ListMealCache.getPhotos();
-                        List<Integer> nbPortions = ListMealCache.getNbPortions();
-                        List<Integer> prices = ListMealCache.getPrices();
+                        List<Integer> nbPortions = new ArrayList<>(); //ListMealCache.getNbPortions();
+                        List<Integer> prices = new ArrayList<>();//ListMealCache.getPrices();
 
                         titles.add(title);
                         descriptions.add(desc);
@@ -166,6 +163,9 @@ public class Step3CookFragment extends Fragment {
                         ListMealCache.setPhotos(photos);
                         ListMealCache.setNbPortions(nbPortions);
                         ListMealCache.setPrices(prices);
+
+                        Log.e("========PRICE=======", prices+"");
+                        Log.e("========NBPORT=======", nbPortion+"");
 
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -196,7 +196,7 @@ public class Step3CookFragment extends Fragment {
         new MaterialFilePicker()
                 .withSupportFragment(this)
                 .withRequestCode(1)
-                //.withFilter(Pattern.compile(".*\\.jpg$")) // Filtering files and directories by file name using regexp
+                //.withFilter(Pattern.compile(".*\\.png$")) // Filtering files and directories by file name using regexp
                 .withFilterDirectories(false) // Set directories filterable (false by default)
                 .withHiddenFiles(false) // Show hidden files and folders
                 .start();

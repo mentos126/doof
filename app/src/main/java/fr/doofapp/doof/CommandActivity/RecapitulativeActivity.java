@@ -172,7 +172,6 @@ public class RecapitulativeActivity extends AppCompatActivity implements OnMapRe
                                     marker.setTag(meals.get(0));
 
                                 }
-                                //TODO change size of bitmap
                             }, 100, 100, null, null));
 
                 }else{

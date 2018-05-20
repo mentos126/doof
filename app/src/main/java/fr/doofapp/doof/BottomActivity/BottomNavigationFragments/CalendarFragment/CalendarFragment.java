@@ -1,8 +1,10 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CalendarFragment;
 
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,6 +56,7 @@ public class CalendarFragment extends Fragment {
     private RecyclerView meals;
     private CalendarAdapterFragment mAdapter;
     View rootView;
+    Dialog dialog;
 
     Button notif;
 
@@ -79,9 +82,8 @@ public class CalendarFragment extends Fragment {
         meals.setItemAnimator(new DefaultItemAnimator());
         meals.setAdapter(mAdapter);
 
-        //NotifyCalendarService notify = new NotifyCalendarService();
-
-        notif = (Button) rootView.findViewById(R.id.notif);
+        // test
+        /*notif = (Button) rootView.findViewById(R.id.notif);
         notif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +103,7 @@ public class CalendarFragment extends Fragment {
                 NM.notify(0, builder.build());
 
             }
-        });
+        });*/
 
         prepareMealData();
 
@@ -109,12 +111,14 @@ public class CalendarFragment extends Fragment {
 
     protected void prepareMealData(){
         String URL = URLProject.getInstance().getCALENDARMEALS();
+        dialog = ProgressDialog.show(getActivity(), "", "", true);
 
         JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("=========MEALS========", response.toString());
+                        dialog.dismiss();
                         try {
                             Meal meal;
                             int countObject = response.length();
@@ -144,6 +148,7 @@ public class CalendarFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
                         VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
                     }
                 });

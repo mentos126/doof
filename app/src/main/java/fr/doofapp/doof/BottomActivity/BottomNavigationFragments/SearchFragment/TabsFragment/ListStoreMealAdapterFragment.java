@@ -27,7 +27,7 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
     private List<Meal> mealList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price, date;
+        public TextView name, price, date, nbPart;
         public ImageView photo;
         public CardView cardView;
         public RelativeLayout rel;
@@ -40,6 +40,7 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
             date = (TextView) view.findViewById(R.id.date);
             cardView  = (CardView) view.findViewById(R.id.card_view);
             rel  = (RelativeLayout) view.findViewById(R.id.rel);
+            nbPart = (TextView) view.findViewById(R.id.nb_part);
         }
     }
 
@@ -65,6 +66,8 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
         String s = m.getPrice()+" ticket";
         holder.price.setText(s);
         holder.date.setText(m.getDate());
+        s = "Nombre de part restante:"  + m.getNbPart();
+        holder.nbPart.setText(s);
         Glide.with(context)
                 .load(m.getPhoto())
                 .into(holder.photo);

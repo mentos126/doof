@@ -1,5 +1,7 @@
 package fr.doofapp.doof.CommandActivity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +39,7 @@ import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
 public class CommandMealActivity extends AppCompatActivity {
 
@@ -45,14 +48,15 @@ public class CommandMealActivity extends AppCompatActivity {
             how_many, date, heure, adress, if_contenant;
     Button minus, plus, validate;
 
-    //TODO change par list<pair<meal,integer>>
-    // passer une liste de plat
     private Meal meal;
     private int nbMeals;
 
     private List<String> allergens;
     LinearLayout rel_primary, rel_secondary;
     Button bt;
+
+    int maxNbPart;
+    Dialog dialog;
 
     private UserDAO db;
     private User u;
@@ -62,12 +66,17 @@ public class CommandMealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_command_meal);
 
+        maxNbPart = 0;
+
         allergens = new ArrayList<>();
-        db = new UserDAO(getApplicationContext());
+        //db = new UserDAO(getApplicationContext());
+        db = new UserDAO(this);
 
         meal = CommandCache.getMeal();
         Log.e("=============",meal.getLinkMeal());
         nbMeals = 0;
+
+        CommandCache.setNbPart(0);
 
         bt = (Button) findViewById(R.id.bt);
         bt.setOnClickListener(new View.OnClickListener() {
@@ -155,14 +164,16 @@ public class CommandMealActivity extends AppCompatActivity {
 
     public void getMealWeb(){
         String link = meal.getLinkMeal();
-        //TODO use link for url
         String URL = URLProject.getInstance().getONEMEAL()+"/"+meal.getLinkMeal();
+
+        dialog = ProgressDialog.show(this, "", "", true);
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("LoginActivity", response.toString());
+                        dialog.dismiss();
                         try {
 
                             if(!response.isNull("error")){
@@ -174,9 +185,9 @@ public class CommandMealActivity extends AppCompatActivity {
                                 CommandCache.setIdOrder(meal.getJSONArray("orders").getJSONObject(0).get("_id").toString());
 
                                 final String link =  user.get("_id").toString();
+                                maxNbPart = parseInt(meal.getJSONArray("orders").getJSONObject(0).get("nbPart").toString());
 
-                                //TODO photo + link
-                                //new DownLoadImageTask(photo).execute(user.get("photo").toString());
+                                new DownLoadImageTask(photo).execute(user.get("photo").toString());
                                 photo.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -259,6 +270,8 @@ public class CommandMealActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                         VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
                     }
                 });
@@ -277,16 +290,21 @@ public class CommandMealActivity extends AppCompatActivity {
         }
         String s = nbMeals+"";
         how_many.setText(s);
+        CommandCache.setNbPart(nbMeals);
     }
 
     public void doPlusAction(){
-        if (nbMeals <= 0){
+        if (nbMeals >= maxNbPart){
+            nbMeals = maxNbPart;
+        }else if (nbMeals <= 0){
             nbMeals = 1;
-        }else{
+        }else {
             nbMeals++;
         }
         String s = nbMeals+"";
         how_many.setText(s);
+        CommandCache.setNbPart(nbMeals);
+
     }
 
     public void doValidateAction(){

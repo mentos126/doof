@@ -1,5 +1,7 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.StepsCookFragment;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +56,8 @@ public class Step2CookFragment extends Fragment {
     LinearLayout rel;
     EditText new_adress;
 
+    Dialog dialog;
+
     private UserDAO db;
 
     private AbstractHttpClient mHttpClient;
@@ -68,6 +72,7 @@ public class Step2CookFragment extends Fragment {
         db = new UserDAO(getActivity());
 
         String URL = URLProject.getInstance().getMY_ADRESS();
+        dialog = ProgressDialog.show(getActivity(), "", "", true);
         mQueue.add(createRequest(URL));
 
         rel = (LinearLayout) rootView.findViewById(R.id.rel);
@@ -196,10 +201,13 @@ public class Step2CookFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        dialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(),getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                 VolleyLog.e("Error: ", error.getMessage());
             }
         });

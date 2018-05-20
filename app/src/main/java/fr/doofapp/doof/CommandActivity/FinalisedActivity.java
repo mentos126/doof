@@ -22,8 +22,9 @@ public class FinalisedActivity extends Activity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(FinalisedActivity.this, BottomActivity.class);
-                startActivity(myIntent);
+                Intent intent = new Intent(FinalisedActivity.this, BottomActivity.class);
+                intent.putExtra("Tab",1);
+                startActivity(intent);
             }
         });
 

@@ -1,5 +1,7 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,6 +53,7 @@ public class ProfileMealsListsFragment extends Fragment {
     private int nbOnlineMeals;
     private int nbLastMeals;
 
+    private Dialog dialog;
 
     public ProfileMealsListsFragment() {
         // Required empty public constructor
@@ -94,11 +98,12 @@ public class ProfileMealsListsFragment extends Fragment {
     public void prepareMealData(){
 
         String URL = URLProject.getInstance().getPROFILE_MEALS();
-
+        dialog = ProgressDialog.show(getActivity(), "", "", true);
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        dialog.dismiss();
                         Log.e("=========MEALS========", response.toString());
                         try {
                             nbOnlineMeals = parseInt(response.get("nb_online_meals").toString());
@@ -153,6 +158,8 @@ public class ProfileMealsListsFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                         VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
                     }
                 });

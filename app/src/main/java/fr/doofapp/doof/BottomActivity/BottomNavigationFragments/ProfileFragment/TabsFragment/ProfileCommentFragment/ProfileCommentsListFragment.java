@@ -1,5 +1,7 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -40,6 +43,8 @@ public class ProfileCommentsListFragment extends Fragment {
     private List<Comment> comList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CommentAdapterFragment mAdapter;
+
+    Dialog dialog;
 
     public ProfileCommentsListFragment() {
         // Required empty public constructor
@@ -73,11 +78,13 @@ public class ProfileCommentsListFragment extends Fragment {
     public void prepareCommentData(){
 
         String URL = URLProject.getInstance().getPROFILE_COMMENTS();
+        dialog = ProgressDialog.show(getActivity(), "", "", true);
 
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(URL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        dialog.dismiss();
                         Log.d("LoginActivity", response.toString());
                         int countObject = response.length();
                         Comment com;
@@ -107,6 +114,8 @@ public class ProfileCommentsListFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                 VolleyLog.d("LoginActivity", "Error: " + error.getMessage());
             }
         });

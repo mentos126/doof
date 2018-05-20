@@ -1,5 +1,6 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.CookFragment.StepsCookFragment;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class Step1CookFragment extends Fragment {
     int bHour, bMin, eMin;
     private UserDAO db;
 
+    Dialog dialog;
     private AbstractHttpClient mHttpClient;
     private RequestQueue mQueue;
 

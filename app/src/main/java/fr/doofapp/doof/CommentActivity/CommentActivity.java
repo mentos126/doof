@@ -1,6 +1,8 @@
 package fr.doofapp.doof.CommentActivity;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +23,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import fr.doofapp.doof.App.DownLoadImageTask;
+import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Comment;
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
+import fr.doofapp.doof.LoginActivity.RegisterActivity;
 import fr.doofapp.doof.R;
 
 public class CommentActivity extends AppCompatActivity {
@@ -44,6 +75,7 @@ public class CommentActivity extends AppCompatActivity {
     private Bitmap newImg;
     private Comment newComment;
 
+    private Dialog dialog;
 
     /*********/
 
@@ -60,10 +92,19 @@ public class CommentActivity extends AppCompatActivity {
     private int note_cook = 5;
     private int note_cleanless = 5;
 
+    private AbstractHttpClient mHttpClient;
+    private RequestQueue mQueue;
+    private UserDAO db;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+
+        db = new UserDAO(this);
+        mHttpClient = new DefaultHttpClient();
+        mQueue = Volley.newRequestQueue(CommentActivity.this, new HttpClientStack(mHttpClient));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
@@ -342,18 +383,28 @@ public class CommentActivity extends AppCompatActivity {
 
         if(!leave_description.getText().toString().equals("")){
             if(photo_comment != null){
-                // TODO send bitmap to server to update profile "newImg"
-                //TODO send request new comment
-                newComment = new Comment(
-                        /*String descriptif*/ leave_description.getText().toString(),
-                        /*String photo*/"send in other request",
-                        /*String link*/"",
-                        /*String nameUser*/"",
-                        /*String photoUser*/"",
-                        /*double noteAccueil*/note_home,
-                        /*double noteProprete*/note_cleanless,
-                        /*double noteCuisine*/note_cook,
-                        /*double noteTotale*/0);
+
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("description",leave_description.getText().toString());
+                    json.put("photo", toBase64(newImg));
+                    json.put("note_home", note_home);
+                    json.put("note_cleanless", note_cleanless);
+                    json.put("note_cook", note_cook);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                User u = null;
+                db.open();
+                db.addUser(u);
+                db.close();
+                //TODO change url and jsoon
+                String URL = URLProject.getInstance().getREGISTER();
+
+                dialog = ProgressDialog.show(this, "", "", true);
+                mQueue.add(createRequest(URL, json));
+
 
                 Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
                 startActivity(myIntent);
@@ -364,6 +415,13 @@ public class CommentActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.prompt_write_com,Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public String toBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
     protected void actionButtonSearchFile(){
@@ -385,22 +443,20 @@ public class CommentActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap b = null;
-
         // take photo
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            b = (Bitmap) data.getExtras().get("data");
-            photo_comment.setImageBitmap(b);
+            newImg = (Bitmap) data.getExtras().get("data");
+            photo_comment.setImageBitmap(newImg);
         }
         //search file
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            b = BitmapFactory.decodeFile(filePath ,bmOptions);
-            photo_comment.setImageBitmap(b);
+            newImg = BitmapFactory.decodeFile(filePath ,bmOptions);
+            photo_comment.setImageBitmap(newImg);
         }
-        newImg = b;
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -414,5 +470,81 @@ public class CommentActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private JsonObjectRequest createRequest(String URL, JSONObject jsonObject)  {
+        JSONObject jsonBodyObj =  jsonObject;
+        final String requestBody = jsonBodyObj.toString();
+        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
+                URL, jsonBodyObj, new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                CookieStore cs = mHttpClient.getCookieStore();
+                BasicClientCookie c = (BasicClientCookie) getCookie(cs, "cookie");
+                if (c != null) {
+                    setTvCookieText(c.getValue());
+                }
+                cs.addCookie(c);
+                Log.d("SUCCESS LISTENER", response.toString());
+                try {
+                    VolleyLog.v("Response:%n %s", response.toString(4));
+
+                    if(response.isNull("error")){
+
+                                dialog.dismiss();
+
+                                Intent intent = new Intent(CommentActivity.this, BottomActivity.class);
+                                startActivity(intent);
+
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(),"ERREUR IMPOSSIBLE",Toast.LENGTH_LONG).show();
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            public byte[] getBody() {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+        return JOPR;
+    }
+
+    private void setTvCookieText(String str) {}
+
+    public Cookie getCookie(CookieStore cs, String cookieName) {
+        Cookie ret = null;
+        List<Cookie> l = cs.getCookies();
+        for (Cookie c : l) {
+            if (c.getName().equals(cookieName)) {
+                ret = c;
+                break;
+            }
+        }
+        return ret;
+    }
+
 
 }
