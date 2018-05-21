@@ -5,14 +5,49 @@
     android:layout_height="match_parent"
     tools:context=".BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/prompt_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_new"/>
+
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/calendarMeals"
+                android:id="@+id/calendarNewMeals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="40dp"/>
+
+            <TextView
+                android:id="@+id/prompt_old"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_old"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/calendarOldMeals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="40dp"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <!--Button
         android:id="@+id/notif"

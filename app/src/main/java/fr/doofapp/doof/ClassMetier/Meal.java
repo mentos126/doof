@@ -17,6 +17,9 @@ public class Meal implements Serializable {
     private Boolean contain;
     private int nbPart;
 
+    private Boolean isComment;
+    private int sold;
+
     public Meal(String photo, int price, String name, String linkMeal, String date, String description, String adress, LatLng latlng){
         this.photo = photo;
         this.price = price;
@@ -57,4 +60,10 @@ public class Meal implements Serializable {
 
     public int getNbPart() {return nbPart;}
     public void setNbPart(int nbPart) {this.nbPart = nbPart;}
+
+    public Boolean getComment() {return isComment;}
+    public void setComment(Boolean comment) {isComment = comment;}
+
+    public int getSold() {return sold;}
+    public void setSold(int sold) {this.sold = sold;}
 }

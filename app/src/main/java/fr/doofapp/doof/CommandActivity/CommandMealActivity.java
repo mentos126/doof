@@ -69,7 +69,6 @@ public class CommandMealActivity extends AppCompatActivity {
         maxNbPart = 0;
 
         allergens = new ArrayList<>();
-        //db = new UserDAO(getApplicationContext());
         db = new UserDAO(this);
 
         meal = CommandCache.getMeal();
@@ -97,8 +96,9 @@ public class CommandMealActivity extends AppCompatActivity {
         star4 = (ImageView) findViewById(R.id.star4);
         star5 = (ImageView) findViewById(R.id.star5);
 
-        meal_photo = (ImageView) findViewById(R.id.prompt_meal);
         Meal m = CommandCache.getMeal();
+
+        meal_photo = (ImageView) findViewById(R.id.prompt_meal);
         new DownLoadImageTask(meal_photo).execute(m.getPhoto());
 
         name = (TextView) findViewById(R.id.prompt_name);
@@ -117,8 +117,8 @@ public class CommandMealActivity extends AppCompatActivity {
 
         date = (TextView) findViewById(R.id.prompt_date);
         date.setText(m.getDate());
+
         heure = (TextView) findViewById(R.id.prompt_heure);
-        Log.e("======DATE=====",m.getDate());
         heure.setText(m.getDate().trim().split("\\\\s+")[0]);
 
         adress = (TextView) findViewById(R.id.prompt_adress);
@@ -163,7 +163,6 @@ public class CommandMealActivity extends AppCompatActivity {
     }
 
     public void getMealWeb(){
-        String link = meal.getLinkMeal();
         String URL = URLProject.getInstance().getONEMEAL()+"/"+meal.getLinkMeal();
 
         dialog = ProgressDialog.show(this, "", "", true);
@@ -277,8 +276,6 @@ public class CommandMealActivity extends AppCompatActivity {
                 });
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
-
-
 
     }
 

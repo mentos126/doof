@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.User;
@@ -42,11 +43,13 @@ import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.RegisterActivity;
 import fr.doofapp.doof.R;
 
+import static java.lang.Integer.parseInt;
+
 public class CreditActivity extends AppCompatActivity {
 
 
     private Button minus, plus, validate;
-    private TextView how_many;
+    private TextView how_many, sold;
 
     private int nbTikets;
 
@@ -65,6 +68,9 @@ public class CreditActivity extends AppCompatActivity {
         mHttpClient = new DefaultHttpClient();
         mQueue = Volley.newRequestQueue(CreditActivity.this, new HttpClientStack(mHttpClient));
 
+        getUserData();
+
+        sold = (TextView) findViewById(R.id.prompt_sold);
 
         nbTikets = 0;
 
@@ -105,11 +111,11 @@ public class CreditActivity extends AppCompatActivity {
         db.open();
         u = db.getUserConnected();
         db.close();
-        String URL = "/"+u.getToken();
+        String URL = URLProject.getInstance().getCREDIT()+"/"+u.getToken();
 
         JSONObject jsonBodyObj = new JSONObject();
         try{
-            jsonBodyObj.put("montant", nbTikets);
+            jsonBodyObj.put("value", nbTikets);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -120,6 +126,48 @@ public class CreditActivity extends AppCompatActivity {
 
     }
 
+
+    protected void getUserData(){
+        db.open();
+        User u = db.getUserConnected();
+        db.close();
+        String URL = URLProject.getInstance().getGET_NB_TIKET()+"/"+u.getToken();
+        dialog = ProgressDialog.show(this, "", "", true);
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("FINALISEACTIVITY", response.toString());
+                        dialog.dismiss();
+                        try {
+
+                            if(!response.isNull("error")){
+                                Toast.makeText(CreditActivity.this, "ERREUR SERVEUR",Toast.LENGTH_LONG).show();
+                            }else {
+                                int t = parseInt(response.get("result").toString());
+                                String s= getResources().getString(R.string.prompt_sold) +t;
+                                sold.setText(s);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "ERREUR IMPOSSIBLE", Toast.LENGTH_SHORT).show();
+                        VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
+                    }
+                });
+
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
+
+    }
 
     public void doMinusAction(){
         if (nbTikets <= 0){

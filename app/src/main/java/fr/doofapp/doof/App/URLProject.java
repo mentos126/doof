@@ -16,16 +16,9 @@ public class URLProject  {
     private String ONEMEAL = API + "repas/show";
     private String GET_NB_TIKET = API + "account/get/credit";
     private String COMMAND_ORDER = API + "repas/order";
-
-
-    /*private String PROFILE = API + "/profile.json";
-    private String MYPROFILE = PROFILE;
-    private String UPDATE_PROFILE = API + "/update_profile.json";
-    private String PROFILE_COMMENTS = API + "/comments.json";
-    private String PROFILE_MEALS = API + "/profile_meals.json";
-    private String MEALS = API + "/meals.json";
-    private String CALENDARMEALS = API + "/calendar.json";
-    private String PROFILE_UPDATE_ROFILE = "";*/
+    private String CALENDAR = API + "planning/get";
+    private String SEND_COMMENT = API + "repas/comment";
+    private String CREDIT = API + "account/credit";
 
     public static synchronized URLProject getInstance()
     {
@@ -39,10 +32,7 @@ public class URLProject  {
     public String getPROFILE() {return "";}
     public String getPROFILE_COMMENTS() {return "";}
     public String getPROFILE_MEALS() {return "";}
-    public String getMEALS() {return "";}
     public String getMYPROFILE() {return "";}
-    public String updatePROFILE() {return "";}
-    public String getCALENDARMEALS() {return "";}
 
 
     /// NEW ***
@@ -56,4 +46,7 @@ public class URLProject  {
     public String getONEMEAL() {return ONEMEAL;}
     public String getGET_NB_TIKET() {return GET_NB_TIKET;}
     public String getCOMMAND_ORDER() {return COMMAND_ORDER;}
+    public String getCALENDAR() {return CALENDAR;}
+    public String getSEND_COMMENT() {return SEND_COMMENT;}
+    public String getCREDIT() {return CREDIT;}
 }

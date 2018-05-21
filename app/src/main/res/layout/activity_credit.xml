@@ -24,6 +24,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_title_credit" />
 
+            <TextView
+                android:id="@+id/prompt_sold"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

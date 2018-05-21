@@ -41,6 +41,7 @@ import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
+import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileParamsFragment.ProfileParamsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.CreditActivity.CreditActivity;
@@ -72,18 +73,14 @@ public class ProfileFragment extends Fragment {
     private ImageView star4;
     private ImageView star5;
 
-    private Button editPhoto;
-    private Button editProfile;
-    private Button deconexion;
-    private Button credit_tikets;
-
     private UserDAO db;
 
     private Dialog dialog;
 
     private int[] tabIcons = {
             R.drawable.ic_dashboard_black_24dp,
-            R.drawable.ic_home_black_24dp
+            R.drawable.ic_home_black_24dp,
+            R.drawable.ic_apk_box
     };
 
     private boolean isConnected() {
@@ -182,51 +179,6 @@ public class ProfileFragment extends Fragment {
 
         db = new UserDAO(getActivity());
 
-        credit_tikets  = (Button) getView().findViewById(R.id.credit_tiket);
-        credit_tikets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CreditActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        deconexion = (Button) getView().findViewById(R.id.deconexion);
-        deconexion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.open();
-                User u = null;
-                u = db.getUserConnected();
-                db.removeUser(u.getUserId());
-                db.close();
-                Intent intent  = new Intent(getActivity(), BottomActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        editPhoto = (Button) getView().findViewById(R.id.EditPhotoButton);
-        editPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(getActivity(), UpdateProfilePhotoActivity.class);
-                myIntent.putExtra("Profile", (Serializable) mProfile);
-                startActivity(myIntent);
-            }
-        });
-
-        editProfile = (Button) getView().findViewById(R.id.EditProfileButton);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mProfile.getName() != null){
-                    Intent myIntent = new Intent(getActivity(), UpdateProfileActivity.class);
-                    myIntent.putExtra("Profile", (Serializable) mProfile);
-                    startActivity(myIntent);
-                }
-            }
-        });
-
         mProfile = new Profile("ERREUR","ERREUR","ERREUR",-1, "ERREUR",
                 -1,-1,-1,-1, "ERREUR", "ERREUR");
 
@@ -282,12 +234,14 @@ public class ProfileFragment extends Fragment {
     private void setupTabIcon(){
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ProfileMealsListsFragment(), getResources().getString(R.string.profile_meals));
         adapter.addFragment(new ProfileCommentsListFragment(), getResources().getString(R.string.profile_coms));
+        adapter.addFragment(new ProfileParamsFragment(), getString(R.string.prompt_profile_tab_params));
         viewPager.setAdapter(adapter);
     }
 

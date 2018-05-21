@@ -22,12 +22,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -42,19 +44,29 @@ import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.SearchFragment.TabsFragment.ListStoreMealAdapterFragment;
 import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.LoginActivity;
 import fr.doofapp.doof.Notify.NotifyCalendarService;
 import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
 
+import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 
 public class CalendarFragment extends Fragment {
 
-    private List<Pair<Meal,Boolean>> mealList = new ArrayList<Pair<Meal,Boolean>>();
-    private RecyclerView meals;
-    private CalendarAdapterFragment mAdapter;
+    private List<Pair<Meal,Boolean>> mealNewList = new ArrayList<Pair<Meal,Boolean>>();
+    private RecyclerView newMeals;
+    private CalendarAdapterFragment mNewAdapter;
+
+    private List<Pair<Meal,Boolean>> mealOldList = new ArrayList<Pair<Meal,Boolean>>();
+    private RecyclerView oldMeals;
+    private CalendarAdapterFragment mOldAdapter;
+
+    private UserDAO db;
+
     View rootView;
     Dialog dialog;
 
@@ -73,14 +85,27 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        meals = rootView.findViewById(R.id.calendarMeals);
-        meals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        mAdapter = new CalendarAdapterFragment(getContext(),mealList);
-        meals.setAdapter(mAdapter);
+        db = new UserDAO(getActivity());
+
+        newMeals = rootView.findViewById(R.id.calendarNewMeals);
+        newMeals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mNewAdapter = new CalendarAdapterFragment(getContext(),mealNewList);
+        newMeals.setAdapter(mNewAdapter);
         RecyclerView.LayoutManager mOnlineLayoutManager = new LinearLayoutManager(getContext());
-        meals.setLayoutManager(mOnlineLayoutManager);
-        meals.setItemAnimator(new DefaultItemAnimator());
-        meals.setAdapter(mAdapter);
+        newMeals.setLayoutManager(mOnlineLayoutManager);
+        newMeals.setItemAnimator(new DefaultItemAnimator());
+        newMeals.setAdapter(mNewAdapter);
+
+        oldMeals = rootView.findViewById(R.id.calendarOldMeals);
+        oldMeals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mOldAdapter = new CalendarAdapterFragment(getContext(),mealOldList);
+        oldMeals.setAdapter(mOldAdapter);
+        RecyclerView.LayoutManager mLastLayoutManager = new LinearLayoutManager(getContext());
+        oldMeals.setLayoutManager(mLastLayoutManager);
+        oldMeals.setItemAnimator(new DefaultItemAnimator());
+        oldMeals.setAdapter(mOldAdapter);
+
+
 
         // test
         /*notif = (Button) rootView.findViewById(R.id.notif);
@@ -110,45 +135,112 @@ public class CalendarFragment extends Fragment {
     }
 
     protected void prepareMealData(){
-        String URL = URLProject.getInstance().getCALENDARMEALS();
+        User u = null;
+        db.open();
+        u = db.getUserConnected();
+        db.close();
+
+        String URL = URLProject.getInstance().getCALENDAR()+"/"+u.getToken();
         dialog = ProgressDialog.show(getActivity(), "", "", true);
 
-        JsonArrayRequest jsonObjectReq = new JsonArrayRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.e("=========MEALS========", response.toString());
-                        dialog.dismiss();
-                        try {
-                            Meal meal;
-                            int countObject = response.length();
-                            for(int i=0 ; i<countObject; i++){
-                                JSONObject jsonObject;
-                                jsonObject = response.getJSONObject(i);
-                                meal = new Meal(
-                                        jsonObject.get("photo_meal").toString(),
-                                        parseInt(jsonObject.get("price").toString()),
-                                        jsonObject.get("title").toString(),
-                                        jsonObject.get("link_meal").toString(),
-                                        jsonObject.get("date_heure").toString(),
-                                        "description",
-                                        "adresse",
-                                        new LatLng(4,34)
-                                );
-                                Boolean b = jsonObject.getBoolean("cooked");
-                                Pair<Meal,Boolean> p = new Pair<>(meal,b);
-                                mealList.add(p);
+
+                        if (response.isNull("error")){
+                            try {
+                                Meal meal;
+                                JSONArray newsList = response.getJSONObject("result").getJSONArray("new");
+                                int countNews = newsList.length();
+                                for(int i = 0; i<countNews; i++){
+                                    JSONObject news = newsList.getJSONObject(i);
+                                    Log.e("======NEW"+i+"=====",news.toString());
+
+                                    JSONObject LatLng;
+                                    LatLng = news.getJSONObject("adresse");
+                                    final double lat = parseDouble(LatLng.get("lat").toString());
+                                    final double lng = parseDouble(LatLng.get("lng").toString());
+
+                                    JSONArray orders = news.getJSONArray("orders");
+                                    JSONObject order = orders.getJSONObject(0);
+
+                                    meal = new Meal(
+                                            order.get("photo").toString(),
+                                            parseInt(order.get("prix").toString()),
+                                            order.get("titre").toString(),
+                                            news.get("_id").toString(),
+                                            news.get("date").toString()+"  "+news.get("creneau").toString(),
+                                            order.get("description").toString(),
+                                            LatLng.get("rue").toString(),
+                                            new LatLng(lat,lng)
+                                    );
+                                    meal.setNbPart(parseInt(news.get("total").toString()));
+                                    //TODO mettre false car c'est des news
+                                    meal.setComment(false/*news.getBoolean("commenter")*/);
+                                    meal.setSold(parseInt(news.get("vendu").toString()));
+                                    Boolean b = news.getBoolean("vendre");
+
+                                    Pair<Meal,Boolean> p = new Pair<>(meal,b);
+                                    mealNewList.add(p);
+
+                                }
+                                mNewAdapter.notifyDataSetChanged();
+
+                               /* JSONArray oldsList = response.getJSONObject("result").getJSONArray("old");
+                                int countOlds = oldsList.length();
+                                for(int i = 0; i<countOlds; i++){
+                                    JSONObject olds = oldsList.getJSONObject(i);
+                                    Log.e("======NEW"+i+"=====",olds.toString());
+
+                                    JSONObject LatLng;
+                                    LatLng = olds.getJSONObject("adresse");
+                                    final double lat = parseDouble(LatLng.get("lat").toString());
+                                    final double lng = parseDouble(LatLng.get("lng").toString());
+
+                                    JSONArray orders = olds.getJSONArray("orders");
+                                    JSONObject order = orders.getJSONObject(0);
+
+                                    meal = new Meal(
+                                            order.get("photo").toString(),
+                                            parseInt(order.get("prix").toString()),
+                                            order.get("titre").toString(),
+                                            olds.get("_id").toString(),
+                                            olds.get("date").toString()+"  "+olds.get("creneau").toString(),
+                                            order.get("description").toString(),
+                                            LatLng.get("rue").toString(),
+                                            new LatLng(lat,lng)
+                                    );
+                                    meal.setNbPart(parseInt(olds.get("total").toString()));
+                                    meal.setComment(olds.getBoolean("commenter"));
+                                    meal.setSold(parseInt(olds.get("vendu").toString()));
+                                    Boolean b = olds.getBoolean("vendre");
+
+                                    Pair<Meal,Boolean> p = new Pair<>(meal,b);
+                                    mealOldList.add(p);
+
+                                }
+                                mOldAdapter.notifyDataSetChanged();*/
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            mAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else{
+                            Toast.makeText(getActivity(), "Une erreur est survennue", Toast.LENGTH_SHORT).show();
                         }
+
+                        dialog.dismiss();
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                         VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
                     }
                 });

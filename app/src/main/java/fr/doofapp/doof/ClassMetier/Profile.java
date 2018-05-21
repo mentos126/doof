@@ -16,7 +16,6 @@ public class Profile implements Serializable {
     private int age;
     private String adress;
     private String phone;
-    private ArrayList<Comment> comments = new ArrayList<>();
 
     public Profile(String nom, String prenom, String birth, int age, String photo,
                    double noteTotal, double notaAccueil, double noteProprete, double noteCuisine,
@@ -45,10 +44,6 @@ public class Profile implements Serializable {
 
     public int getAge() {return age;}
     public void setAge(int age) {this.age = age;}
-
-    public ArrayList<Comment> getComments() {return comments;}
-    public void addComments(Comment c) {this.comments.add(c);}
-    public void removeComments(Comment c) {this.comments.remove(c);}
 
     public String getPhoto() {return photo;}
     public void setPhoto(String photo) {this.photo = photo;}

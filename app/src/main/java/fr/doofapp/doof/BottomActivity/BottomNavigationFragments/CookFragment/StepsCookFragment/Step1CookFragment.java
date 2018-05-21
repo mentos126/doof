@@ -149,11 +149,16 @@ public class Step1CookFragment extends Fragment {
 
     public String getDate() {
         StringBuilder builder=new StringBuilder();
-        if(date.getYear() >= thisYear && date.getMonth() >= thisMonth && date.getDayOfMonth() >= thisDay){
+        /*if(date.getYear() >= thisYear && date.getMonth() >= thisMonth && date.getDayOfMonth() >= thisDay){
             builder.append(date.getDayOfMonth()+"-");
             builder.append((date.getMonth() + 1)+"-");
             builder.append(date.getYear());
-        }
+        }*/
+        //TODO changer enlever trois lignede dessous et decommenter dessus
+        builder.append(date.getDayOfMonth()+"-");
+        builder.append((date.getMonth() + 1)+"-");
+        builder.append(date.getYear());
+
         return builder.toString();
     }
 

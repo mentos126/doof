@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import java.io.Serializable;
 import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommentActivity.CommentActivity;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
@@ -32,14 +33,15 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
     private List<Pair<Meal,Boolean>> mealList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price, date;
-        public ImageView photo;
+        public TextView name, price, date, how_many;
+        public ImageView photo, ic;
         public CardView cardView;
         public RelativeLayout rel;
         public Button button;
 
         public MyViewHolder(View view) {
             super(view);
+            ic = (ImageView) view.findViewById(R.id.ic_sold);
             name = (TextView) view.findViewById(R.id.name);
             price = (TextView) view.findViewById(R.id.price);
             photo = (ImageView) view.findViewById(R.id.photo);
@@ -47,6 +49,7 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
             cardView  = (CardView) view.findViewById(R.id.card_view);
             rel  = (RelativeLayout) view.findViewById(R.id.rel);
             button = (Button) view.findViewById(R.id.button);
+            how_many  = (TextView) view.findViewById(R.id.how_many);
         }
     }
 
@@ -67,37 +70,41 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final Pair<Meal,Boolean> p = mealList.get(position);
         final Meal mTemp = p.first;
-        final Boolean bTemp = p.second;
         Boolean b = p.second;
         Meal m = p.first;
         holder.name.setText(m.getName());
-        String s = m.getPrice()+" ticket";
+        String s = "prix: "+m.getPrice()+" ticket";
         holder.price.setText(s);
-        holder.date.setText(m.getDate());
+        s = "date: "+m.getDate();
+        holder.date.setText(s);
+        s = "restant: " + (m.getNbPart() - m.getSold());
+        holder.how_many.setText(s);
         Glide.with(context)
                 .load(m.getPhoto())
                 .into(holder.photo);
+        holder.button.setVisibility(View.GONE);
         if(b){
-            holder.rel.setBackgroundColor(Color.BLUE);
-            holder.button.setVisibility(View.INVISIBLE);
+            holder.ic.setImageResource(R.drawable.ic_excel_box);
         }else{
-            holder.button.setVisibility(View.VISIBLE);
-            holder.rel.setBackgroundColor(Color.RED);
-            holder.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(view.getContext(), CommentActivity.class);
-                    myIntent.putExtra("Meal", (Serializable) mTemp);
-                    context.startActivity(myIntent);
-                }
-            });
+            holder.ic.setImageResource(R.drawable.ic_drawing_box);
+            if(!mTemp.getComment()){
+                holder.button.setVisibility(View.VISIBLE);
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent myIntent = new Intent(view.getContext(), CommentActivity.class);
+                        CommandCache.setMeal(mTemp);
+                        context.startActivity(myIntent);
+                    }
+                });
+            }
         }
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.e("==========CLICK========","CLICK");
                 final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
-                myIntent.putExtra("Meal", (Serializable) mTemp);
+                CommandCache.setMeal(mTemp);
                 context.startActivity(myIntent);
             }
         });

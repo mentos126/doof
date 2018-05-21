@@ -197,6 +197,9 @@
     <string name="prompt_deconexion">Déconnection</string>
     <string name="prompt_title_credit">Acheter des tickets</string>
     <string name="prompt_credit">Créditer des tickets</string>
+    <string name="prompt_new">Nouveaux:</string>
+    <string name="prompt_old">Ancien:</string>
+    <string name="prompt_profile_tab_params">Paramètres</string>
 
 
 </resources>

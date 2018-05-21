@@ -52,6 +52,7 @@ import java.util.Map;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Comment;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.ClassMetier.User;
@@ -265,16 +266,17 @@ public class CommentActivity extends AppCompatActivity {
         tNoteCleanless.setText(s);
 
         newImg = null;
-        mMeal = (Meal) getIntent().getSerializableExtra("Meal");
-
+        photo_comment = (ImageView) findViewById(R.id.photo_comment);
         photo_meal = (ImageView) findViewById(R.id.photo_meal);
-        new DownLoadImageTask(photo_meal).execute(mMeal.getPhoto());
 
+
+
+        //mMeal = (Meal) getIntent().getSerializableExtra("Meal");
+        mMeal = CommandCache.getMeal();
         prompt_meal_title = (TextView) findViewById(R.id.prompt_meal_title);
         prompt_meal_title.setText(mMeal.getName());
 
-        photo_comment = (ImageView) findViewById(R.id.photo_comment);
-
+        new DownLoadImageTask(photo_meal).execute(mMeal.getPhoto());
 
         searchPhoto = (Button) findViewById(R.id.search_file);
         searchPhoto.setOnClickListener(new View.OnClickListener() {
@@ -384,13 +386,25 @@ public class CommentActivity extends AppCompatActivity {
         if(!leave_description.getText().toString().equals("")){
             if(photo_comment != null){
 
+                JSONObject jsonNote = new JSONObject();
                 JSONObject json = new JSONObject();
+                JSONObject jsonRepas = new JSONObject();
                 try {
-                    json.put("description",leave_description.getText().toString());
+                    jsonNote.put("accueil", note_home);
+                    jsonNote.put("proprete", note_cleanless);
+                    jsonNote.put("cuisine", note_cook);
+
+                    jsonRepas.put("_id",mMeal.getLinkMeal());
+                    jsonRepas.put("titre",mMeal.getName());
+
+                    json.put("commentaire",leave_description.getText().toString());
                     json.put("photo", toBase64(newImg));
-                    json.put("note_home", note_home);
-                    json.put("note_cleanless", note_cleanless);
-                    json.put("note_cook", note_cook);
+                    json.put("note", jsonNote);
+                    json.put("repas", jsonRepas);
+
+                    json.put("cuisinier", "");
+                    json.put("acheteur", "");
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -399,15 +413,11 @@ public class CommentActivity extends AppCompatActivity {
                 db.open();
                 u = db.getUserConnected();
                 db.close();
-                //TODO change url and jsoon
-                String URL = "/"+u.getToken();
+                String URL = URLProject.getInstance().getSEND_COMMENT()+"/"+u.getToken();
 
                 dialog = ProgressDialog.show(this, "", "", true);
                 mQueue.add(createRequest(URL, json));
 
-
-                Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
-                startActivity(myIntent);
             }else{
                 Toast.makeText(this, R.string.toast_prompt_take_photo,Toast.LENGTH_LONG).show();
             }
@@ -475,8 +485,7 @@ public class CommentActivity extends AppCompatActivity {
     private JsonObjectRequest createRequest(String URL, JSONObject jsonObject)  {
         JSONObject jsonBodyObj =  jsonObject;
         final String requestBody = jsonBodyObj.toString();
-        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST,
-                URL, jsonBodyObj, new Response.Listener<JSONObject>(){
+        JsonObjectRequest JOPR = new JsonObjectRequest(Request.Method.POST, URL, jsonBodyObj, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 CookieStore cs = mHttpClient.getCookieStore();
@@ -488,15 +497,10 @@ public class CommentActivity extends AppCompatActivity {
                 Log.d("SUCCESS LISTENER", response.toString());
                 try {
                     VolleyLog.v("Response:%n %s", response.toString(4));
-
                     if(response.isNull("error")){
-
-                                dialog.dismiss();
-
-                                Intent intent = new Intent(CommentActivity.this, BottomActivity.class);
-                                startActivity(intent);
-
-
+                        dialog.dismiss();
+                        Intent myIntent = new Intent(CommentActivity.this, BottomActivity.class);
+                        startActivity(myIntent);
 
                     }
 
