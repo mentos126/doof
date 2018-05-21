@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
         public TextView name, price, date, how_many;
         public ImageView photo, ic;
         public CardView cardView;
-        public RelativeLayout rel;
+        public LinearLayout rel;
         public Button button;
 
         public MyViewHolder(View view) {
@@ -47,7 +48,7 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
             photo = (ImageView) view.findViewById(R.id.photo);
             date = (TextView) view.findViewById(R.id.date);
             cardView  = (CardView) view.findViewById(R.id.card_view);
-            rel  = (RelativeLayout) view.findViewById(R.id.rel);
+            rel  = (LinearLayout) view.findViewById(R.id.rel);
             button = (Button) view.findViewById(R.id.button);
             how_many  = (TextView) view.findViewById(R.id.how_many);
         }
@@ -99,6 +100,15 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
                 });
             }
         }
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("==========CLICK========","CLICK");
+                final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
+                CommandCache.setMeal(mTemp);
+                context.startActivity(myIntent);
+            }
+        });
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

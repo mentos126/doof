@@ -71,6 +71,14 @@ public class ListStoreMealAdapterFragment extends RecyclerView.Adapter<ListStore
         Glide.with(context)
                 .load(m.getPhoto())
                 .into(holder.photo);
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent myIntent = new Intent(view.getContext(), CommandMealActivity.class);
+                CommandCache.setMeal(mTemp);
+                context.startActivity(myIntent);
+            }
+        });
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -8,10 +8,10 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/card_margin"
+        card_view:cardCornerRadius="@dimen/card_album_radius"
         android:layout_gravity="center"
-        android:clickable="true"
-        android:elevation="3dp"
-        android:foreground="?attr/selectableItemBackground">
+        android:elevation="3dp">
 
         <RelativeLayout
             android:id="@+id/rel"
@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/album_cover_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitXY" />
@@ -31,9 +31,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/photo"
-                android:lines="2"
-                android:textColor="#111"
-                android:textSize="11dp" />
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:paddingTop="@dimen/album_title_padding"
+                android:textSize="@dimen/album_title"
+                android:textColor="#111" />
 
             <TextView
                 android:id="@+id/date"
