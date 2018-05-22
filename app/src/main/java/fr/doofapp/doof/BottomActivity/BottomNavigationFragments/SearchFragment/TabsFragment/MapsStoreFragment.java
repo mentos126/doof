@@ -176,7 +176,9 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
                     String locationProvider = LocationManager.NETWORK_PROVIDER;
                     @SuppressLint("MissingPermission")
                     Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-                    CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+                    //TODO error last location
+                    //CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+                    CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
                     mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
                 }
                 return;
@@ -212,8 +214,10 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
             return;
         }else{
             String locationProvider = LocationManager.NETWORK_PROVIDER;
-            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-            CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+            //TODO errror last loation
+            /*Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();*/
+            CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
         }
 
