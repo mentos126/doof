@@ -203,6 +203,8 @@
     <string name="prompt_calendar_old">Anciens:</string>
     <string name="prompt_calendar_new">Nouveaux:</string>
     <string name="prompt_nothing">Aucun plat</string>
+    <string name="prompt_password_actual">Mot de pass (actuel)</string>
+    <string name="prompt_update_password">Modifier votre mot de passe</string>
 
 
 </resources>

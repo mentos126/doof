@@ -45,6 +45,7 @@ import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Profile;
+import fr.doofapp.doof.ClassMetier.ProfileCache;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
@@ -86,7 +87,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mHttpClient = new DefaultHttpClient();
         mQueue = Volley.newRequestQueue(UpdateProfileActivity.this, new HttpClientStack(mHttpClient));
 
-        mProfile = (Profile) getIntent().getSerializableExtra("Profile");
+        mProfile = ProfileCache.getInstance().getProfile();
         Log.e("=====UPDATE=====",mProfile.getName());
 
         familyName = (EditText) findViewById(R.id.edit_family_name);

@@ -81,7 +81,7 @@ public class PublicProfileMealsListsFragment extends Fragment {
         nbOnlineMeals = -1;
         nbLastMeals   = -1;
 
-        prepareMealData();
+        //prepareMealData();
 
         return rootView;
     }

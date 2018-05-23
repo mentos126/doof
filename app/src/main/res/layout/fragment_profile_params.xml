@@ -22,12 +22,6 @@
                 android:text="@string/prompt_credit" />
 
             <Button
-                android:id="@+id/deconexion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_deconexion" />
-
-            <Button
                 android:id="@+id/EditPhotoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,6 +32,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_edit_profile" />
+
+            <Button
+                android:id="@+id/EditPasswordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MODIFIER MOT DE PASSE" />
+
+
+            <Button
+                android:id="@+id/deconexion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_deconexion" />
 
         </LinearLayout>
 

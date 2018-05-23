@@ -30,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,16 +133,16 @@ public class ProfileFragment extends Fragment {
 
                                 String s = mProfile.getFamilyName()+" "+mProfile.getName();
                                 name.setText(s);
-                                s = mProfile.getNoteTotal()+"/5  "+"X"+ getResources().getString(R.string.opinions);
+                                s = new DecimalFormat("#.#").format(mProfile.getNoteTotal())+"/5 ";//+"X"+ getResources().getString(R.string.opinions);
                                 note_totale.setText(s);
-                                s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
+                                s = getResources().getString(R.string.home) + " " + new DecimalFormat("#.#").format(mProfile.getNotaHome())+ "/5";
                                 note_accueil.setText(s);
-                                s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCooked() + "/5";
+                                s = getResources().getString(R.string.cooked)  + " " + new DecimalFormat("#.#").format(mProfile.getNoteCooked()) + "/5";
                                 note_cuisine.setText(s);
-                                s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
+                                s= getResources().getString(R.string.cleanliness)  + " " + new DecimalFormat("#.#").format(mProfile.getNoteCleanless()) + "/5";
                                 note_proprete.setText(s);
 
-                                double noteTotale = parseDouble(response.get("note").toString());
+                                double noteTotale = mProfile.getNoteTotal();
                                 if(noteTotale < 5.0) {
                                     star5.setImageResource(R.drawable.ic_home_black_24dp);
                                     if(noteTotale < 4.0) {

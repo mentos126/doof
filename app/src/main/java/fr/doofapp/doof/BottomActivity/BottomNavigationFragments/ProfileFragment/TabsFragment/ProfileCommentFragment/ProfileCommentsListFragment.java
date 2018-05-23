@@ -73,7 +73,7 @@ public class ProfileCommentsListFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        //prepareCommentData();
+        prepareCommentData();
 
         return rootView;
     }

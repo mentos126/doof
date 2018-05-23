@@ -81,6 +81,7 @@ public class MealActivity extends AppCompatActivity {
     public void getMealWeb(){
 
         String URL = URLProject.getInstance().getONEMEAL()+"/"+meal.getLinkMeal();
+        Log.e("========MEALURL========",URL);
         dialog = ProgressDialog.show(this, "", "", true);
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,

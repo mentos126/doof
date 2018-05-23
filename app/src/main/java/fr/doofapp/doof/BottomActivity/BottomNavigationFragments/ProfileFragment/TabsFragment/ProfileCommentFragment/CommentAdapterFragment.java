@@ -79,6 +79,9 @@ public class CommentAdapterFragment extends RecyclerView.Adapter<CommentAdapterF
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+                Meal m = new Meal("",0,"",coment.getLinkUser(),"","","",new LatLng(0,0));
+                CommandCache.setMeal(m);
+                intent.putExtra("Link",coment.getLinkUser());
                 context.startActivity(intent);
             }
         });

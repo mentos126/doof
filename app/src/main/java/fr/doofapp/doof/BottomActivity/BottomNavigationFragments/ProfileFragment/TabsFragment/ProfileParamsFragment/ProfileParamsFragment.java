@@ -29,10 +29,12 @@ import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Profile;
+import fr.doofapp.doof.ClassMetier.ProfileCache;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.CreditActivity.CreditActivity;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.R;
+import fr.doofapp.doof.UpdateProfileActivity.UpdatePasswordActivity;
 import fr.doofapp.doof.UpdateProfileActivity.UpdateProfileActivity;
 import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
 
@@ -45,6 +47,7 @@ public class ProfileParamsFragment extends Fragment {
     private Button editProfile;
     private Button deconexion;
     private Button credit_tikets;
+    private Button EditPasswordButton;
 
     private UserDAO db;
     private Profile mProfile;
@@ -63,6 +66,15 @@ public class ProfileParamsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         db = new UserDAO(getActivity());
+
+        EditPasswordButton  = (Button) getView().findViewById(R.id.EditPasswordButton);
+        EditPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
 
         credit_tikets  = (Button) getView().findViewById(R.id.credit_tiket);
         credit_tikets.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +104,7 @@ public class ProfileParamsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(getActivity(), UpdateProfilePhotoActivity.class);
-                myIntent.putExtra("Profile", (Serializable) mProfile);
+                ProfileCache.getInstance().setProfile(mProfile);
                 startActivity(myIntent);
             }
         });
@@ -103,20 +115,22 @@ public class ProfileParamsFragment extends Fragment {
             public void onClick(View view) {
                 if(mProfile.getName() != null){
                     Intent myIntent = new Intent(getActivity(), UpdateProfileActivity.class);
-                    myIntent.putExtra("Profile", (Serializable) mProfile);
+                    ProfileCache.getInstance().setProfile(mProfile);
                     startActivity(myIntent);
                 }
             }
         });
 
-        //getProfileWeb();
+        getProfileWeb();
 
     }
 
 
     public void getProfileWeb() {
-
-        String URL = URLProject.getInstance().getMYp();
+        db.open();
+        User u = db.getUserConnected();
+        db.close();
+        String URL = URLProject.getInstance().getMY_PROFILE() +"/"+u.getToken();
         dialog = ProgressDialog.show(getActivity(), "", "", true);
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
@@ -126,20 +140,37 @@ public class ProfileParamsFragment extends Fragment {
                         dialog.dismiss();
                         try {
 
-                            mProfile = new Profile(
-                                    response.get("nom").toString(),
-                                    response.get("prenom").toString(),
-                                    response.get("birth").toString(),
-                                    parseInt(response.get("age").toString()),
-                                    response.get("photo").toString(),
-                                    parseDouble(response.get("note").toString()),
-                                    parseDouble(response.get("noteaccueil").toString()),
-                                    parseDouble(response.get("noteproprete").toString()),
-                                    parseDouble(response.get("notecuisine").toString()),
-                                    "adress",
-                                    "phone"
-                            );
-
+                            if(response.isNull("error")) {
+                                JSONObject res = response.getJSONObject("result");
+                                String birth;
+                                int age;
+                                try {
+                                    age = parseInt(res.get("age").toString());
+                                } catch (Exception e) {
+                                    age = 0;
+                                }
+                                try {
+                                    birth = res.get("birth").toString();
+                                } catch (Exception e) {
+                                    birth = "";
+                                }
+                                JSONObject notes = res.getJSONObject("note");
+                                mProfile = new Profile(
+                                        res.get("nom").toString(),
+                                        res.get("prenom").toString(),
+                                        birth,
+                                        age,
+                                        res.get("photo").toString(),
+                                        parseDouble(res.get("note_global").toString()),
+                                        parseDouble(notes.get("accueil").toString()),
+                                        parseDouble(notes.get("proprete").toString()),
+                                        parseDouble(notes.get("cuisine").toString()),
+                                        "",
+                                        ""
+                                );
+                            }else{
+                                Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

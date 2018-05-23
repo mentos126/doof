@@ -55,6 +55,7 @@ import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.ClassMetier.Profile;
+import fr.doofapp.doof.ClassMetier.ProfileCache;
 import fr.doofapp.doof.ClassMetier.User;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.RegisterActivity;
@@ -85,9 +86,8 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(UpdateProfilePhotoActivity.this, new HttpClientStack(mHttpClient));
 
         newImg = null;
-        mProfile = (Profile) getIntent().getSerializableExtra("Profile");
+        mProfile = ProfileCache.getInstance().getProfile();
 
-        Log.e("========PNAME=====",mProfile.getName());
         Log.e("========PPHOTO=====",mProfile.getPhoto());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {

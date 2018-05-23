@@ -21,6 +21,8 @@ public class URLProject  {
     private String PROFILE_COMMENT = API + "repas/comment/get";
     private String MY_PROFILE = API + "profile/show/mine";
     private String PROFILE = API + "profile/show/one";
+    private String MY_PROFILE_Meal = API + "/repas/show/mines";
+    private String PROFILE_Meal = API + "/repas/show/profile";
 
     private String PROFILE_UPDATE = API + "profile/update";
 
@@ -34,7 +36,6 @@ public class URLProject  {
     }
 
     public String getP () {return "";}
-    public String getPROFILE_COMMENTS() {return "";}
     public String getPROFILE_MEALS() {return "";}
     public String getMYp() {return "";}
 
@@ -57,4 +58,8 @@ public class URLProject  {
     public String getMY_PROFILE_COMMENT() {return MY_PROFILE_COMMENT;}
     public String getPROFILE() {return PROFILE;}
     public String getPROFILE_COMMENT() {return PROFILE_COMMENT;}
+    public String getMY_PROFILE_Meal() {return MY_PROFILE_Meal;}
+    public String getPROFILE_Meal() {return PROFILE_Meal;}
+
+
 }
