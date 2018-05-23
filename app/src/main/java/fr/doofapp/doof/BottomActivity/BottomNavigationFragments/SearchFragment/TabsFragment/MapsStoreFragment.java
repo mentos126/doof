@@ -64,6 +64,7 @@ import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
 import fr.doofapp.doof.R;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -77,6 +78,7 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     View mView;
     List<Meal> mealList = new ArrayList<>();
     Bitmap b;
+    Boolean isLocated;
 
     Dialog dialog;
 
@@ -103,6 +105,8 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        isLocated = false;
+
         mMapView = (MapView) mView.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
@@ -111,12 +115,15 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         }
 
 
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                CameraPosition cam = CameraPosition.builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(14).build();
-                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
+                if(!isLocated){
+                    CameraPosition cam = CameraPosition.builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(14).build();
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
+                    isLocated = true;
+                }
             }
 
             @Override
@@ -140,7 +147,7 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
 
 
 
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -163,6 +170,24 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         locationManager.requestLocationUpdates("gps", 2000, 2, locationListener);
     }
 
+    private Location getLastKnownLocation() {
+        locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            @SuppressLint("MissingPermission")
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
         switch (requestCode){
@@ -174,11 +199,19 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
             case 15:
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     String locationProvider = LocationManager.NETWORK_PROVIDER;
-                    @SuppressLint("MissingPermission")
-                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
                     //TODO error last location
-                    //CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
-                    CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
+                    @SuppressLint("MissingPermission")
+                    //Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+                    //CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
+                    Location lastKnownLocation = getLastKnownLocation();
+                    CameraPosition cam;
+                    try{
+                        cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+                    }catch (Exception e){
+                        tryLocation();
+
+                        cam = CameraPosition.builder().target(new LatLng(43.6317837,3.8620908)).zoom(14).build();
+                    }
                     mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
                 }
                 return;
@@ -192,6 +225,25 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         CommandCache.setMeal(mTemp);
         startActivity(myIntent);
     }
+
+
+    public void tryLocation(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.INTERNET
+                }, 10);
+                return;
+            } else {
+                configureSettingsLocation();
+            }
+        } else {
+            configureSettingsLocation();
+        }
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap){
@@ -215,9 +267,16 @@ public class MapsStoreFragment extends Fragment implements OnMapReadyCallback,
         }else{
             String locationProvider = LocationManager.NETWORK_PROVIDER;
             //TODO errror last loation
-            /*Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-            CameraPosition cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();*/
-            CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
+            //Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            //CameraPosition cam = CameraPosition.builder().target(new LatLng(3, 4)).zoom(14).build();
+            Location lastKnownLocation = getLastKnownLocation();
+            CameraPosition cam;
+            try{
+                cam = CameraPosition.builder().target(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())).zoom(14).build();
+            }catch (Exception e){
+                tryLocation();
+                cam = CameraPosition.builder().target(new LatLng(43.6317837,3.8620908)).zoom(14).build();
+            }
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cam));
         }
 
