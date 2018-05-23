@@ -49,6 +49,7 @@ public class ProfileMealsListsFragment extends Fragment {
     private RecyclerView LastMeals;
     private MealAdapterFragment mOnlineAdapter;
     private MealAdapterFragment mLastAdapter;
+
     //TODO change X with this numbers
     private int nbOnlineMeals;
     private int nbLastMeals;
@@ -90,7 +91,7 @@ public class ProfileMealsListsFragment extends Fragment {
         nbOnlineMeals = -1;
         nbLastMeals   = -1;
 
-        prepareMealData();
+        //prepareMealData();
 
         return rootView;
     }

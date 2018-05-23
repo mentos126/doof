@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,25 +30,20 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
-import fr.doofapp.doof.BottomActivity.BottomActivity;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment.ProfileCommentsListFragment;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileMealFragment.ProfileMealsListsFragment;
 import fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileParamsFragment.ProfileParamsFragment;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.ClassMetier.User;
-import fr.doofapp.doof.CreditActivity.CreditActivity;
 import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.R;
-import fr.doofapp.doof.UpdateProfileActivity.UpdateProfileActivity;
-import fr.doofapp.doof.UpdateProfileActivity.UpdateProfilePhotoActivity;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -91,11 +85,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getProfileWeb() {
-
-        String URL = URLProject.getInstance().getMYPROFILE();
+        db.open();
+        User u = db.getUserConnected();
+        db.close();
+        String URL = URLProject.getInstance().getMY_PROFILE() +"/"+u.getToken();
         dialog = ProgressDialog.show(getActivity(), "", "", true);
 
-          JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -103,50 +99,69 @@ public class ProfileFragment extends Fragment {
                         dialog.dismiss();
                         try {
 
-                           mProfile = new Profile(
-                                    response.get("nom").toString(),
-                                    response.get("prenom").toString(),
-                                    response.get("birth").toString(),
-                                    parseInt(response.get("age").toString()),
-                                    response.get("photo").toString(),
-                                   parseDouble(response.get("note").toString()),
-                                   parseDouble(response.get("noteaccueil").toString()),
-                                   parseDouble(response.get("noteproprete").toString()),
-                                   parseDouble(response.get("notecuisine").toString()),
-                                   "adress",
-                                   "phone"
-                            );
+                            if(response.isNull("error")){
+                                JSONObject res = response.getJSONObject("result");
+                                String birth;
+                                int age;
+                                try{
+                                    age = parseInt(res.get("age").toString());
+                                }catch(Exception e){
+                                    age = 0;
+                                }
+                                try{
+                                    birth = res.get("birth").toString();
+                                }catch(Exception e){
+                                    birth = "";
+                                }
+                                JSONObject notes = res.getJSONObject("note");
+                                mProfile = new Profile(
+                                        res.get("nom").toString(),
+                                        res.get("prenom").toString(),
+                                        birth,
+                                        age,
+                                        res.get("photo").toString(),
+                                        parseDouble(res.get("note_global").toString()),
+                                        parseDouble(notes.get("accueil").toString()),
+                                        parseDouble(notes.get("proprete").toString()),
+                                        parseDouble(notes.get("cuisine").toString()),
+                                        "",
+                                        ""
+                                );
 
-                            new DownLoadImageTask(iv).execute(mProfile.getPhoto());
+                                new DownLoadImageTask(iv).execute(mProfile.getPhoto());
 
-                            String s = mProfile.getFamilyName()+" "+mProfile.getName();
-                            name.setText(s);
-                            s = mProfile.getNoteTotal()+"/5  "+"X"+ getResources().getString(R.string.opinions);
-                            note_totale.setText(s);
-                            s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
-                            note_accueil.setText(s);
-                            s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCooked() + "/5";
-                            note_cuisine.setText(s);
-                            s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
-                            note_proprete.setText(s);
+                                String s = mProfile.getFamilyName()+" "+mProfile.getName();
+                                name.setText(s);
+                                s = mProfile.getNoteTotal()+"/5  "+"X"+ getResources().getString(R.string.opinions);
+                                note_totale.setText(s);
+                                s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
+                                note_accueil.setText(s);
+                                s = getResources().getString(R.string.cooked)  + " " + mProfile.getNoteCooked() + "/5";
+                                note_cuisine.setText(s);
+                                s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
+                                note_proprete.setText(s);
 
-                            double noteTotale = parseDouble(response.get("note").toString());
-                            if(noteTotale < 5.0) {
-                                star5.setImageResource(R.drawable.ic_home_black_24dp);
-                                if(noteTotale < 4.0) {
-                                    star4.setImageResource(R.drawable.ic_home_black_24dp);
-                                    if(noteTotale < 3.0) {
-                                        star3.setImageResource(R.drawable.ic_home_black_24dp);
-                                        if(noteTotale < 2.0) {
-                                            star2.setImageResource(R.drawable.ic_home_black_24dp);
-                                            if(noteTotale < 1.0) {
-                                                star1.setImageResource(R.drawable.ic_home_black_24dp);
+                                double noteTotale = parseDouble(response.get("note").toString());
+                                if(noteTotale < 5.0) {
+                                    star5.setImageResource(R.drawable.ic_home_black_24dp);
+                                    if(noteTotale < 4.0) {
+                                        star4.setImageResource(R.drawable.ic_home_black_24dp);
+                                        if(noteTotale < 3.0) {
+                                            star3.setImageResource(R.drawable.ic_home_black_24dp);
+                                            if(noteTotale < 2.0) {
+                                                star2.setImageResource(R.drawable.ic_home_black_24dp);
+                                                if(noteTotale < 1.0) {
+                                                    star1.setImageResource(R.drawable.ic_home_black_24dp);
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
 
+
+                            }else{
+                                Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -213,9 +228,6 @@ public class ProfileFragment extends Fragment {
         note_cuisine.setText(s);
         s= getResources().getString(R.string.cleanliness)  + " " + mProfile.getNoteCleanless() + "/5";
         note_proprete.setText(s);
-
-        Log.e("=======ViewAdap=====","=======SetupViewAdap=====");
-
 
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         setupViewPager(viewPager);

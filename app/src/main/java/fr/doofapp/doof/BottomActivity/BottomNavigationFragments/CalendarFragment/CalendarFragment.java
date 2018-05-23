@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -62,9 +63,10 @@ import static java.lang.Integer.parseInt;
 
 public class CalendarFragment extends Fragment {
 
-    private List<Pair<Meal,Boolean>> mealNewList = new ArrayList<Pair<Meal,Boolean>>();
+    private List<Pair<Meal,Integer>> mealNewList = new ArrayList<Pair<Meal,Integer>>();
     private RecyclerView newMeals;
     private CalendarAdapterFragment mNewAdapter;
+    private ScrollView scroll;
 
     private List<Pair<Meal,Boolean>> mealOldList = new ArrayList<Pair<Meal,Boolean>>();
     private RecyclerView oldMeals;
@@ -101,10 +103,19 @@ public class CalendarFragment extends Fragment {
         newMeals.setItemAnimator(new DefaultItemAnimator());
         newMeals.setAdapter(mNewAdapter);*/
 
+        /*scroll = (ScrollView) rootView.findViewById(R.id.scroll);
+        scroll.setSmoothScrollingEnabled (true);*/
+
         newMeals = rootView.findViewById(R.id.calendarNewMeals);
         mNewAdapter = new CalendarAdapterFragment(getContext(),mealNewList);
 
         RecyclerView.LayoutManager mNewLayoutManager = new GridLayoutManager(getActivity(), 2);
+        /*mNewLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position % 3 == 0 ? 2 : 1);
+            }
+        });*/
         newMeals.setLayoutManager(mNewLayoutManager);
         newMeals.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         newMeals.setItemAnimator(new DefaultItemAnimator());
@@ -122,14 +133,14 @@ public class CalendarFragment extends Fragment {
         oldMeals.setItemAnimator(new DefaultItemAnimator());
         oldMeals.setAdapter(mOldAdapter);*/
 
-        oldMeals = rootView.findViewById(R.id.calendarOldMeals);
+        /*oldMeals = rootView.findViewById(R.id.calendarOldMeals);
         mOldAdapter = new CalendarAdapterFragment(getContext(),mealOldList);
 
         RecyclerView.LayoutManager mOldLayoutManager = new GridLayoutManager(getActivity(), 2);
         oldMeals.setLayoutManager(mOldLayoutManager);
         oldMeals.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         oldMeals.setItemAnimator(new DefaultItemAnimator());
-        oldMeals.setAdapter(mOldAdapter);
+        oldMeals.setAdapter(mOldAdapter);*/
 
 
 
@@ -177,9 +188,21 @@ public class CalendarFragment extends Fragment {
 
                         if (response.isNull("error")){
                             try {
+                                final Meal interMeal = new Meal(
+                                        "",-1,"","","","","", new LatLng(0,0)
+                                );
+                                Pair<Meal,Integer> interP = new Pair<>(interMeal,1);
+                                mealNewList.add(interP);
+                                interP = new Pair<>(interMeal,3);
+                                mealNewList.add(interP);
+
                                 Meal meal;
                                 JSONArray newsList = response.getJSONObject("result").getJSONArray("new");
                                 int countNews = newsList.length();
+                                if(countNews == 0){
+                                    interP = new Pair<>(interMeal,4);
+                                    mealNewList.add(interP);
+                                }
                                 for(int i = 0; i<countNews; i++){
                                     JSONObject news = newsList.getJSONObject(i);
                                     Log.e("======NEW"+i+"=====",news.toString());
@@ -203,19 +226,34 @@ public class CalendarFragment extends Fragment {
                                             new LatLng(lat,lng)
                                     );
                                     meal.setNbPart(parseInt(news.get("total").toString()));
-                                    //TODO mettre false car c'est des news
+                                    //TODO cjange to true
                                     meal.setComment(false/*news.getBoolean("commenter")*/);
                                     meal.setSold(parseInt(news.get("vendu").toString()));
-                                    Boolean b = news.getBoolean("vendre");
-
-                                    Pair<Meal,Boolean> p = new Pair<>(meal,b);
+                                    meal.setSell(news.getBoolean("vendre"));
+                                    Pair<Meal,Integer> p = new Pair<>(meal,0);
                                     mealNewList.add(p);
 
                                 }
-                                mNewAdapter.notifyDataSetChanged();
+                                //mNewAdapter.notifyDataSetChanged();
 
-                               /* JSONArray oldsList = response.getJSONObject("result").getJSONArray("old");
+                                interP = new Pair<>(interMeal,3);
+                                if(mealNewList.size()%2 == 1){
+                                    mealNewList.add(interP);
+
+                                }
+                                interMeal.setName("Ancien");
+                                interP = new Pair<>(interMeal,2);
+                                mealNewList.add(interP);
+                                interMeal.setName("");
+                                interP = new Pair<>(interMeal,3);
+                                mealNewList.add(interP);
+
+                                JSONArray oldsList = response.getJSONObject("result").getJSONArray("old");
                                 int countOlds = oldsList.length();
+                                if(countOlds == 0){
+                                    interP = new Pair<>(interMeal,4);
+                                    mealNewList.add(interP);
+                                }
                                 for(int i = 0; i<countOlds; i++){
                                     JSONObject olds = oldsList.getJSONObject(i);
                                     Log.e("======NEW"+i+"=====",olds.toString());
@@ -241,15 +279,14 @@ public class CalendarFragment extends Fragment {
                                     meal.setNbPart(parseInt(olds.get("total").toString()));
                                     meal.setComment(olds.getBoolean("commenter"));
                                     meal.setSold(parseInt(olds.get("vendu").toString()));
-                                    Boolean b = olds.getBoolean("vendre");
-
-                                    Pair<Meal,Boolean> p = new Pair<>(meal,b);
-                                    mealOldList.add(p);
+                                    meal.setSell(olds.getBoolean("vendre"));
+                                    Pair<Meal,Integer> p = new Pair<>(meal,0);
+                                    //mealOldList.add(p);
+                                    mealNewList.add(p);
 
                                 }
-                                mOldAdapter.notifyDataSetChanged();*/
-
-
+                                //mOldAdapter.notifyDataSetChanged();
+                                mNewAdapter.notifyDataSetChanged();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -267,7 +304,8 @@ public class CalendarFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
                         Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
-                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
+                        Log.e("---------ageda--------",error.getStackTrace().toString());
+                        VolleyLog.e("=========agenda========", "Error: " + error.getMessage());
                     }
                 });
 

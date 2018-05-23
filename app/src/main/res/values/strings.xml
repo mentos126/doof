@@ -200,6 +200,9 @@
     <string name="prompt_new">Nouveaux:</string>
     <string name="prompt_old">Ancien:</string>
     <string name="prompt_profile_tab_params">Paramètres</string>
+    <string name="prompt_calendar_old">Anciens:</string>
+    <string name="prompt_calendar_new">Nouveaux:</string>
+    <string name="prompt_nothing">Aucun plat</string>
 
 
 </resources>

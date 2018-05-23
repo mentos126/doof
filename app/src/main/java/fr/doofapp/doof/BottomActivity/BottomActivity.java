@@ -124,6 +124,7 @@ public class BottomActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomAdapterActivity.disableShiftMode(navigation);
 
         /*if(isConnected()){
             Intent intent = new Intent(BottomActivity.this, IsConnectedActivity.class);

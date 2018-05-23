@@ -19,6 +19,7 @@ public class Meal implements Serializable {
 
     private Boolean isComment;
     private int sold;
+    private  Boolean isSell;
 
     public Meal(String photo, int price, String name, String linkMeal, String date, String description, String adress, LatLng latlng){
         this.photo = photo;
@@ -66,4 +67,7 @@ public class Meal implements Serializable {
 
     public int getSold() {return sold;}
     public void setSold(int sold) {this.sold = sold;}
+
+    public Boolean getSell() {return isSell;}
+    public void setSell(Boolean sell) {isSell = sell;}
 }

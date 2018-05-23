@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".BottomActivity.BottomNavigationFragments.CalendarFragment.CalendarFragment">
 
-    <ScrollView
+    <!--ScrollView
+        android:id="@+id/scroll"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -20,7 +21,7 @@
                 android:id="@+id/prompt_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/prompt_new"/>
+                android:text="@string/prompt_new"/-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/calendarNewMeals"
@@ -30,7 +31,7 @@
                 android:scrollbars="vertical"
                 android:layout_marginBottom="40dp"/>
 
-            <TextView
+            <!--TextView
                 android:id="@+id/prompt_old"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,12 +43,12 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:scrollbars="vertical"
-                android:layout_marginBottom="40dp"/>
+                android:layout_marginBottom="40dp"/-->
 
 
-        </LinearLayout>
+        <!--/LinearLayout>
 
-    </ScrollView>
+    </ScrollView-->
 
     <!--Button
         android:id="@+id/notif"

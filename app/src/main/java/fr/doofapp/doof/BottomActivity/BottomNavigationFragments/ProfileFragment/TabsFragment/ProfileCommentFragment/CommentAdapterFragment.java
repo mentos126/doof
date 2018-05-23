@@ -1,6 +1,7 @@
 package fr.doofapp.doof.BottomActivity.BottomNavigationFragments.ProfileFragment.TabsFragment.ProfileCommentFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Comment;
+import fr.doofapp.doof.ClassMetier.Meal;
+import fr.doofapp.doof.MealActivity.MealActivity;
+import fr.doofapp.doof.ProfileActivity.ProfileActivity;
 import fr.doofapp.doof.R;
 
 
@@ -57,9 +63,25 @@ public class CommentAdapterFragment extends RecyclerView.Adapter<CommentAdapterF
         Glide.with(context)
                 .load(coment.getPhoto())
                 .into(holder.imgMeal);
+        holder.imgMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MealActivity.class);
+                Meal m = new Meal("",0,"",coment.getLinkMeal(),"","","",new LatLng(0,0));
+                CommandCache.setMeal(m);
+                context.startActivity(intent);
+            }
+        });
         Glide.with(context)
                 .load(coment.getPhotoUser())
                 .into(holder.imgProfile);
+        holder.imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

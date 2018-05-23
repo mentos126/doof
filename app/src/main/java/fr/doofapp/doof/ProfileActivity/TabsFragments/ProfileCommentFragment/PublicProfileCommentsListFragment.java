@@ -83,7 +83,9 @@ public class PublicProfileCommentsListFragment extends Fragment{
                                 jsonObject = response.getJSONObject(i);
                                 com = new Comment(
                                         jsonObject.get("descriptif").toString(),
+                                        "title",
                                         jsonObject.get("photo_meal").toString(),
+                                        "linkMeal",
                                         jsonObject.get("link_user").toString(),
                                         jsonObject.get("name_user").toString(),
                                         jsonObject.get("photo_user").toString(),

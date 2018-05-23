@@ -87,6 +87,9 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
         newImg = null;
         mProfile = (Profile) getIntent().getSerializableExtra("Profile");
 
+        Log.e("========PNAME=====",mProfile.getName());
+        Log.e("========PPHOTO=====",mProfile.getPhoto());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED

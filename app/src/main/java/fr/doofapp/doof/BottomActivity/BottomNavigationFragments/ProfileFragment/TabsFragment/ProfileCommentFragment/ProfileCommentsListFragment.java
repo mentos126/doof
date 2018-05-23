@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +31,7 @@ import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.ClassMetier.Comment;
 import fr.doofapp.doof.ClassMetier.User;
+import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.R;
 
 import static java.lang.Double.parseDouble;
@@ -45,6 +45,7 @@ public class ProfileCommentsListFragment extends Fragment {
     private CommentAdapterFragment mAdapter;
 
     Dialog dialog;
+    UserDAO db;
 
     public ProfileCommentsListFragment() {
         // Required empty public constructor
@@ -60,6 +61,8 @@ public class ProfileCommentsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_comments_list, container, false);
 
+        db = new UserDAO(getActivity());
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mAdapter = new CommentAdapterFragment(getContext(), comList);
@@ -70,60 +73,76 @@ public class ProfileCommentsListFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        prepareCommentData();
+        //prepareCommentData();
 
         return rootView;
     }
 
     public void prepareCommentData(){
 
-        String URL = URLProject.getInstance().getPROFILE_COMMENTS();
+        db.open();
+        User u = db.getUserConnected();
+        db.close();
+
+        String URL = URLProject.getInstance().getMY_PROFILE_COMMENT()+"/"+u.getToken();
+        Log.e("=========URL=========",URL);
+
         dialog = ProgressDialog.show(getActivity(), "", "", true);
 
-        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        dialog.dismiss();
-                        Log.d("LoginActivity", response.toString());
-                        int countObject = response.length();
-                        Comment com;
-                        for(int i=0 ; i<countObject; i++){
+                    public void onResponse(JSONObject response) {
+                        Log.e("=========com========", response.toString());
+                        if(response.isNull("error")){
                             try {
-                                JSONObject jsonObject;
-                                jsonObject = response.getJSONObject(i);
-                                com = new Comment(
-                                        jsonObject.get("descriptif").toString(),
-                                        jsonObject.get("photo_meal").toString(),
-                                        jsonObject.get("link_user").toString(),
-                                        jsonObject.get("name_user").toString(),
-                                        jsonObject.get("photo_user").toString(),
-                                        parseDouble(jsonObject.get("note_accueil").toString()),
-                                        parseDouble(jsonObject.get("note_proprete").toString()),
-                                        parseDouble(jsonObject.get("note_cuisine").toString()),
-                                        parseDouble(jsonObject.get("note_totale").toString())
-                                );
-                                comList.add(com);
+                                JSONArray comments = response.getJSONArray("result");
+                                int comCount = comments.length();
+                                Comment com;
+                                for(int i=0; i<comCount; i++){
+                                    JSONObject jsonObject = comments.getJSONObject(i);
+                                    JSONObject note = jsonObject.getJSONObject("note");
+                                    JSONObject meal = jsonObject.getJSONObject("repas");
+                                    JSONObject user = jsonObject.getJSONObject("acheteur_meta");
+                                    com = new Comment(
+                                            jsonObject.get("commentaire").toString(),
+                                            meal.get("titre").toString(),
+                                            jsonObject.get("photo").toString(),
+                                            meal.get("_id").toString(),
+                                            user.get("_id").toString(),
+                                            user.get("prenom").toString(),
+                                            user.get("photo").toString(),
+                                            parseDouble(note.get("accueil").toString()),
+                                            parseDouble(note.get("proprete").toString()),
+                                            parseDouble(note.get("cuisine").toString()),
+                                            parseDouble(jsonObject.get("total_note").toString())
+                                    );
+
+                                    comList.add(com);
+                                }
+                                mAdapter.notifyDataSetChanged();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        }else{
+                            Toast.makeText(getActivity(),getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                         }
-                        mAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
-                VolleyLog.d("LoginActivity", "Error: " + error.getMessage());
-            }
-        });
-        AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonArrayReq, URL);
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
+                    }
+                });
 
+        AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectReq, URL);
 
-
-    }
+}
 
 
     @Override

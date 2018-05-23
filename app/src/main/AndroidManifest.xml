@@ -31,6 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".BottomActivity.BottomActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -45,23 +46,28 @@
             android:label="@string/title_activity_bottom"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".LoginActivity.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".LoginActivity.RegisterActivity"
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".LoginActivity.IsConnectedActivity"
             android:label="@string/title_activity_internet_required"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".UpdateProfileActivity.UpdateProfilePhotoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".UpdateProfileActivity.UpdateProfileActivity"
             android:screenOrientation="portrait" />
 
@@ -73,9 +79,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".ProfileActivity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".CommandActivity.CommandMealActivity"
             android:label="@string/title_activity_meal"
             android:screenOrientation="portrait"
@@ -84,15 +92,18 @@
             android:name=".CommandActivity.FinalisedActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".CommandActivity.RecapitulativeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".CommentActivity.CommentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CommandActivity.FinaliseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".MealActivity.MealActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".TutorialChangeActivity.TutorialChangeActivity" />
@@ -101,7 +112,11 @@
             android:name=".Notify.NotifyCalendarService"
             android:exported="false" />
 
-        <activity android:name=".CreditActivity.CreditActivity"></activity>
+        <activity
+            android:windowSoftInputMode="adjustPan"
+            android:name=".CreditActivity.CreditActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

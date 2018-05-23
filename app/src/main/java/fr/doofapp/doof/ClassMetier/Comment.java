@@ -3,7 +3,9 @@ package fr.doofapp.doof.ClassMetier;
 public class Comment {
 
     private String descriptif;
+    private String title;
     private String photo;
+    private String linkMeal;
     private String linkUser;
     private String nameUser;
     private String photoUser;
@@ -12,9 +14,11 @@ public class Comment {
     private double noteCleanless;
     private double noteCooked;
 
-    public Comment(String descriptif, String photo, String link, String nameUser, String photoUser, double noteAccueil, double noteProprete, double noteCuisine, double noteTotale) {
+    public Comment(String descriptif, String title, String photo, String linkMeal, String link, String nameUser, String photoUser, double noteAccueil, double noteProprete, double noteCuisine, double noteTotale) {
         this.descriptif = descriptif;
+        this.title = title;
         this.photo = photo;
+        this.linkMeal = linkMeal;
         this.linkUser = link;
         this.nameUser = nameUser;
         this.photoUser = photoUser;
@@ -50,4 +54,10 @@ public class Comment {
 
     public double getNoteTotal() {return noteTotal;}
     public void setNoteTotal(double noteTotal) {this.noteTotal = noteTotal;}
+
+    public String getLinkMeal() {return linkMeal;}
+    public void setLinkMeal(String linkMeal) {this.linkMeal = linkMeal;}
+
+    public String getTitle() {return title;}
+    public void setTitle(String title) {this.title = title;}
 }

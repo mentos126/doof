@@ -109,16 +109,15 @@ public class ProfileParamsFragment extends Fragment {
             }
         });
 
-        getProfileWeb();
+        //getProfileWeb();
 
     }
 
 
     public void getProfileWeb() {
 
-        String URL = URLProject.getInstance().getMYPROFILE();
+        String URL = URLProject.getInstance().getMYp();
         dialog = ProgressDialog.show(getActivity(), "", "", true);
-
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -155,6 +154,8 @@ public class ProfileParamsFragment extends Fragment {
                         dialog.dismiss();
                         Toast.makeText(getActivity(), getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                         VolleyLog.d("LoginEEROREActivity", "Error: " + error.getMessage());
+                        editPhoto.setVisibility(View.GONE);
+                        editProfile.setVisibility(View.GONE);
                     }
                 });
 
