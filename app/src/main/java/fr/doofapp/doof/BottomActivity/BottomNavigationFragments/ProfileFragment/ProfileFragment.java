@@ -220,8 +220,7 @@ public class ProfileFragment extends Fragment {
 
         String s = mProfile.getFamilyName() + " " + mProfile.getName();
         name.setText(s);
-        // TODO changer "X" par le nombre d'avis
-        s = mProfile.getNoteTotal() + "/5  " + "X" + " " + getResources().getString(R.string.opinions);
+        s = mProfile.getNoteTotal() + "/5";//  " + "X" + " " + getResources().getString(R.string.opinions);
         note_totale.setText(s);
         s = getResources().getString(R.string.home) + " " + mProfile.getNotaHome() + "/5";
         note_accueil.setText(s);

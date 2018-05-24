@@ -205,6 +205,8 @@
     <string name="prompt_nothing">Aucun plat</string>
     <string name="prompt_password_actual">Mot de pass (actuel)</string>
     <string name="prompt_update_password">Modifier votre mot de passe</string>
+    <string name="prompt_meal_online">menus en lignes</string>
+    <string name="prompt_meal_last">menus terminés</string>
 
 
 </resources>

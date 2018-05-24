@@ -137,9 +137,8 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        User u = null;
         db.open();
-        u = db.getUserConnected();
+        User u = db.getUserConnected();
         db.close();
         String URL = "/"+u.getToken();
 
@@ -225,7 +224,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
                         dialog.dismiss();
 
                         Intent myIntent = new Intent(UpdateProfilePhotoActivity.this, BottomActivity.class);
-                        myIntent.putExtra("Tab", R.id.navigation_profil);
+                        myIntent.putExtra("Tab", 4);
                         startActivity(myIntent);
 
                     }

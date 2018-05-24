@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide;
 import java.io.Serializable;
 import java.util.List;
 
+import fr.doofapp.doof.ClassMetier.CommandCache;
 import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.CommandActivity.CommandMealActivity;
+import fr.doofapp.doof.MealActivity.MealActivity;
 import fr.doofapp.doof.R;
 
 public class MealAdapterFragment extends RecyclerView.Adapter<MealAdapterFragment.MyViewHolder> {
@@ -69,8 +71,9 @@ public class MealAdapterFragment extends RecyclerView.Adapter<MealAdapterFragmen
             @Override
             public void onClick(View view) {
                 Log.e("==========CLICK========","CLICK");
-                final Intent myIntent = new Intent(view.getContext(), CommandMealActivity.class);
-                myIntent.putExtra("Meal", (Serializable) mTemp);
+                final Intent myIntent = new Intent(view.getContext(), MealActivity.class);
+                //myIntent.putExtra("Meal", (Serializable) mTemp);
+                CommandCache.setMeal(mTemp);
                 context.startActivity(myIntent);
             }
         });

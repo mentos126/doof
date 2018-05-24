@@ -23,12 +23,14 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,9 +43,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.doofapp.doof.App.AppSingleton;
 import fr.doofapp.doof.App.DownLoadImageTask;
 import fr.doofapp.doof.App.URLProject;
 import fr.doofapp.doof.BottomActivity.BottomActivity;
+import fr.doofapp.doof.ClassMetier.Meal;
 import fr.doofapp.doof.ClassMetier.Profile;
 import fr.doofapp.doof.ClassMetier.ProfileCache;
 import fr.doofapp.doof.ClassMetier.User;
@@ -51,6 +55,8 @@ import fr.doofapp.doof.DataBase.UserDAO;
 import fr.doofapp.doof.LoginActivity.IsConnectedActivity;
 import fr.doofapp.doof.LoginActivity.RegisterActivity;
 import fr.doofapp.doof.R;
+
+import static java.lang.Integer.parseInt;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
@@ -130,6 +136,52 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        getUserProfile();
+
+    }
+
+    private void getUserProfile() {
+
+        db.open();
+        User u = db.getUserConnected();
+        db.close();
+        String URL = URLProject.getInstance().getMY_PROFILE_Meal()+"/"+u.getToken();
+        dialog = ProgressDialog.show(UpdateProfileActivity.this, "", "", true);
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dialog.dismiss();
+                        Log.e("=========MEALS========", response.toString());
+                        try {
+
+                            if(response.isNull("error")){
+
+                                JSONObject res = response.getJSONObject("result");
+
+
+
+                            }else{
+                                Toast.makeText(UpdateProfileActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(UpdateProfileActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
+                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
+                    }
+                });
+
+        AppSingleton.getInstance(UpdateProfileActivity.this).addToRequestQueue(jsonObjectReq, URL);
+
 
     }
 

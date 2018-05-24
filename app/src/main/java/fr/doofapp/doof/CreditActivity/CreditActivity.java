@@ -105,8 +105,6 @@ public class CreditActivity extends AppCompatActivity {
     }
 
     private void doValidateAction() {
-        //TODO url request addTickets
-
         User u = null;
         db.open();
         u = db.getUserConnected();

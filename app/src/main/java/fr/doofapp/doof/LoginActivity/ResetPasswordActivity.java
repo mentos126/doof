@@ -35,7 +35,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void doActionValidate() {
 
-        if(!email.getText().toString().equals("") &&
+        Toast.makeText(this,"PAS ENCORE IMPLEMENTER",Toast.LENGTH_SHORT).show();
+        /*if(!email.getText().toString().equals("") &&
                 email.getText().toString().contains("@")){
             if(pass1.getText().toString().length() >= 8 &&
                     pass1.getText().toString().equals(pass2.getText().toString())){
@@ -45,12 +46,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                 startActivity(intent);*/
 
-            }else{
+            /*}else{
                 Toast.makeText(this, R.string.prompt_error_password,Toast.LENGTH_LONG).show();
             }
         }else{
             Toast.makeText(this, R.string.prompt_error_email,Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 }

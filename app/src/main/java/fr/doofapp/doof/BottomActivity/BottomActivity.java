@@ -134,12 +134,8 @@ public class BottomActivity extends AppCompatActivity {
         Fragment fragment;
         int tab;
         try {
-            Log.e("======1========","===================");
-            Log.e("=======2=======","TAB");
             Intent intent2 = getIntent();
             tab = intent2.getIntExtra("Tab",-1 );
-            Log.e("========3======","===================");
-            Log.e("=========4=====",tab+"");
             switch (tab) {
                 case 1:
                     tab = R.id.navigation_agenda;

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -55,6 +56,9 @@ public class ProfileMealsListsFragment extends Fragment {
     private int nbOnlineMeals;
     private int nbLastMeals;
 
+    private TextView tv_old;
+    private TextView tv_new;
+
     private Dialog dialog;
     private UserDAO db;
 
@@ -73,6 +77,8 @@ public class ProfileMealsListsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profile_meals_lists, container, false);
 
         db = new UserDAO(getActivity());
+        tv_new = (TextView) rootView.findViewById(R.id.tv_news);
+        tv_old = (TextView) rootView.findViewById(R.id.tv_olds);
 
         OnlineMeals = rootView.findViewById(R.id.online_meals);
         OnlineMeals.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -117,23 +123,27 @@ public class ProfileMealsListsFragment extends Fragment {
 
                             if(response.isNull("error")){
 
-                                nbOnlineMeals = parseInt(response.get("nb_online_meals").toString());
-                                nbLastMeals = parseInt(response.get("nb_lastmeals").toString());
-
+                                JSONArray news = response.getJSONObject("result").getJSONArray("new");
+                                JSONArray olds = response.getJSONObject("result").getJSONArray("old");
+                                nbOnlineMeals = parseInt(response.getJSONObject("result").get("nb_online_meals").toString());
+                                nbLastMeals = parseInt(response.getJSONObject("result").get("nb_last_meals").toString());
+                                String s = nbOnlineMeals+" "+getString(R.string.prompt_meal_online);
+                                tv_new.setText(s);
+                                s = nbLastMeals+" "+getString(R.string.prompt_meal_last);
+                                tv_old.setText(s);
                                 Meal meal;
 
                                 //online meals
-                                JSONArray jsonOnlineMeals = (JSONArray) response.get("online_meals");
-                                int countObject = jsonOnlineMeals.length();
+                                int countObject = news.length();
                                 for(int i=0 ; i<countObject; i++){
                                     JSONObject jsonObject;
-                                    jsonObject = jsonOnlineMeals.getJSONObject(i);
+                                    jsonObject = news.getJSONObject(i);
                                     meal = new Meal(
-                                            jsonObject.get("photo_meal").toString(),
-                                            parseInt(jsonObject.get("note_totale").toString()),
-                                            jsonObject.get("name_user").toString(),
-                                            "link",
-                                            "date",
+                                            jsonObject.get("photo").toString(),
+                                            parseInt(jsonObject.get("stars").toString()),
+                                            jsonObject.get("title").toString(),
+                                            jsonObject.get("_id").toString(),
+                                            jsonObject.get("date").toString()+" "+jsonObject.get("creneau").toString(),
                                             "description",
                                             "adresse",
                                             new LatLng(4,34)
@@ -143,17 +153,16 @@ public class ProfileMealsListsFragment extends Fragment {
                                 mOnlineAdapter.notifyDataSetChanged();
 
                                 //last meals
-                                JSONArray jsonLeastMeals = (JSONArray) response.get("last_meals");
-                                countObject = jsonLeastMeals.length();
+                                countObject = olds.length();
                                 for(int i=0 ; i<countObject; i++){
                                     JSONObject jsonObject;
-                                    jsonObject = jsonLeastMeals.getJSONObject(i);
+                                    jsonObject = olds.getJSONObject(i);
                                     meal = new Meal(
-                                            jsonObject.get("photo_meal").toString(),
-                                            parseInt(jsonObject.get("note_totale").toString()),
-                                            jsonObject.get("name_user").toString(),
-                                            "link",
-                                            "date",
+                                            jsonObject.get("photo").toString(),
+                                            parseInt(jsonObject.get("stars").toString()),
+                                            jsonObject.get("title").toString(),
+                                            jsonObject.get("_id").toString(),
+                                            jsonObject.get("date").toString()+" "+jsonObject.get("creneau").toString(),
                                             "description",
                                             "adresse",
                                             new LatLng(4,34)
