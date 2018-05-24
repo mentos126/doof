@@ -110,11 +110,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.edit_email);
         email.setText(u.getUserId());
 
-        familyName = (EditText) findViewById(R.id.edit_phone);
-        familyName.setText(mProfile.getPhone());
+        phone = (EditText) findViewById(R.id.edit_phone);
+        phone.setText(mProfile.getPhone());
 
-        familyName = (EditText) findViewById(R.id.edit_adress);
-        familyName.setText(mProfile.getAdress());
+        adress = (EditText) findViewById(R.id.edit_adress);
+        adress.setText(mProfile.getAdress());
 
         iv = (ImageView) findViewById(R.id.prompt_photo);
         new DownLoadImageTask(iv).execute(mProfile.getPhoto());
@@ -146,21 +146,24 @@ public class UpdateProfileActivity extends AppCompatActivity {
         db.open();
         User u = db.getUserConnected();
         db.close();
-        String URL = URLProject.getInstance().getMY_PROFILE_Meal()+"/"+u.getToken();
+        String URL = URLProject.getInstance().getGET_PROFILE_UPDATE()+"/"+u.getToken();
         dialog = ProgressDialog.show(UpdateProfileActivity.this, "", "", true);
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         dialog.dismiss();
-                        Log.e("=========MEALS========", response.toString());
+                        Log.e("=======PRFILE DESC=====", response.toString());
                         try {
 
                             if(response.isNull("error")){
 
                                 JSONObject res = response.getJSONObject("result");
-
-
+                                familyName.setText(res.get("nom").toString());
+                                name.setText(res.get("prenom").toString());
+                                email.setText(res.get("mail").toString());
+                                phone.setText(res.get("telephone").toString());
+                                adress.setText(res.get("adresse").toString());
 
                             }else{
                                 Toast.makeText(UpdateProfileActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
@@ -176,7 +179,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
                         Toast.makeText(UpdateProfileActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
-                        VolleyLog.e("=========MEALS========", "Error: " + error.getMessage());
+                        VolleyLog.e("=======PRFILE ERR DESC=====", "Error: " + error.getMessage());
                     }
                 });
 
@@ -198,17 +201,19 @@ public class UpdateProfileActivity extends AppCompatActivity {
             Intent myIntent = new Intent(UpdateProfileActivity.this, IsConnectedActivity.class);
             startActivity(myIntent);
         }else{
-            //TODO SEND REQUEST FOR UPDATE PROFILE
 
             JSONObject jsonBodyObj = new JSONObject();
             try{
-                jsonBodyObj.put("id", email.getText().toString());
+                jsonBodyObj.put("nom", familyName.getText().toString());
+                jsonBodyObj.put("prenom", name.getText().toString());
+                jsonBodyObj.put("mail", email.getText().toString());
+                jsonBodyObj.put("adresse", adress.getText().toString());
+                jsonBodyObj.put("telephone", phone.getText().toString());
             }catch (JSONException e){
                 e.printStackTrace();
             }
 
-            //u is instancied
-            String URL = "/"+u.getToken();
+            String URL = URLProject.getInstance().getSET_PROFILE_UPDATE()+"/"+u.getToken();
 
             dialog = ProgressDialog.show(this, "", "", true);
             mQueue.add(createRequest(URL, jsonBodyObj));
@@ -233,14 +238,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 try {
                     VolleyLog.v("Response:%n %s", response.toString(4));
 
+                    dialog.dismiss();
                     if(response.isNull("error")){
-
-                        dialog.dismiss();
-
                         Intent myIntent = new Intent(UpdateProfileActivity.this, BottomActivity.class);
                         myIntent.putExtra("Tab", R.id.navigation_profil);
                         startActivity(myIntent);
-
+                    }else{
+                        Toast.makeText(UpdateProfileActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

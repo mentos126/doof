@@ -23,8 +23,10 @@ public class URLProject  {
     private String PROFILE = API + "profile/show/one";
     private String MY_PROFILE_Meal = API + "repas/show/mines";
     private String PROFILE_Meal = API + "repas/show/profile";
-
-    private String PROFILE_UPDATE = API + "profile/update";
+    private String GET_PROFILE_UPDATE = API + "user/get/info/general";
+    private String SET_PROFILE_UPDATE = API + "user/set/info/general";
+    private String PHOTO_PROFILE_UPDATE = API +"user/set/info/photo";
+    private String CHANGE_PASSWORD = API +"user/set/info/password";
 
     public static synchronized URLProject getInstance()
     {
@@ -35,11 +37,8 @@ public class URLProject  {
         return uniqueInstance;
     }
 
-    public String getP () {return "";}
 
     /// NEW ***
-    public String getPROFILE_UPDATE() {return PROFILE_UPDATE;}
-
     public String getREGISTER() {return REGISTER;}
     public String getLOGIN() {return LOGIN;}
     public String getMY_ADRESS() {return MY_ADRESS;}
@@ -57,6 +56,8 @@ public class URLProject  {
     public String getPROFILE_COMMENT() {return PROFILE_COMMENT;}
     public String getMY_PROFILE_Meal() {return MY_PROFILE_Meal;}
     public String getPROFILE_Meal() {return PROFILE_Meal;}
-
-
+    public String getGET_PROFILE_UPDATE() {return GET_PROFILE_UPDATE;}
+    public String getSET_PROFILE_UPDATE() {return SET_PROFILE_UPDATE;}
+    public String getPHOTO_PROFILE_UPDATE() {return PHOTO_PROFILE_UPDATE;}
+    public String getCHANGE_PASSWORD() {return CHANGE_PASSWORD;}
 }

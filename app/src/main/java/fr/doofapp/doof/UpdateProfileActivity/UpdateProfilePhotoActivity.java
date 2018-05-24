@@ -129,7 +129,6 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
 
     protected void actionButtonValidate(){
 
-        // TODO send bitmap to server to update profile "newImg"
         JSONObject jsonBodyObj = new JSONObject();
         try{
             jsonBodyObj.put("photo", toBase64(newImg));
@@ -140,7 +139,7 @@ public class UpdateProfilePhotoActivity extends AppCompatActivity {
         db.open();
         User u = db.getUserConnected();
         db.close();
-        String URL = "/"+u.getToken();
+        String URL = URLProject.getInstance().getPHOTO_PROFILE_UPDATE()+"/"+u.getToken();
 
         dialog = ProgressDialog.show(this, "", "", true);
         mQueue.add(createRequest(URL, jsonBodyObj));

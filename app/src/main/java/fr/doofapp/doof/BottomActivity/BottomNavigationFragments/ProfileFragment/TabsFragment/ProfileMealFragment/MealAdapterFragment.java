@@ -28,10 +28,11 @@ public class MealAdapterFragment extends RecyclerView.Adapter<MealAdapterFragmen
     private List<Meal> mealList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price;
+        public TextView name, price, date, note;
         public ImageView photo;
         public CardView cardView;
         public RelativeLayout rel;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -40,6 +41,8 @@ public class MealAdapterFragment extends RecyclerView.Adapter<MealAdapterFragmen
             photo = (ImageView) view.findViewById(R.id.photo);
             cardView  = (CardView) view.findViewById(R.id.card_view);
             rel = (RelativeLayout) view.findViewById(R.id.rel);
+            date = (TextView) view.findViewById(R.id.date);
+            note = (TextView) view.findViewById(R.id.note);
         }
     }
 
@@ -64,6 +67,10 @@ public class MealAdapterFragment extends RecyclerView.Adapter<MealAdapterFragmen
         holder.name.setText(m.getName());
         String s = m.getPrice()+" ticket";
         holder.price.setText(s);
+        s = "note: "+m.getNote() ;
+        holder.note.setText(s);
+        s = "date: "+m.getDate() ;
+        holder.date.setText(s);
         Glide.with(context)
                 .load(m.getPhoto())
                 .into(holder.photo);

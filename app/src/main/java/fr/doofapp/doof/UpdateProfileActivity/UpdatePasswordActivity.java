@@ -68,64 +68,18 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(UpdatePasswordActivity.this, new HttpClientStack(mHttpClient));
 
         pass_actual = (EditText) findViewById(R.id.pass_actual);
-        pass_actual.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                old = editable.toString();
-            }
-        });
-
         pass1 = (EditText) findViewById(R.id.pass1);
-        pass1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mdp1 = editable.toString();
-            }
-        });
-
-        pass2 = (EditText) findViewById(R.id.pass_actual);
-        pass2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mdp2 = editable.toString();
-            }
-        });
+        pass2 = (EditText) findViewById(R.id.pass2);
 
         validata = (Button) findViewById(R.id.validate);
         validata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mdp1 == mdp2 && mdp1.length() > 7){
+                Log.e("========mdp1=======",pass1.getText().toString());
+                Log.e("========mdp2=======",pass2.getText().toString());
+                Log.e("========mdp3=======",pass1.getText().toString().equals(pass2.getText().toString())+"");
+                Log.e("========mdp4=======",pass1.getText().toString().length()+"");
+                if(pass1.getText().toString().equals(pass2.getText().toString()) && pass1.getText().toString().length() > 7){
 
                     db.open();
                     User u  = db.getUserConnected();
@@ -153,18 +107,18 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                     JSONObject jsonBodyObj = new JSONObject();
                     try{
                         jsonBodyObj.put("token",u.getToken());
-                        jsonBodyObj.put("old", digest2);
-                        jsonBodyObj.put("new", digest);
+                        jsonBodyObj.put("password_old", digest2);
+                        jsonBodyObj.put("paswword_new", digest);
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
-                    String URL = "";
+                    String URL = URLProject.getInstance().getCHANGE_PASSWORD()+"/"+u.getToken();
 
                     dialog = ProgressDialog.show(UpdatePasswordActivity.this, "", "", true);
                     mQueue.add(createRequest(URL, jsonBodyObj));
 
                 }else{
-                    Toast.makeText(UpdatePasswordActivity.this, "", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdatePasswordActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -200,12 +154,10 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 try {
                     VolleyLog.v("Response:%n %s", response.toString(4));
 
+                    dialog.dismiss();
                     if(response.isNull("error")){
-                        dialog.dismiss();
-
                         Intent intent = new Intent(UpdatePasswordActivity.this, BottomActivity.class);
                         startActivity(intent);
-
                     }else{
                         Toast.makeText(UpdatePasswordActivity.this, getString(R.string.prompt_error_impossible), Toast.LENGTH_SHORT).show();
                     }

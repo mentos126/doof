@@ -102,6 +102,7 @@ public class PublicProfileMealsListsFragment extends Fragment {
 
     public void prepareMealData(){
         String URL = URLProject.getInstance().getPROFILE_Meal()+"/"+link;
+        Log.e("==========URLM=========",URL);
         dialog = ProgressDialog.show(getActivity(), "", "", true);
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
@@ -130,7 +131,7 @@ public class PublicProfileMealsListsFragment extends Fragment {
                                     jsonObject = news.getJSONObject(i);
                                     meal = new Meal(
                                             jsonObject.get("photo").toString(),
-                                            parseInt(jsonObject.get("stars").toString()),
+                                            parseInt(jsonObject.get("prix").toString()),
                                             jsonObject.get("title").toString(),
                                             jsonObject.get("_id").toString(),
                                             jsonObject.get("date").toString()+" "+jsonObject.get("creneau").toString(),
@@ -138,6 +139,8 @@ public class PublicProfileMealsListsFragment extends Fragment {
                                             "adresse",
                                             new LatLng(4,34)
                                     );
+                                    meal.setNote(Double.parseDouble(jsonObject.get("stars").toString()));
+
                                     onlineMealList.add(meal);
                                 }
                                 mOnlineAdapter.notifyDataSetChanged();
@@ -149,7 +152,7 @@ public class PublicProfileMealsListsFragment extends Fragment {
                                     jsonObject = olds.getJSONObject(i);
                                     meal = new Meal(
                                             jsonObject.get("photo").toString(),
-                                            parseInt(jsonObject.get("stars").toString()),
+                                            parseInt(jsonObject.get("prix").toString()),
                                             jsonObject.get("title").toString(),
                                             jsonObject.get("_id").toString(),
                                             jsonObject.get("date").toString()+" "+jsonObject.get("creneau").toString(),
@@ -157,6 +160,8 @@ public class PublicProfileMealsListsFragment extends Fragment {
                                             "adresse",
                                             new LatLng(4,34)
                                     );
+                                    meal.setNote(Double.parseDouble(jsonObject.get("stars").toString()));
+
                                     lastMealList.add(meal);
                                 }
 

@@ -227,6 +227,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }
 
+                    }else{
+                        dialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, R.string.prompt_already_exist, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

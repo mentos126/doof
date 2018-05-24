@@ -207,6 +207,7 @@
     <string name="prompt_update_password">Modifier votre mot de passe</string>
     <string name="prompt_meal_online">menus en lignes</string>
     <string name="prompt_meal_last">menus terminés</string>
+    <string name="prompt_already_exist">Le compte existe déjà</string>
 
 
 </resources>

@@ -140,7 +140,7 @@ public class ProfileMealsListsFragment extends Fragment {
                                     jsonObject = news.getJSONObject(i);
                                     meal = new Meal(
                                             jsonObject.get("photo").toString(),
-                                            parseInt(jsonObject.get("stars").toString()),
+                                            parseInt(jsonObject.get("prix").toString()),
                                             jsonObject.get("title").toString(),
                                             jsonObject.get("_id").toString(),
                                             jsonObject.get("date").toString()+" "+jsonObject.get("creneau").toString(),
@@ -148,6 +148,7 @@ public class ProfileMealsListsFragment extends Fragment {
                                             "adresse",
                                             new LatLng(4,34)
                                     );
+                                    meal.setNote(Double.parseDouble(jsonObject.get("stars").toString()));
                                     onlineMealList.add(meal);
                                 }
                                 mOnlineAdapter.notifyDataSetChanged();

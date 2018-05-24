@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -72,7 +73,6 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
         return new MyViewHolder(itemView);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final Pair<Meal,Integer> p = mealList.get(position);
@@ -88,22 +88,32 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
         Log.e("==========NAME========",m.getName());
         if(b == 4){
             holder.nothing.setVisibility(View.VISIBLE);
-            holder.cardView.setElevation((float) 5.0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.cardView.setElevation((float) 5.0);
+            }
         }else if(b == 1){
             holder.inter1.setVisibility(View.VISIBLE);
-            holder.cardView.setElevation((float) 0.0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.cardView.setElevation((float) 0.0);
+            }
             holder.cardView.setCardBackgroundColor(Color.argb(255, 250, 250, 250));
         }else if(b == 2){
             holder.inter2.setVisibility(View.VISIBLE);
-            holder.cardView.setElevation((float) 0.0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.cardView.setElevation((float) 0.0);
+            }
             holder.cardView.setCardBackgroundColor(Color.argb(255, 250, 250, 250));
         }else if(b == 3){
             holder.inter3.setVisibility(View.VISIBLE);
-            holder.cardView.setElevation((float) 0.0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.cardView.setElevation((float) 0.0);
+            }
             holder.cardView.setCardBackgroundColor(Color.argb(255, 250, 250, 250));
         }else if(b == 0){
             holder.rel.setVisibility(View.VISIBLE);
-            holder.cardView.setElevation((float) 3.0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.cardView.setElevation((float) 3.0);
+            }
             holder.cardView.setCardBackgroundColor(Color.argb(255, 255, 255, 255));
             holder.name.setText(m.getName());
             String s = "prix: "+m.getPrice()+" ticket";
