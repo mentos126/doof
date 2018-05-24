@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_1"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/home_star2"
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_2"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/home_star3"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/descriiption_star_3"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/home_star4"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_4"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/home_star5"
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_5"
-                    android:src="@android:drawable/btn_star_big_on"/>
+                    android:src="@drawable/star"/>
 
                 <TextView
                     android:id="@+id/note_home"
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_1"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cook_star2"
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_2"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cook_star3"
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/descriiption_star_3"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cook_star4"
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_4"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cook_star5"
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_5"
-                    android:src="@android:drawable/btn_star_big_on"/>
+                    android:src="@drawable/star"/>
 
                 <TextView
                     android:id="@+id/note_cook"
@@ -210,7 +210,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_1"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cleanless_star2"
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_2"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cleanless_star3"
@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/descriiption_star_3"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cleanless_star4"
@@ -234,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_4"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/cleanless_star5"
@@ -242,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_5"
-                    android:src="@android:drawable/btn_star_big_on"/>
+                    android:src="@drawable/star"/>
 
                 <TextView
                     android:id="@+id/note_cleanless"
