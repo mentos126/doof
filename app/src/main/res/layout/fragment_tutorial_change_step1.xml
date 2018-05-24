@@ -18,15 +18,16 @@
 
             <ImageView
                 android:id="@+id/imageView6"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_dark"/>
+                app:srcCompat="@drawable/number_1"/>
 
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_dark"/>
+                app:srcCompat="@drawable/chef"/>
 
             <TextView
                 android:id="@+id/textView12"

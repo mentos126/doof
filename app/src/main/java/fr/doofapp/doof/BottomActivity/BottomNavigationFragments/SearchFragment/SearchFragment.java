@@ -50,8 +50,8 @@ public class SearchFragment extends Fragment {
     //private SendListMeal SM;
 
     private int[] tabIcons = {
-            R.drawable.ic_music_box,
-            R.drawable.ic_excel_box
+            R.drawable.location_pin,
+            R.drawable.list
     };
 
     private boolean isConnected() {

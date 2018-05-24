@@ -73,9 +73,9 @@ public class ProfileFragment extends Fragment {
     private Dialog dialog;
 
     private int[] tabIcons = {
-            R.drawable.ic_dashboard_black_24dp,
-            R.drawable.ic_home_black_24dp,
-            R.drawable.ic_apk_box
+            R.drawable.tray,
+            R.drawable.chat,
+            R.drawable.settings
     };
 
     private boolean isConnected() {

@@ -17,16 +17,17 @@
             android:gravity="center">
 
             <ImageView
+                android:layout_marginTop="8dp"
                 android:id="@+id/imageView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_dark"/>
+                app:srcCompat="@drawable/number2"/>
 
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_dark"/>
+                app:srcCompat="@drawable/hot_soup"/>
 
             <TextView
                 android:id="@+id/textView12"

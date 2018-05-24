@@ -75,8 +75,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Dialog dialog;
 
     private int[] tabIcons = {
-            R.drawable.ic_dashboard_black_24dp,
-            R.drawable.ic_home_black_24dp
+            R.drawable.tray,
+            R.drawable.chat
     };
 
     public void getProfileWeb() {
