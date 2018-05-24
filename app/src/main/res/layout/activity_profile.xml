@@ -43,53 +43,53 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutStar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="296dp"
+                android:layout_height="22dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/star1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="26dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_1"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/star2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="29dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_2"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/star3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/descriiption_star_3"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/star4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="29dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:contentDescription="@string/description_star_4"
-                    android:src="@android:drawable/btn_star_big_on" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/star5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/description_star_5"
-                    android:src="@android:drawable/btn_star_big_on"/>
+                    android:src="@drawable/star" />
 
                 <TextView
                     android:id="@+id/note_totale"

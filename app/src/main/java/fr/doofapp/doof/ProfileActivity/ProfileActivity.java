@@ -135,15 +135,15 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 double noteTotale = mProfile.getNoteTotal();
                                 if(noteTotale < 5.0) {
-                                    star5.setImageResource(R.drawable.ic_home_black_24dp);
+                                    star5.setImageResource(R.drawable.star_blanc);
                                     if(noteTotale < 4.0) {
-                                        star4.setImageResource(R.drawable.ic_home_black_24dp);
+                                        star4.setImageResource(R.drawable.star_blanc);
                                         if(noteTotale < 3.0) {
-                                            star3.setImageResource(R.drawable.ic_home_black_24dp);
+                                            star3.setImageResource(R.drawable.star_blanc);
                                             if(noteTotale < 2.0) {
-                                                star2.setImageResource(R.drawable.ic_home_black_24dp);
+                                                star2.setImageResource(R.drawable.star_blanc);
                                                 if(noteTotale < 1.0) {
-                                                    star1.setImageResource(R.drawable.ic_home_black_24dp);
+                                                    star1.setImageResource(R.drawable.star_blanc);
                                                 }
                                             }
                                         }

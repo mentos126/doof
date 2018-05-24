@@ -307,21 +307,21 @@ public class CommentActivity extends AppCompatActivity {
 
 
     protected void actionOnHomeStars(int res){
-        home_star5.setImageResource(R.drawable.ic_excel_box);
-        home_star4.setImageResource(R.drawable.ic_excel_box);
-        home_star3.setImageResource(R.drawable.ic_excel_box);
-        home_star2.setImageResource(R.drawable.ic_excel_box);
-        home_star1.setImageResource(R.drawable.ic_excel_box);
+        home_star5.setImageResource(R.drawable.star);
+        home_star4.setImageResource(R.drawable.star);
+        home_star3.setImageResource(R.drawable.star);
+        home_star2.setImageResource(R.drawable.star);
+        home_star1.setImageResource(R.drawable.star);
         if(res < 5) {
-            home_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            home_star5.setImageResource(R.drawable.star_blanc);
             if(res < 4) {
-                home_star4.setImageResource(R.drawable.ic_home_black_24dp);
+                home_star4.setImageResource(R.drawable.star_blanc);
                 if(res < 3) {
-                    home_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                    home_star3.setImageResource(R.drawable.star_blanc);
                     if(res < 2) {
-                        home_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        home_star2.setImageResource(R.drawable.star_blanc);
                         if(res < 1) {
-                            home_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                            home_star1.setImageResource(R.drawable.star_blanc);
                         }
                     }
                 }
@@ -332,21 +332,21 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     protected void actionOnCookStars(int res){
-        cook_star5.setImageResource(R.drawable.ic_excel_box);
-        cook_star4.setImageResource(R.drawable.ic_excel_box);
-        cook_star3.setImageResource(R.drawable.ic_excel_box);
-        cook_star2.setImageResource(R.drawable.ic_excel_box);
-        cook_star1.setImageResource(R.drawable.ic_excel_box);
+        cook_star5.setImageResource(R.drawable.star);
+        cook_star4.setImageResource(R.drawable.star);
+        cook_star3.setImageResource(R.drawable.star);
+        cook_star2.setImageResource(R.drawable.star);
+        cook_star1.setImageResource(R.drawable.star);
         if(res < 5) {
-            cook_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            cook_star5.setImageResource(R.drawable.star_blanc);
             if(res < 4) {
-                cook_star4.setImageResource(R.drawable.ic_home_black_24dp);
+                cook_star4.setImageResource(R.drawable.star_blanc);
                 if(res < 3) {
-                    cook_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                    cook_star3.setImageResource(R.drawable.star_blanc);
                     if(res < 2) {
-                        cook_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        cook_star2.setImageResource(R.drawable.star_blanc);
                         if(res < 1) {
-                            cook_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                            cook_star1.setImageResource(R.drawable.star_blanc);
                         }
                     }
                 }
@@ -357,21 +357,21 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     protected void actionOnCleanlessStars(int res){
-        cleanless_star5.setImageResource(R.drawable.ic_excel_box);
-        cleanless_star4.setImageResource(R.drawable.ic_excel_box);
-        cleanless_star3.setImageResource(R.drawable.ic_excel_box);
-        cleanless_star2.setImageResource(R.drawable.ic_excel_box);
-        cleanless_star1.setImageResource(R.drawable.ic_excel_box);
+        cleanless_star5.setImageResource(R.drawable.star);
+        cleanless_star4.setImageResource(R.drawable.star);
+        cleanless_star3.setImageResource(R.drawable.star);
+        cleanless_star2.setImageResource(R.drawable.star);
+        cleanless_star1.setImageResource(R.drawable.star);
         if(res < 5) {
-            cleanless_star5.setImageResource(R.drawable.ic_home_black_24dp);
+            cleanless_star5.setImageResource(R.drawable.star_blanc);
             if(res < 4) {
-                cleanless_star4.setImageResource(R.drawable.ic_home_black_24dp);
-                if(res < 3) {
-                    cleanless_star3.setImageResource(R.drawable.ic_home_black_24dp);
+                cleanless_star4.setImageResource(R.drawable.star_blanc);
+                    if(res < 3) {
+                    cleanless_star3.setImageResource(R.drawable.star_blanc);
                     if(res < 2) {
-                        cleanless_star2.setImageResource(R.drawable.ic_home_black_24dp);
+                        cleanless_star2.setImageResource(R.drawable.star_blanc);
                         if(res < 1) {
-                            cleanless_star1.setImageResource(R.drawable.ic_home_black_24dp);
+                            cleanless_star1.setImageResource(R.drawable.star_blanc);
                         }
                     }
                 }
