@@ -22,9 +22,13 @@
                 android:id="@+id/photo"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/album_cover_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:scaleType="fitXY" />
+                android:clickable="true" />
 
             <TextView
                 android:id="@+id/name"

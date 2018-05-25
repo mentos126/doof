@@ -25,9 +25,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_laucher_doof"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_laucher_doof"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -106,7 +106,9 @@
             android:name=".MealActivity.MealActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".TutorialChangeActivity.TutorialChangeActivity" />
+        <activity
+            android:name=".TutorialChangeActivity.TutorialChangeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".Notify.NotifyCalendarService"

@@ -128,9 +128,9 @@ public class CalendarAdapterFragment extends RecyclerView.Adapter<CalendarAdapte
             holder.button.setVisibility(View.GONE);
 
             if(m.getSell()){
-                holder.ic.setImageResource(R.drawable.ic_excel_box);
+                holder.ic.setImageResource(R.drawable.chef);
             }else{
-                holder.ic.setImageResource(R.drawable.ic_drawing_box);
+                holder.ic.setImageResource(R.drawable.give_money);
                 if(!mTemp.getComment()){
                     holder.button.setVisibility(View.VISIBLE);
                     holder.button.setOnClickListener(new View.OnClickListener() {
